@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                theNumber.setText(String.valueOf(game.gameGenerator(btns)+" "+game.getHint()));
+                theNumber.setText(String.valueOf(game.gameGenerator(btns))+"  "+game.getHint());
             }
         });
 
