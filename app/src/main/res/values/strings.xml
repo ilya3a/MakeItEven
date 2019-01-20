@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MakeItEven</string>
+    <string name="Stage_mode">Stage mode</string>
+    <string name="Arcade_mode">Arcade_mode</string>
 </resources>
