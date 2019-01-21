@@ -1,7 +1,9 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 
 public class Start_Screen extends Activity {
 
@@ -89,6 +92,7 @@ public class Start_Screen extends Activity {
 
                 // Toggle the button rotation state
                 toggleRotation(setting_btn);
+                ShowDialog();
             }
         });
     }
@@ -101,4 +105,53 @@ public class Start_Screen extends Activity {
             isRotated = true;
         }
     }
+
+
+
+
+
+
+    public void ShowDialog()
+    {
+        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
+        final SeekBar seek = new SeekBar(this);
+        seek.setMax(100);
+
+        popDialog.setIcon(android.R.drawable.btn_star_big_on);
+        popDialog.setTitle("Please Select Rank 1-100 ");
+        popDialog.setView(seek);
+
+        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                //Do something here with new value
+                //txtView.setText("Value of : " + progress);
+            }
+
+            public void onStartTrackingTouch(SeekBar arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+
+        // Button OK
+        popDialog.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                });
+
+
+        popDialog.create();
+        popDialog.show();
+
+    }
+
 }
