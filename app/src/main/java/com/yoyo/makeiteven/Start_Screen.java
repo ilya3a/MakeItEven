@@ -2,6 +2,7 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -68,6 +69,13 @@ public class Start_Screen extends Activity {
                     arcade_mode_btn.startAnimation(btn_releas);
                 }
                 return false;
+            }
+        });
+        arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Start_Screen.this,MainActivity.class);
+                startActivity(intent);
             }
         });
         setting_btn.setOnClickListener(new View.OnClickListener() {

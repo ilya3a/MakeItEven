@@ -1,22 +1,22 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+
+import android.graphics.drawable.Animatable;
 import android.os.Bundle;
+
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
+
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
+
 
 public class MainActivity extends Activity {
 
@@ -26,8 +26,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         final TextView theNumber = findViewById(R.id.the_number);
-        Button btn1 = findViewById(R.id.btn1);
-        Button btn2 = findViewById(R.id.btn2);
+        final Button btn1 = findViewById(R.id.btn1);
+        final Button btn2 = findViewById(R.id.btn2);
         Button btn3 = findViewById(R.id.btn3);
         Button btn4 = findViewById(R.id.btn4);
         Button start = findViewById(R.id.start_btn);
@@ -38,7 +38,30 @@ public class MainActivity extends Activity {
         btns.add(btn3);
         btns.add(btn4);
 
-        final Game game = new Game(5);
+        final Animation scale_out = AnimationUtils.loadAnimation(this,R.anim.scale_out);
+        final Animation scale_in = AnimationUtils.loadAnimation(this,R.anim.scale_in);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn1.startAnimation(scale_out);
+                btn1.setVisibility(View.INVISIBLE);
+            }
+        });
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn2.startAnimation(scale_out);
+                btn2.setVisibility(View.INVISIBLE);
+                btn1.setVisibility(View.VISIBLE);
+                btn1.startAnimation(scale_in);
+
+
+
+            }
+        });
+
+
+        final Game game = new Game(12);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

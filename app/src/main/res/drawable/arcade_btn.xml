@@ -12,7 +12,10 @@
             <!-- CONTENT LAYER -->
             <item android:bottom="5dp" android:right="0dp">
                 <shape>
-                    <solid android:color="#FFC12B" />
+                    <gradient
+                        android:startColor="#FFC12B"
+                        android:centerColor="#FFEF81"
+                        android:endColor="#FFC12B"/>
                     <size
                         android:width="256dp"
                         android:height="64dp" />

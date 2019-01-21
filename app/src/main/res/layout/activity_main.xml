@@ -30,13 +30,17 @@
                 android:id="@+id/btn1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:background="@drawable/game_qube_btns"
+                android:layout_margin="10dp"/>
 
             <Button
                 android:id="@+id/btn2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:background="@drawable/game_qube_btns"
+                android:layout_margin="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -47,13 +51,17 @@
                 android:id="@+id/btn3"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:background="@drawable/game_qube_btns"
+                android:layout_margin="10dp"/>
 
             <Button
                 android:id="@+id/btn4"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:background="@drawable/game_qube_btns"
+                android:layout_margin="10dp"/>
         </LinearLayout>
     </LinearLayout>
 
