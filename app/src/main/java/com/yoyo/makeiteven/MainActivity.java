@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         btns.add(btn3);
         btns.add(btn4);
 
-        final Game game = new Game(10);
+        final Game game = new Game(5);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

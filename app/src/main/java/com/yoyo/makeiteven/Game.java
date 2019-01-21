@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.SplittableRandom;
+import java.util.Timer;
 
 public class Game {
     private int difficulty;
@@ -39,7 +40,6 @@ public class Game {
         int btn1, btn2, btn3, btn4, sum;
         Random randNumber = new Random();
         Time t = new Time(5);
-        t.getTime();
         int randIdx;
         hint = new String();
 //        btn1 = randNumber.nextInt(difficulty) + 1;
