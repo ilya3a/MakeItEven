@@ -10,4 +10,5 @@
     <color name="primaryTextColor">#000000</color>
     <color name="Gray">#A7A7A7</color>
     <color name="White">#ffffff</color>
+    <color name="Transparent">#00FFFFFF</color>
 </resources>
