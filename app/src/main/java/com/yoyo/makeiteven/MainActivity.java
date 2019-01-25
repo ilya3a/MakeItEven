@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.graphics.drawable.Animatable;
 import android.os.Bundle;
 
+import android.transition.Transition;
+import android.transition.TransitionInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -40,25 +43,25 @@ public class MainActivity extends Activity {
 
         final Animation scale_out = AnimationUtils.loadAnimation(this,R.anim.scale_out);
         final Animation scale_in = AnimationUtils.loadAnimation(this,R.anim.scale_in);
-        btn1.setOnClickListener(new View.OnClickListener() {
+        final Animation btn_press = AnimationUtils.loadAnimation(this,R.anim.btn_pressed);
+        final Animation btn_releas= AnimationUtils.loadAnimation(this,R.anim.btn_realeas);
+        View.OnTouchListener btn_animation = new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                btn1.startAnimation(scale_out);
-                btn1.setVisibility(View.INVISIBLE);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                    v.startAnimation(btn_press);
+                    btn_press.setFillAfter(true);
+                }
+                if(event.getAction()==MotionEvent.ACTION_UP){
+                    v.startAnimation(btn_releas);
+                }
+                return false;
             }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn2.startAnimation(scale_out);
-                btn2.setVisibility(View.INVISIBLE);
-                btn1.setVisibility(View.VISIBLE);
-                btn1.startAnimation(scale_in);
-
-
-
-            }
-        });
+        };
+        btn1.setOnTouchListener(btn_animation);
+        btn2.setOnTouchListener(btn_animation);
+        btn3.setOnTouchListener(btn_animation);
+        btn4.setOnTouchListener(btn_animation);
 
 
         final Game game = new Game(12);

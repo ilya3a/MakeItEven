@@ -2,10 +2,10 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <scale
         android:duration="150"
-        android:fromXScale="250dp"
-        android:fromYScale="60dp"
+        android:fromXScale="1"
+        android:fromYScale="1"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="245dp"
-        android:toYScale="55dp" />
+        android:toXScale="0.95"
+        android:toYScale="0.95" />
 </set>

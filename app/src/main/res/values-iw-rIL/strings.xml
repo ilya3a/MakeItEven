@@ -3,4 +3,6 @@
     <string name="app_name">MakeItEven</string>
     <string name="Stage_mode">מצב שלבים</string>
     <string name="Arcade_mode">מצב תחרותי</string>
+    <string name="main_sound">מוזיקה</string>
+    <string name="sound_effects">צליל אפקטים</string>
 </resources>

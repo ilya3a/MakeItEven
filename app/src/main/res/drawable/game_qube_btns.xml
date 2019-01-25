@@ -5,16 +5,17 @@
             <!-- SHADOW LAYER -->
             <item android:top="4dp" >
                 <shape android:shape="rectangle">
-                    <solid android:color="#FF00D9" />
+                    <solid android:color="#D89B01" />
                     <corners android:radius="8dp"/>
                 </shape>
             </item>
             <!-- CONTENT LAYER -->
-            <item android:bottom="3dp" android:right="3dp" android:left="3dp" android:top="6dp">
+            <item android:bottom="4dp">
                 <shape>
-                    <gradient android:startColor="#03A9F4"
-                        android:endColor="#03A9F4"
-                        android:centerColor="#5DC1EE"/>
+                    <gradient
+                        android:startColor="#FFC227"
+                        android:endColor="#FFC227"
+                        android:centerColor="#FDC21D"/>
                     <size
                         android:width="100dp"
                         android:height="100dp" />

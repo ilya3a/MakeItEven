@@ -3,16 +3,11 @@ package com.yoyo.makeiteven;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.TransitionDrawable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
-import android.transition.ChangeTransform;
-import android.transition.TransitionManager;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -27,10 +22,12 @@ public class Start_Screen extends Activity {
     Button stage_mode_btn,arcade_mode_btn;
     ImageButton setting_btn;
     Boolean isRotated=Boolean.FALSE;
+    RelativeLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start__screen);
+
         //logo animation
         game_logo=findViewById(R.id.game_logo);
         Animation bounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
@@ -39,38 +36,29 @@ public class Start_Screen extends Activity {
         stage_mode_btn =findViewById(R.id.stage_mode_btn);
         arcade_mode_btn=findViewById(R.id.arcade_mode_btn);
         setting_btn = findViewById(R.id.setting_btn);
+        main_layout=findViewById(R.id.Main_layout);
         //btn animation
         final Animation btn_press = AnimationUtils.loadAnimation(this,R.anim.btn_pressed);
         final Animation btn_releas= AnimationUtils.loadAnimation(this,R.anim.btn_realeas);
 
-        stage_mode_btn.setOnTouchListener(new View.OnTouchListener() {
+        //on touch buttn animation
+        View.OnTouchListener btn_animation= new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    stage_mode_btn.startAnimation(btn_press);
+                    v.startAnimation(btn_press);
                     btn_press.setFillAfter(true);
                 }
                 if(event.getAction()==MotionEvent.ACTION_UP){
-                    btn_press.setFillAfter(false);
-                    stage_mode_btn.startAnimation(btn_releas);
+                    v.startAnimation(btn_releas);
                 }
                 return false;
             }
-        });
-        arcade_mode_btn.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    arcade_mode_btn.startAnimation(btn_press);
-                    btn_press.setFillAfter(true);
-                }
-                if(event.getAction()==MotionEvent.ACTION_UP){
-                    btn_press.setFillAfter(false);
-                    arcade_mode_btn.startAnimation(btn_releas);
-                }
-                return false;
-            }
-        });
+        };
+        stage_mode_btn.setOnTouchListener(btn_animation);
+        arcade_mode_btn.setOnTouchListener(btn_animation);
+
+        //starts arcade mode
         arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,29 +66,19 @@ public class Start_Screen extends Activity {
                 startActivity(intent);
             }
         });
+
+        //
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RelativeLayout mCLayout =findViewById(R.id.Main_layout);
-                ChangeTransform changeTransform = null;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    changeTransform = new ChangeTransform();
-                }
-
-                // Set the duration for transition
-                changeTransform.setDuration(500);
-
-                // Set the transition interpolator
-                changeTransform.setInterpolator(new AccelerateInterpolator());
-
-                // Begin the delayed transition
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    TransitionManager.beginDelayedTransition(mCLayout,changeTransform);
-                }
-
-                // Toggle the button rotation state
-                toggleRotation(setting_btn);
-                ShowDialog();
+                Intent i = new Intent(Start_Screen.this, setting_activity.class);
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        });
+        stage_mode_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
             }
         });
     }
@@ -123,11 +101,12 @@ public class Start_Screen extends Activity {
     {
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final SeekBar seek = new SeekBar(this);
+        final SeekBar seek2 = new SeekBar(this);
         seek.setMax(100);
 
-        popDialog.setIcon(android.R.drawable.btn_star_big_on);
-        popDialog.setTitle("Please Select Rank 1-100 ");
+        popDialog.setTitle("Master Volume");
         popDialog.setView(seek);
+        popDialog.setView(R.id.Main_layout);
 
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
@@ -162,4 +141,17 @@ public class Start_Screen extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
+        transition.startTransition(350);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
+        transition.reverseTransition(350);
+        super.onPause();
+    }
 }

@@ -3,10 +3,10 @@
     >
     <scale
         android:duration="100"
-        android:fromXScale="245dp"
-        android:fromYScale="55dp"
+        android:fromXScale="0.95"
+        android:fromYScale="0.95"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:toXScale="250dp"
-        android:toYScale="60dp" />
+        android:toXScale="1"
+        android:toYScale="1" />
 </set>

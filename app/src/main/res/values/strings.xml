@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MakeItEven</string>
     <string name="Stage_mode">Stage mode</string>
-    <string name="Arcade_mode">Arcade_mode</string>
+    <string name="Arcade_mode">Arcade mode</string>
+    <string name="main_sound">Main sound</string>
+    <string name="sound_effects">Sound effects</string>
+
 </resources>
