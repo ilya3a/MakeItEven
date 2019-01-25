@@ -3,8 +3,12 @@ package com.yoyo.makeiteven;
 import android.app.Activity;
 
 import android.graphics.drawable.Animatable;
+import android.os.Build;
 import android.os.Bundle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.view.MotionEvent;
@@ -21,11 +25,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT>=21){
+            Explode explode = new Explode();
+            explode.setDuration(1000);
+            getWindow().setEnterTransition(explode);
+        }
         setContentView(R.layout.activity_main);
 
         final TextView theNumber = findViewById(R.id.the_number);
@@ -44,7 +55,7 @@ public class MainActivity extends Activity {
         final Animation scale_out = AnimationUtils.loadAnimation(this,R.anim.scale_out);
         final Animation scale_in = AnimationUtils.loadAnimation(this,R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this,R.anim.btn_pressed);
-        final Animation btn_releas= AnimationUtils.loadAnimation(this,R.anim.btn_realeas);
+        final Animation btn_release= AnimationUtils.loadAnimation(this,R.anim.btn_realeas);
         View.OnTouchListener btn_animation = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -53,7 +64,7 @@ public class MainActivity extends Activity {
                     btn_press.setFillAfter(true);
                 }
                 if(event.getAction()==MotionEvent.ACTION_UP){
-                    v.startAnimation(btn_releas);
+                    v.startAnimation(btn_release);
                 }
                 return false;
             }
@@ -68,12 +79,20 @@ public class MainActivity extends Activity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                theNumber.setText(String.valueOf(game.gameGenerator(btns))+"  "+game.getHint());
+                theNumber.setText(String.valueOf(game.gameGenerator(btns)) + "  " + game.getHint());
             }
         });
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+        ((Button)v).setTag(true);
+
+    }
+
 }
+
 
 

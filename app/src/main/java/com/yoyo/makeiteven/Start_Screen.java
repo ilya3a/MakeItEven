@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -19,27 +24,38 @@ import android.widget.SeekBar;
 public class Start_Screen extends Activity {
 
     ImageView game_logo;
-    Button stage_mode_btn,arcade_mode_btn;
+    Button stage_mode_btn, arcade_mode_btn;
     ImageButton setting_btn;
     Boolean isRotated=Boolean.FALSE;
     RelativeLayout main_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= 21) {
+            TransitionInflater inflater = TransitionInflater.from(this);
+            Transition transition = inflater.inflateTransition(R.transition.transition_a);
+            getWindow().setExitTransition(transition);
+
+            Explode explode = new Explode();
+            explode.setDuration(1000);
+            getWindow().setEnterTransition(explode);
+
+
+        }
         setContentView(R.layout.activity_start__screen);
 
         //logo animation
-        game_logo=findViewById(R.id.game_logo);
-        Animation bounce = AnimationUtils.loadAnimation(this,R.anim.bounce);
+        game_logo = findViewById(R.id.game_logo);
+        Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
         game_logo.startAnimation(bounce);
         //finding views
-        stage_mode_btn =findViewById(R.id.stage_mode_btn);
-        arcade_mode_btn=findViewById(R.id.arcade_mode_btn);
+        stage_mode_btn = findViewById(R.id.stage_mode_btn);
+        arcade_mode_btn = findViewById(R.id.arcade_mode_btn);
         setting_btn = findViewById(R.id.setting_btn);
         main_layout=findViewById(R.id.Main_layout);
         //btn animation
-        final Animation btn_press = AnimationUtils.loadAnimation(this,R.anim.btn_pressed);
-        final Animation btn_releas= AnimationUtils.loadAnimation(this,R.anim.btn_realeas);
+        final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
+        final Animation btn_releas = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
         //on touch buttn animation
         View.OnTouchListener btn_animation= new View.OnTouchListener() {
@@ -49,7 +65,7 @@ public class Start_Screen extends Activity {
                     v.startAnimation(btn_press);
                     btn_press.setFillAfter(true);
                 }
-                if(event.getAction()==MotionEvent.ACTION_UP){
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.startAnimation(btn_releas);
                 }
                 return false;
@@ -62,8 +78,21 @@ public class Start_Screen extends Activity {
         arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Start_Screen.this,MainActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(Start_Screen.this, MainActivity.class);
+//                startActivity(intent);
+//                Intent intent = new Intent(mContext, MainActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,  null);
+                startActivity(intent, compat.toBundle());
+            }
+        });
+        stage_mode_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Start_Screen.this, LevelsActivity.class);
+//                startActivity(intent);
+//                Intent intent = new Intent(mContext, MainActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,  null);
+                startActivity(intent, compat.toBundle());
             }
         });
 
@@ -71,34 +100,26 @@ public class Start_Screen extends Activity {
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Start_Screen.this, setting_activity.class);
+                Intent i = new Intent(Start_Screen.this, SettingActivity.class);
                 startActivity(i);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-        stage_mode_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
     }
-    protected void toggleRotation(View v){
-        if(isRotated){
+
+    protected void toggleRotation(View v) {
+        if (isRotated) {
             v.setRotation(0.0f);
             isRotated = false;
-        }else {
+        } else {
             v.setRotation(90.0f);
             isRotated = true;
         }
     }
 
 
-
-
-
-
-    public void ShowDialog()
-    {
+    public void ShowDialog() {
         final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
         final SeekBar seek = new SeekBar(this);
         final SeekBar seek2 = new SeekBar(this);
@@ -109,7 +130,7 @@ public class Start_Screen extends Activity {
         popDialog.setView(R.id.Main_layout);
 
         seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 //Do something here with new value
                 //txtView.setText("Value of : " + progress);
             }

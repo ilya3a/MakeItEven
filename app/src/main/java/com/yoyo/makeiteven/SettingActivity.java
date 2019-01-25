@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 
-public class setting_activity extends Activity {
+public class SettingActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

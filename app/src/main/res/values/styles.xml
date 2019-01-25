@@ -14,6 +14,7 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:transition">@anim/fade_out</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">1000</item>
     </style>
 
 </resources>
