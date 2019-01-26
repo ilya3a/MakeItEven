@@ -2,20 +2,25 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.transition.ChangeTransform;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -29,8 +34,10 @@ public class Start_Screen extends Activity {
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
     ImageButton setting_btn;
-    Boolean isRotated=Boolean.FALSE;
+    Boolean isRotated= Boolean.FALSE;
     RelativeLayout main_layout;
+    private Context mContext;
+    private Activity mActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +53,10 @@ public class Start_Screen extends Activity {
 
         }
         setContentView(R.layout.activity_start__screen);
+        //test
+        mContext = getApplicationContext();
+        mActivity = Start_Screen.this;
+        final RelativeLayout mCLayout =findViewById(R.id.Main_layout);
 
         //logo animation
         game_logo = findViewById(R.id.game_logo);
@@ -107,6 +118,7 @@ public class Start_Screen extends Activity {
                 //startActivity(i);
                 //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 final Dialog yourDialog = new Dialog(Start_Screen.this);
+                yourDialog.setCanceledOnTouchOutside(false);
                 LayoutInflater inflater = (LayoutInflater)Start_Screen.this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element));
                 yourDialog.setContentView(layoutToinflate);
@@ -123,9 +135,11 @@ public class Start_Screen extends Activity {
                     @Override
                     public void onClick(View v) {
                         yourDialog.dismiss();
+                        rotat_setting();
                     }
                 });
                 close_btn.setOnTouchListener(btn_animation);
+                rotat_setting();
                 yourDialog.show();
             }
         });
@@ -143,62 +157,7 @@ public class Start_Screen extends Activity {
     }
 
 
-    public void ShowDialog() {
-        final AlertDialog.Builder popDialog = new AlertDialog.Builder(this);
-        final SeekBar seek = new SeekBar(this);
-        final SeekBar seek2 = new SeekBar(this);
-        seek.setMax(100);
 
-        popDialog.setTitle("Master Volume");
-        popDialog.setView(seek);
-        popDialog.setView(R.id.Main_layout);
-
-        seek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                //Do something here with new value
-                //txtView.setText("Value of : " + progress);
-            }
-
-            public void onStartTrackingTouch(SeekBar arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
-
-        // Button OK
-        popDialog.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-
-                });
-
-
-        popDialog.create();
-        popDialog.show();
-
-    }
-
-    @Override
-    protected void onResume() {
-        //TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
-       // transition.startTransition(350);
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-       // TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
-        //transition.reverseTransition(350);
-        super.onPause();
-    }
     private void Reset_game(){
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(Start_Screen.this);
         alertDialogBuilder.setTitle("Game Reset");
@@ -219,5 +178,13 @@ public class Start_Screen extends Activity {
                 });
         android.app.AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    private void rotat_setting(){
+        ChangeTransform changeTransform = new ChangeTransform();
+        changeTransform.setDuration(200);
+        changeTransform.setInterpolator(new AccelerateInterpolator());
+        TransitionManager.beginDelayedTransition(main_layout,changeTransform);
+        toggleRotation(setting_btn);
     }
 }

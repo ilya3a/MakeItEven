@@ -12,7 +12,7 @@
     <style name="AppTheme.CustomTheme" >
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:transition">@anim/fade_out</item>
         <item name="android:windowTransitionBackgroundFadeDuration">1000</item>
     </style>

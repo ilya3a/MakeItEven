@@ -6,6 +6,7 @@ import android.graphics.drawable.Animatable;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class MainActivity extends Activity implements View.OnClickListener {
 
-
+Boolean ispressd=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 if(event.getAction()==MotionEvent.ACTION_UP){
                     v.startAnimation(btn_release);
                 }
+
                 return false;
             }
         };
@@ -73,6 +75,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
         btn2.setOnTouchListener(btn_animation);
         btn3.setOnTouchListener(btn_animation);
         btn4.setOnTouchListener(btn_animation);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(ispressd){
+                            btn1.setPressed(false);
+                            ispressd=false;
+                        }
+                        else {
+                            btn1.setPressed(true);
+                            ispressd=true;
+                        }
+                    }});
+
+            }
+        });
 
 
         final Game game = new Game(12);
@@ -88,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        ((Button)v).setTag(true);
+        v.setTag(true);
 
     }
 
