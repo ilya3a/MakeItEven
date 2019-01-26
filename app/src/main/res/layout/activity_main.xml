@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:textSize="25sp"
-        android:text="solution" />
+        android:text="hint" />
 
     <LinearLayout
         android:id="@+id/btn_layout"
@@ -89,28 +89,30 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:text="+" />
+            android:background="@drawable/plus_green"/>
 
         <Button
             android:id="@+id/minus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:text="-" />
+            android:background="@drawable/minus_red"
+
+            />
 
         <Button
             android:id="@+id/div"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:text="/" />
+            android:background="@drawable/div_blue"/>
 
         <Button
             android:id="@+id/mul"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:text="*" />
+            android:background="@drawable/mul_green"/>
 
 
     </LinearLayout>
@@ -123,5 +125,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
         android:text="START" />
+
+    <TextView
+        android:id="@+id/timer_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:text="10:00"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/the_number"
+        android:textSize="24sp"
+        />
+
 
 </RelativeLayout>
