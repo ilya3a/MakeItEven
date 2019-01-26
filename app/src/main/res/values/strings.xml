@@ -4,5 +4,9 @@
     <string name="Arcade_mode">Arcade mode</string>
     <string name="main_sound">Main sound</string>
     <string name="sound_effects">Sound effects</string>
+    <string name="Progress">are you sure you want to reset all your progress?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+
 
 </resources>

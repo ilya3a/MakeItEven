@@ -1,6 +1,7 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
@@ -11,8 +12,10 @@ import android.os.Bundle;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -58,7 +61,7 @@ public class Start_Screen extends Activity {
         final Animation btn_releas = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
         //on touch buttn animation
-        View.OnTouchListener btn_animation= new View.OnTouchListener() {
+        final View.OnTouchListener btn_animation= new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -81,7 +84,7 @@ public class Start_Screen extends Activity {
                 Intent intent = new Intent(Start_Screen.this, MainActivity.class);
 //                startActivity(intent);
 //                Intent intent = new Intent(mContext, MainActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,  null);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,null);
                 startActivity(intent, compat.toBundle());
             }
         });
@@ -100,9 +103,30 @@ public class Start_Screen extends Activity {
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Start_Screen.this, SettingActivity.class);
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                //Intent i = new Intent(Start_Screen.this, SettingActivity.class);
+                //startActivity(i);
+                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                final Dialog yourDialog = new Dialog(Start_Screen.this);
+                LayoutInflater inflater = (LayoutInflater)Start_Screen.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+                View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element));
+                yourDialog.setContentView(layoutToinflate);
+                Button reset = layoutToinflate.findViewById(R.id.game_reset_btn);
+                reset.setOnTouchListener(btn_animation);
+                reset.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reset_game();
+                    }
+                });
+                ImageButton close_btn=layoutToinflate.findViewById(R.id.close_btn);
+                close_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        yourDialog.dismiss();
+                    }
+                });
+                close_btn.setOnTouchListener(btn_animation);
+                yourDialog.show();
             }
         });
 
@@ -164,15 +188,36 @@ public class Start_Screen extends Activity {
 
     @Override
     protected void onResume() {
-        TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
-        transition.startTransition(350);
+        //TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
+       // transition.startTransition(350);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-        TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
-        transition.reverseTransition(350);
+       // TransitionDrawable transition = (TransitionDrawable) main_layout.getBackground();
+        //transition.reverseTransition(350);
         super.onPause();
+    }
+    private void Reset_game(){
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(Start_Screen.this);
+        alertDialogBuilder.setTitle("Game Reset");
+        alertDialogBuilder.setIcon(R.drawable.warning_icon);
+        alertDialogBuilder.setMessage(R.string.Progress)
+                .setCancelable(false)
+                .setPositiveButton(R.string.Yes,
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                dialog.cancel();
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton(R.string.No,
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        android.app.AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 }
