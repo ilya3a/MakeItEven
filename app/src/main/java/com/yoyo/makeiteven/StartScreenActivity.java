@@ -91,7 +91,7 @@ public class StartScreenActivity extends Activity {
                 Intent intent = new Intent(StartScreenActivity.this, GameActivity.class);
 //                startActivity(intent);
 //                Intent intent = new Intent(mContext, GameActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this,null);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this);
                 startActivity(intent, compat.toBundle());
             }
         });
@@ -101,7 +101,7 @@ public class StartScreenActivity extends Activity {
                 Intent intent = new Intent(StartScreenActivity.this, LevelsActivity.class);
 //                startActivity(intent);
 //                Intent intent = new Intent(mContext, GameActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this,  null);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this);
                 startActivity(intent, compat.toBundle());
             }
         });

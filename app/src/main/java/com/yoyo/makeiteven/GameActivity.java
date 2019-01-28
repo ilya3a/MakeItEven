@@ -81,7 +81,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     btn_press.setFillAfter(true);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                        v.startAnimation(btn_release);
+                    v.startAnimation(btn_release);
 
 
                 }
@@ -106,6 +106,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (ToggleButton tB : gameBtns)
+                    tB.setChecked(false);
                 startStop();
                 theNumber.setText(String.valueOf(game.gameGenerator(gameBtns)) + "  " + game.getHint());
 

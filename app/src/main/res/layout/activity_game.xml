@@ -47,7 +47,9 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
-                android:padding="5dp" />
+                android:padding="5dp"
+                android:textOff=""
+                android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/btn2"
@@ -56,7 +58,8 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-               />
+                android:textOff=""
+                android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/btn3"
@@ -65,7 +68,8 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-             />
+                android:textOff=""
+                android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/btn4"
@@ -74,7 +78,8 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-                 />
+                android:textOff=""
+                android:textOn="" />
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 

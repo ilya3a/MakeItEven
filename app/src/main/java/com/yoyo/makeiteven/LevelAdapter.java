@@ -39,52 +39,13 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
         levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (Build.VERSION.SDK_INT>=21){
-//                Explode explode = new Explode();
-//                final Rect viewRect = new Rect();
-//                v.getGlobalVisibleRect(viewRect);
-//                explode.setEpicenterCallback(new Transition.EpicenterCallback() {
-//                    @Override
-//                    public Rect onGetEpicenter(Transition transition) {
-//                        return viewRect;
-//                    }
-//                });}
+
                 Intent intent = new Intent(mContext, GameActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, null);
-                mContext.startActivity(intent,compat.toBundle());
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext.getApplicationContext());
+                mContext.startActivity(intent, compat.toBundle());
             }
         });
 
-//        levelsViewHolder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View clickedView) {
-//                // save rect of view in screen coordinates
-//                final Rect viewRect = new Rect();
-//                clickedView.getGlobalVisibleRect(viewRect);
-//
-//                // create Explode transition with epicenter
-//                Explode explode = null;
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    explode = new Explode();
-//                }
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    explode.setEpicenterCallback(new Transition.EpicenterCallback() {
-//                        @Override
-//                        public Rect onGetEpicenter(Transition transition) {
-//                            return viewRect;
-//                        }
-//                    });
-//                }
-//                explode.setDuration(1000);
-//                RecyclerView recyclerView = ;
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    TransitionManager.beginDelayedTransition(recyclerView, explode);
-//                }
-//
-//                // remove all views from Recycler View
-//                recyclerView.setAdapter(null);
-//            }
-//        });
     }
 
     @Override
@@ -95,15 +56,11 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     public class LevelsViewHolder extends RecyclerView.ViewHolder {
 
         Button btn;
-        LinearLayout layout;
 
 
         public LevelsViewHolder(View itemView) {
             super(itemView);
             btn = itemView.findViewById(R.id.level_btn);
-//            layout = itemView.findViewById(R.id.my_level_cube);
-
-
         }
     }
 
