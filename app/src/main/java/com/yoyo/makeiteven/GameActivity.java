@@ -13,7 +13,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 import java.util.ArrayList;
@@ -21,13 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class GameActivity extends Activity implements View.OnClickListener {
 
     private CountDownTimer countDownTimer;
-    private long timeLefetInMillsecons = 300000;//10:00 mints
+    private long timeLefetInMillsecons = 300000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText;
-    private List<Integer> solution = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +41,22 @@ public class MainActivity extends Activity {
             explode.setDuration(1000);
             getWindow().setEnterTransition(explode);
         }
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         final TextView theNumber = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
-        final Button btn1 = findViewById(R.id.btn1);
-        final Button btn2 = findViewById(R.id.btn2);
-        Button btn3 = findViewById(R.id.btn3);
-        Button btn4 = findViewById(R.id.btn4);
+        final ToggleButton btn1 = findViewById(R.id.btn1);
+        final ToggleButton btn2 = findViewById(R.id.btn2);
+        ToggleButton btn3 = findViewById(R.id.btn3);
+        ToggleButton btn4 = findViewById(R.id.btn4);
         Button startBtn = findViewById(R.id.start_btn);
         Button plusBtn = findViewById(R.id.plus);
         Button minusBtn = findViewById(R.id.minus);
         Button mulBtn = findViewById(R.id.mul);
         Button divButton = findViewById(R.id.div);
 
-        final List<Button> gameBtns = new ArrayList<>();
+
+        final List<ToggleButton> gameBtns = new ArrayList<>();
         gameBtns.add(btn1);
         gameBtns.add(btn2);
         gameBtns.add(btn3);
@@ -76,21 +81,22 @@ public class MainActivity extends Activity {
                     btn_press.setFillAfter(true);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_release);
+                        v.startAnimation(btn_release);
+
+
                 }
-
-                String tag = ((Button) v).getTag().toString();
-
                 return false;
             }
         };
-        for (Button b : gameBtns) {
+        for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
             b.setTag("num");
+            b.setOnClickListener(this);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
             b.setTag("op");
+            b.setOnClickListener(this);
         }
 
 
@@ -145,6 +151,12 @@ public class MainActivity extends Activity {
         coutDownText.setText(timeLeftText);
     }
 
+
+    @Override
+    public void onClick(View v) {
+//        ((ToggleButton)v).setTextOff(((ToggleButton)v).getText());
+//        ((ToggleButton)v).setTextOn(((ToggleButton)v).getText());
+    }
 
 }
 

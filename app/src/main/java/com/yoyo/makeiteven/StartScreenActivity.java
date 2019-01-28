@@ -2,14 +2,10 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.transition.ChangeTransform;
 import android.transition.Explode;
@@ -27,17 +23,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 
-public class Start_Screen extends Activity {
+public class StartScreenActivity extends Activity {
 
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
     ImageButton setting_btn;
     Boolean isRotated= Boolean.FALSE;
     RelativeLayout main_layout;
-    private Context mContext;
-    private Activity mActivity;
+//    private Context mContext;
+//    private Activity mActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +50,9 @@ public class Start_Screen extends Activity {
         }
         setContentView(R.layout.activity_start__screen);
         //test
-        mContext = getApplicationContext();
-        mActivity = Start_Screen.this;
-        final RelativeLayout mCLayout =findViewById(R.id.Main_layout);
+//        mContext = getApplicationContext();
+//        mActivity = StartScreenActivity.this;
+//        final RelativeLayout mCLayout =findViewById(R.id.Main_layout);
 
         //logo animation
         game_logo = findViewById(R.id.game_logo);
@@ -71,7 +67,7 @@ public class Start_Screen extends Activity {
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_releas = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
-        //on touch buttn animation
+        //on touch button animation
         final View.OnTouchListener btn_animation= new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -92,20 +88,20 @@ public class Start_Screen extends Activity {
         arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Start_Screen.this, MainActivity.class);
+                Intent intent = new Intent(StartScreenActivity.this, GameActivity.class);
 //                startActivity(intent);
-//                Intent intent = new Intent(mContext, MainActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,null);
+//                Intent intent = new Intent(mContext, GameActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this,null);
                 startActivity(intent, compat.toBundle());
             }
         });
         stage_mode_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Start_Screen.this, LevelsActivity.class);
+                Intent intent = new Intent(StartScreenActivity.this, LevelsActivity.class);
 //                startActivity(intent);
-//                Intent intent = new Intent(mContext, MainActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(Start_Screen.this,  null);
+//                Intent intent = new Intent(mContext, GameActivity.class);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this,  null);
                 startActivity(intent, compat.toBundle());
             }
         });
@@ -114,12 +110,12 @@ public class Start_Screen extends Activity {
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(Start_Screen.this, SettingActivity.class);
+                //Intent i = new Intent(StartScreenActivity.this, SettingActivity.class);
                 //startActivity(i);
                 //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                final Dialog yourDialog = new Dialog(Start_Screen.this);
+                final Dialog yourDialog = new Dialog(StartScreenActivity.this);
                 yourDialog.setCanceledOnTouchOutside(false);
-                LayoutInflater inflater = (LayoutInflater)Start_Screen.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element));
                 yourDialog.setContentView(layoutToinflate);
                 Button reset = layoutToinflate.findViewById(R.id.game_reset_btn);
@@ -159,7 +155,7 @@ public class Start_Screen extends Activity {
 
 
     private void Reset_game(){
-        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(Start_Screen.this);
+        android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(StartScreenActivity.this);
         alertDialogBuilder.setTitle("Game Reset");
         alertDialogBuilder.setIcon(R.drawable.warning_icon);
         alertDialogBuilder.setMessage(R.string.Progress)

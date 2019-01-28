@@ -3,12 +3,8 @@ package com.yoyo.makeiteven;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
-import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
-import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +49,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 //                        return viewRect;
 //                    }
 //                });}
-                Intent intent = new Intent(mContext, MainActivity.class);
+                Intent intent = new Intent(mContext, GameActivity.class);
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, null);
                 mContext.startActivity(intent,compat.toBundle());
             }
