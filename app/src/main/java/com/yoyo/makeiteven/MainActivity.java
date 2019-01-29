@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
                     v.startAnimation(btn_release);
                 }
 
-                String tag = ((Button) v).getTag().toString();
+                String tag = v.getTag().toString();
 
                 return false;
             }
