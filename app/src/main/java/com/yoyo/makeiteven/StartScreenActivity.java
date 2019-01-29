@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.os.Bundle;
@@ -23,6 +24,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+
+import moe.codeest.enviews.ENVolumeView;
 
 public class StartScreenActivity extends Activity {
 
@@ -31,6 +35,8 @@ public class StartScreenActivity extends Activity {
     ImageButton setting_btn;
     Boolean isRotated= Boolean.FALSE;
     RelativeLayout main_layout;
+    ENVolumeView volumeView;
+    SeekBar sbVolume;
 //    private Context mContext;
 //    private Activity mActivity;
 
@@ -120,7 +126,26 @@ public class StartScreenActivity extends Activity {
                 LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
                 View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element_settings));
                 yourDialog.setContentView(layoutToinflate);
+                //dialog inits
                 Button reset = layoutToinflate.findViewById(R.id.game_reset_btn);
+                volumeView = layoutToinflate.findViewById(R.id.view_volume);
+                sbVolume =  layoutToinflate.findViewById(R.id.seek_bar_1);
+                sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                        volumeView.updateVolumeValue(i);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
                 reset.setOnTouchListener(btn_animation);
                 reset.setOnClickListener(new View.OnClickListener() {
                     @Override
