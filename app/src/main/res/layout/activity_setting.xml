@@ -1,78 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/root_element"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:id="@+id/seek1">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Settings"
-        android:id="@+id/setting_txtv"
-        android:textSize="30sp"
-        android:layout_centerHorizontal="true"
-        style="@style/AppTheme"
-        android:textStyle="italic"
-        android:layout_marginTop="10dp"
-       />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/main_sound_txtv"
-        android:text="@string/main_sound"
-        android:textSize="18sp"
-        android:layout_below="@+id/setting_txtv"
-        android:layout_margin="10dp"/>
-    <SeekBar
-        android:id="@+id/seek_bar_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_sound_txtv"/>
-</RelativeLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_element_settings"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <RelativeLayout
+        android:id="@+id/seek1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:id="@+id/seek2"
-        android:layout_below="@+id/seek1">
+        android:layout_marginTop="20dp">
+
         <TextView
+            android:id="@+id/setting_txtv"
+            style="@style/AppTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Settings"
+            android:textSize="30sp"
+            android:textStyle="italic" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/setting_txtv"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <moe.codeest.enviews.ENVolumeView
+                android:id="@+id/view_volume"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                app:volume_bg_line_color="#64696d"
+                app:volume_bg_line_width="10"
+                app:volume_line_color="#ffffff"
+                app:volume_line_width="10" />
+
+            <!--<SeekBar-->
+            <!--android:id="@+id/sb_volume"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp" />-->
+
+
+            <SeekBar
+                android:id="@+id/seek_bar_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/main_sound_txtv" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/seek2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seek1"
+        android:layout_marginTop="20dp">
+
+        <TextView
             android:id="@+id/sound_efects_txtv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
             android:text="@string/sound_effects"
-            android:textSize="18sp"
-            android:layout_margin="10dp"/>
+            android:textSize="18sp" />
+
         <SeekBar
             android:id="@+id/seek_bar_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sound_efects_txtv"/>
+            android:layout_below="@+id/sound_efects_txtv" />
     </RelativeLayout>
+
     <Button
+        android:id="@+id/game_reset_btn"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Reset game levels"
         android:layout_below="@id/seek2"
-        android:id="@+id/game_reset_btn"
-        android:textAllCaps="false"
-        android:background="@drawable/reset_game"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:clickable="true"/>
+        android:background="@drawable/reset_game"
+        android:clickable="true"
+        android:text="Reset game levels"
+        android:textAllCaps="false" />
+
     <ImageButton
+        android:id="@+id/close_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/close_icon"
-        android:background="@color/Transparent"
         android:layout_alignParentRight="true"
         android:layout_margin="10dp"
-        android:id="@+id/close_btn"
+        android:background="@color/Transparent"
         android:clickable="true"
-        android:focusable="true"/>
-    </RelativeLayout>
+        android:focusable="true"
+        android:src="@drawable/close_icon" />
+</RelativeLayout>

@@ -1,2 +1,2 @@
-include ':app', ':easyandroidanimationslibrary-v0.5'
+include ':app', ':easyandroidanimationslibrary-v0.5', ':ease-interpolator-1.1'
 

@@ -11,6 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import android.widget.LinearLayout;
@@ -68,6 +71,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         operators.add(mulBtn);
         operators.add(divButton);
 
+
         final Animation scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
         final Animation scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
@@ -92,6 +96,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             b.setOnTouchListener(btn_animation);
             b.setTag("num");
             b.setOnClickListener(this);
+            TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
@@ -115,6 +120,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         });
 
     }
+
 
     private void startStop() {
         if (timerRunning) stopTimer();

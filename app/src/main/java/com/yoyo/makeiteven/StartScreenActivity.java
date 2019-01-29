@@ -63,6 +63,8 @@ public class StartScreenActivity extends Activity {
         arcade_mode_btn = findViewById(R.id.arcade_mode_btn);
         setting_btn = findViewById(R.id.setting_btn);
         main_layout=findViewById(R.id.Main_layout);
+
+        TiltEffectAttacher.attach(game_logo);
         //btn animation
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_releas = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
@@ -116,7 +118,7 @@ public class StartScreenActivity extends Activity {
                 final Dialog yourDialog = new Dialog(StartScreenActivity.this);
                 yourDialog.setCanceledOnTouchOutside(false);
                 LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
-                View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element));
+                View layoutToinflate = inflater.inflate(R.layout.activity_setting, (ViewGroup)findViewById(R.id.root_element_settings));
                 yourDialog.setContentView(layoutToinflate);
                 Button reset = layoutToinflate.findViewById(R.id.game_reset_btn);
                 reset.setOnTouchListener(btn_animation);
