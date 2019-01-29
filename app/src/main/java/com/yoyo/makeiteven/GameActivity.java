@@ -11,9 +11,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 import java.util.ArrayList;
@@ -21,13 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class GameActivity extends Activity implements View.OnClickListener {
 
     private CountDownTimer countDownTimer;
-    private long timeLefetInMillsecons = 300000;//10:00 mints
+    private long timeLefetInMillsecons = 300000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText;
-    private List<Integer> solution = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +44,22 @@ public class MainActivity extends Activity {
             explode.setDuration(1000);
             getWindow().setEnterTransition(explode);
         }
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         final TextView theNumber = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
-        final Button btn1 = findViewById(R.id.btn1);
-        final Button btn2 = findViewById(R.id.btn2);
-        Button btn3 = findViewById(R.id.btn3);
-        Button btn4 = findViewById(R.id.btn4);
+        final ToggleButton btn1 = findViewById(R.id.btn1);
+        final ToggleButton btn2 = findViewById(R.id.btn2);
+        ToggleButton btn3 = findViewById(R.id.btn3);
+        ToggleButton btn4 = findViewById(R.id.btn4);
         Button startBtn = findViewById(R.id.start_btn);
         Button plusBtn = findViewById(R.id.plus);
         Button minusBtn = findViewById(R.id.minus);
         Button mulBtn = findViewById(R.id.mul);
         Button divButton = findViewById(R.id.div);
 
-        final List<Button> gameBtns = new ArrayList<>();
+
+        final List<ToggleButton> gameBtns = new ArrayList<>();
         gameBtns.add(btn1);
         gameBtns.add(btn2);
         gameBtns.add(btn3);
@@ -62,6 +70,7 @@ public class MainActivity extends Activity {
         operators.add(minusBtn);
         operators.add(mulBtn);
         operators.add(divButton);
+
 
         final Animation scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
         final Animation scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
@@ -77,20 +86,22 @@ public class MainActivity extends Activity {
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     v.startAnimation(btn_release);
+
+
                 }
-
-                String tag = v.getTag().toString();
-
                 return false;
             }
         };
-        for (Button b : gameBtns) {
+        for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
             b.setTag("num");
+            b.setOnClickListener(this);
+            TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
             b.setTag("op");
+            b.setOnClickListener(this);
         }
 
 
@@ -100,13 +111,16 @@ public class MainActivity extends Activity {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (ToggleButton tB : gameBtns)
+                    tB.setChecked(false);
                 startStop();
-                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns)) + "  " + game.getHint());
+                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns,0,100)) + "  " + game.getHint());
 
             }
         });
 
     }
+
 
     private void startStop() {
         if (timerRunning) stopTimer();
@@ -145,6 +159,12 @@ public class MainActivity extends Activity {
         coutDownText.setText(timeLeftText);
     }
 
+
+    @Override
+    public void onClick(View v) {
+//        ((ToggleButton)v).setTextOff(((ToggleButton)v).getText());
+//        ((ToggleButton)v).setTextOn(((ToggleButton)v).getText());
+    }
 
 }
 

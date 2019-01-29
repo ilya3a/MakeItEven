@@ -2,6 +2,7 @@ package com.yoyo.makeiteven;
 
 
 import android.widget.Button;
+import android.widget.ToggleButton;
 
 import java.sql.Time;
 import java.util.Collections;
@@ -31,7 +32,7 @@ public class Game {
         return hint;
     }
 
-    public int gameGenerator(List<Button> btns) {
+    public int gameGenerator(List<ToggleButton> btns , int minSum , int maxSum ) {
 
         int btn1, btn2, btn3, btn4, sum;
         Random randNumber = new Random();
@@ -130,13 +131,23 @@ public class Game {
         }
 
         Collections.shuffle(btns);
+        btns.get(0).setTextOff(String.valueOf(btn1));
+        btns.get(1).setTextOff(String.valueOf(btn2));
+        btns.get(2).setTextOff(String.valueOf(btn3));
+        btns.get(3).setTextOff(String.valueOf(btn4));
+
+        btns.get(0).setTextOn(String.valueOf(btn1));
+        btns.get(1).setTextOn(String.valueOf(btn2));
+        btns.get(2).setTextOn(String.valueOf(btn3));
+        btns.get(3).setTextOn(String.valueOf(btn4));
+
         btns.get(0).setText(String.valueOf(btn1));
         btns.get(1).setText(String.valueOf(btn2));
         btns.get(2).setText(String.valueOf(btn3));
         btns.get(3).setText(String.valueOf(btn4));
 
-        if (sum > 100)
-            sum = gameGenerator(btns);
+        if (sum > maxSum || sum < minSum)
+            sum = gameGenerator(btns,minSum,maxSum);
 
 
         return sum;
