@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_element_settings"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -28,7 +29,11 @@
             android:layout_below="@id/setting_txtv"
             android:gravity="center_horizontal"
             android:orientation="vertical">
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/main_sound"
+    android:textSize="20sp"/>
             <moe.codeest.enviews.ENVolumeView
                 android:id="@+id/view_volume"
                 android:layout_width="80dp"
@@ -38,14 +43,6 @@
                 app:volume_bg_line_width="10"
                 app:volume_line_color="#949494"
                 app:volume_line_width="10" />
-
-            <!--<SeekBar-->
-            <!--android:id="@+id/sb_volume"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="20dp" />-->
-
-
             <SeekBar
                 android:id="@+id/seek_bar_1"
                 android:layout_width="match_parent"
@@ -66,15 +63,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
             android:text="@string/sound_effects"
             android:textSize="18sp" />
-
+        <moe.codeest.enviews.ENVolumeView
+            android:id="@+id/view_sound_efects"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            app:volume_bg_line_color="#000000"
+            app:volume_bg_line_width="10"
+            app:volume_line_color="#949494"
+            app:volume_line_width="10"
+            android:layout_centerHorizontal="true"/>
         <SeekBar
             android:id="@+id/seek_bar_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/sound_efects_txtv" />
+            android:layout_below="@+id/view_sound_efects" />
     </RelativeLayout>
 
     <Button

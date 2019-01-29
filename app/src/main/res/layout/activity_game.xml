@@ -49,7 +49,8 @@
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn2"
@@ -59,7 +60,8 @@
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn3"
@@ -69,7 +71,8 @@
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn4"
@@ -79,7 +82,8 @@
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 

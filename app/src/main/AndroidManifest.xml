@@ -12,7 +12,8 @@
         <activity android:name=".SettingActivity"
             android:theme="@style/AppTheme.CustomTheme">
         </activity>
-        <activity android:name=".LevelsActivity"></activity>
+        <activity android:name=".LevelsActivity"
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".StartScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

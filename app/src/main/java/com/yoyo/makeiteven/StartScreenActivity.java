@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -35,8 +36,11 @@ public class StartScreenActivity extends Activity {
     ImageButton setting_btn;
     Boolean isRotated= Boolean.FALSE;
     RelativeLayout main_layout;
-    ENVolumeView volumeView;
-    SeekBar sbVolume;
+    ENVolumeView volumeView,soundEfVolumeView;
+    SeekBar sbVolume,seVolume;
+    SharedPreferences mySharedPref;
+    SharedPreferences.Editor myEditor;
+    Boolean firstRun;
 //    private Context mContext;
 //    private Activity mActivity;
 
@@ -55,6 +59,9 @@ public class StartScreenActivity extends Activity {
 
         }
         setContentView(R.layout.activity_start__screen);
+        mySharedPref=getApplicationContext().getSharedPreferences("Mypref",MODE_PRIVATE);
+        myEditor=mySharedPref.edit();
+        firstRun=mySharedPref.getBoolean("firstRun",true);
         //test
 //        mContext = getApplicationContext();
 //        mActivity = StartScreenActivity.this;
@@ -129,7 +136,16 @@ public class StartScreenActivity extends Activity {
                 //dialog inits
                 Button reset = layoutToinflate.findViewById(R.id.game_reset_btn);
                 volumeView = layoutToinflate.findViewById(R.id.view_volume);
+                soundEfVolumeView=layoutToinflate.findViewById(R.id.view_sound_efects);
                 sbVolume =  layoutToinflate.findViewById(R.id.seek_bar_1);
+                seVolume=layoutToinflate.findViewById(R.id.seek_bar_2);
+                if (firstRun)
+                {
+                    sbVolume.setProgress(100);
+                    seVolume.setProgress(100);
+                    firstRun=false;
+                }
+
                 sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -143,7 +159,23 @@ public class StartScreenActivity extends Activity {
 
                     @Override
                     public void onStopTrackingTouch(SeekBar seekBar) {
+                        myEditor.putInt("sbVolume",seekBar.getProgress());
+                    }
+                });
+                seVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        soundEfVolumeView.updateVolumeValue(progress);
+                    }
 
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                        myEditor.putInt("seVolume",seekBar.getProgress());
                     }
                 });
                 reset.setOnTouchListener(btn_animation);
@@ -159,11 +191,15 @@ public class StartScreenActivity extends Activity {
                     public void onClick(View v) {
                         yourDialog.dismiss();
                         rotat_setting();
+                        myEditor.commit();
                     }
                 });
                 close_btn.setOnTouchListener(btn_animation);
                 rotat_setting();
                 yourDialog.show();
+                sbVolume.setProgress(mySharedPref.getInt("sbVolume",100));
+                seVolume.setProgress(mySharedPref.getInt("seVolume",100));
+
             }
         });
 
