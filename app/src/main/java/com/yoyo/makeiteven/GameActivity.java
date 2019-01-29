@@ -114,7 +114,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 for (ToggleButton tB : gameBtns)
                     tB.setChecked(false);
                 startStop();
-                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns)) + "  " + game.getHint());
+                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns,0,100)) + "  " + game.getHint());
 
             }
         });

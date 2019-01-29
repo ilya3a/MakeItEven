@@ -32,7 +32,7 @@ public class Game {
         return hint;
     }
 
-    public int gameGenerator(List<ToggleButton> btns) {
+    public int gameGenerator(List<ToggleButton> btns , int minSum , int maxSum ) {
 
         int btn1, btn2, btn3, btn4, sum;
         Random randNumber = new Random();
@@ -146,8 +146,8 @@ public class Game {
         btns.get(2).setText(String.valueOf(btn3));
         btns.get(3).setText(String.valueOf(btn4));
 
-        if (sum > 100)
-            sum = gameGenerator(btns);
+        if (sum > maxSum || sum < minSum)
+            sum = gameGenerator(btns,minSum,maxSum);
 
 
         return sum;
