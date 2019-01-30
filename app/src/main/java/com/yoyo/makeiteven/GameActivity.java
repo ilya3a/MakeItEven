@@ -11,14 +11,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-
-import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
 import java.util.ArrayList;
 
@@ -116,6 +119,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
     }
 
+    TextView score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +130,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             getWindow().setEnterTransition(explode);
         }
         setContentView(R.layout.activity_game);
-
+        score = findViewById(R.id.score_tv);
         final TextView theDesiredNumberTV = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
         ToggleButton btn1 = findViewById(R.id.btn1);
@@ -206,11 +211,13 @@ public class GameActivity extends Activity implements View.OnClickListener {
         };
         for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
+            b.setTag("num");
             b.setOnClickListener(this);
             TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
+            b.setTag("op");
             b.setOnClickListener(this);
         }
 
@@ -272,8 +279,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         coutDownText.setText(timeLeftText);
     }
 
-
 }
-
 
 

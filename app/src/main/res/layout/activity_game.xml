@@ -7,13 +7,15 @@
     tools:context=".GameActivity">
 
     <TextView
-        android:id="@+id/the_number"
+        android:id="@+id/score_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="98dp"
-        android:text="Hello World!" />
+        android:layout_marginTop="70dp"
+        android:text="Score:"
+        android:textSize="30sp"
+        />
 
     <TextView
         android:id="@+id/progress_sol"

@@ -27,27 +27,32 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 
     @Override
     public LevelsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.level, viewGroup, false);
-        return new LevelsViewHolder(view);
+        View view = LayoutInflater.from( viewGroup.getContext() ).inflate( R.layout.level, viewGroup, false );
+        return new LevelsViewHolder( view );
     }
 
     @Override
     public void onBindViewHolder(LevelsViewHolder levelsViewHolder, final int i) {
 
-        final Level_item levelItem = levelItems.get(i);
-        levelsViewHolder.btn.setText(levelItem.getLevelNum() + "");
-//        TiltEffectAttacher.attach(levelsViewHolder.btn);
+        if (levelItems.get( i ).isFinished()){
+
+        }
 
 
-        levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
+        final Level_item levelItem = levelItems.get( i );
+        levelsViewHolder.btn.setText( levelItem.getLevelNum() + "" );
+//        TiltEffectAttacher.attach( levelsViewHolder.btn );
+
+
+        levelsViewHolder.btn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mContext, GameActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext);
-                mContext.startActivity(intent,compat.toBundle());
+                Intent intent = new Intent( mContext, GameActivity.class );
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) mContext );
+                mContext.startActivity( intent, compat.toBundle() );
             }
-        });
+        } );
 
     }
 
@@ -62,8 +67,8 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 
 
         public LevelsViewHolder(View itemView) {
-            super(itemView);
-            btn = itemView.findViewById(R.id.level_btn);
+            super( itemView );
+            btn = itemView.findViewById( R.id.level_btn );
         }
     }
 
