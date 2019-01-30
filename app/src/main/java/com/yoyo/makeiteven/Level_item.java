@@ -1,27 +1,18 @@
 package com.yoyo.makeiteven;
 
+import java.io.Serializable;
+
+
 class Level_item {
     private int levelNum;
-    private boolean finished;
+    public int y;
 
-    public Level_item(int levelNum, boolean finished) {
-        this.levelNum = levelNum;
-        this.finished = finished;
+    public Level_item(int level) {
+        levelNum = level;
+
     }
 
     public int getLevelNum() {
         return levelNum;
-    }
-
-    public void setLevelNum(int levelNum) {
-        this.levelNum = levelNum;
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
     }
 }

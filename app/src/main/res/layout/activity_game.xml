@@ -7,25 +7,13 @@
     tools:context=".GameActivity">
 
     <TextView
-        android:id="@+id/score_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="Score:"
-        android:textSize="30sp"
-        />
-    <TextView
         android:id="@+id/the_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:text="Score:"
-        android:textSize="30sp"
-        />
+        android:layout_marginTop="98dp"
+        android:text="Hello World!" />
 
     <TextView
         android:id="@+id/progress_sol"
@@ -47,7 +35,7 @@
         android:orientation="vertical">
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-            android:id="@+id/group_choices_of_numbers"
+            android:id="@+id/group_choices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tbgChildSpacingForLastRow="align"
@@ -60,9 +48,9 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-                android:stateListAnimator="@null"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn2"
@@ -71,9 +59,9 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-                android:stateListAnimator="@null"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn3"
@@ -82,9 +70,9 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-                android:stateListAnimator="@null"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn4"
@@ -93,9 +81,9 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
                 android:padding="5dp"
-                android:stateListAnimator="@null"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:stateListAnimator="@null"/>
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 
@@ -106,54 +94,36 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp">
 
-        <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-            android:id="@+id/group_choices_of_operators"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <Button
+            android:id="@+id/plus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/plus_green" />
 
-            <ToggleButton
-                android:id="@+id/plus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/plus_green"
-                android:tag="plus"
-                android:textOff=""
-                android:textOn="" />
+        <Button
+            android:id="@+id/minus"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/minus_red"
 
-            <ToggleButton
-                android:id="@+id/minus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/minus_red"
-                android:tag="minus"
-                android:textOff=""
-                android:textOn=""
+            />
 
-                />
+        <Button
+            android:id="@+id/div"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/div_blue" />
 
-            <ToggleButton
-                android:id="@+id/div"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/div_blue"
-                android:tag="div"
-                android:textOff=""
-                android:textOn="" />
+        <Button
+            android:id="@+id/mul"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/mul_green" />
 
-            <ToggleButton
-                android:id="@+id/mul"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/mul_green"
-                android:tag="mul"
-                android:textOff=""
-                android:textOn="" />
-
-        </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
 
     </LinearLayout>
 
