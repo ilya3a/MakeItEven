@@ -30,15 +30,12 @@ public class LevelsActivity extends AppCompatActivity {
             Explode explode = new Explode();
             explode.setDuration(1000);
             getWindow().setEnterTransition(explode);
-
-
         }
 
         setContentView(R.layout.activity_levels);
         levelItems = new ArrayList<>();
-        for (int i = 1; i < 40; ++i)
-            levelItems.add(new Level_item(i));
-
+        for (int i = 1; i < 101; ++i)
+            levelItems.add(new Level_item(i,false));
         initRecyclerView();
     }
 

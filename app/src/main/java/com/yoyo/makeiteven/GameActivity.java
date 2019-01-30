@@ -34,58 +34,59 @@ public class GameActivity extends Activity implements View.OnClickListener {
     private long timeLefetInMillsecons = 300000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText;
-
+    TextView score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         if (Build.VERSION.SDK_INT >= 21) {
             Explode explode = new Explode();
-            explode.setDuration(1000);
-            getWindow().setEnterTransition(explode);
+            explode.setDuration( 1000 );
+            getWindow().setEnterTransition( explode );
         }
-        setContentView(R.layout.activity_game);
 
-        final TextView theNumber = findViewById(R.id.the_number);
-        coutDownText = findViewById(R.id.timer_txt);
-        final ToggleButton btn1 = findViewById(R.id.btn1);
-        final ToggleButton btn2 = findViewById(R.id.btn2);
-        ToggleButton btn3 = findViewById(R.id.btn3);
-        ToggleButton btn4 = findViewById(R.id.btn4);
-        Button startBtn = findViewById(R.id.start_btn);
-        Button plusBtn = findViewById(R.id.plus);
-        Button minusBtn = findViewById(R.id.minus);
-        Button mulBtn = findViewById(R.id.mul);
-        Button divButton = findViewById(R.id.div);
+        setContentView( R.layout.activity_game );
+
+        score =findViewById( R.id.score_tv );
+        coutDownText = findViewById( R.id.timer_txt );
+        final ToggleButton btn1 = findViewById( R.id.btn1 );
+        final ToggleButton btn2 = findViewById( R.id.btn2 );
+        ToggleButton btn3 = findViewById( R.id.btn3 );
+        ToggleButton btn4 = findViewById( R.id.btn4 );
+        Button startBtn = findViewById( R.id.start_btn );
+        Button plusBtn = findViewById( R.id.plus );
+        Button minusBtn = findViewById( R.id.minus );
+        Button mulBtn = findViewById( R.id.mul );
+        Button divButton = findViewById( R.id.div );
 
 
         final List<ToggleButton> gameBtns = new ArrayList<>();
-        gameBtns.add(btn1);
-        gameBtns.add(btn2);
-        gameBtns.add(btn3);
-        gameBtns.add(btn4);
+        gameBtns.add( btn1 );
+        gameBtns.add( btn2 );
+        gameBtns.add( btn3 );
+        gameBtns.add( btn4 );
 
         final List<Button> operators = new ArrayList<>();
-        operators.add(plusBtn);
-        operators.add(minusBtn);
-        operators.add(mulBtn);
-        operators.add(divButton);
+        operators.add( plusBtn );
+        operators.add( minusBtn );
+        operators.add( mulBtn );
+        operators.add( divButton );
 
 
-        final Animation scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
-        final Animation scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
-        final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
-        final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
+        final Animation scale_out = AnimationUtils.loadAnimation( this, R.anim.scale_out );
+        final Animation scale_in = AnimationUtils.loadAnimation( this, R.anim.scale_in );
+        final Animation btn_press = AnimationUtils.loadAnimation( this, R.anim.btn_pressed );
+        final Animation btn_release = AnimationUtils.loadAnimation( this, R.anim.btn_realeas );
 
         View.OnTouchListener btn_animation = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation(btn_press);
-                    btn_press.setFillAfter(true);
+                    v.startAnimation( btn_press );
+                    btn_press.setFillAfter( true );
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_release);
+                    v.startAnimation( btn_release );
 
 
                 }
@@ -93,31 +94,31 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
         };
         for (ToggleButton b : gameBtns) {
-            b.setOnTouchListener(btn_animation);
-            b.setTag("num");
-            b.setOnClickListener(this);
-            TiltEffectAttacher.attach(b);
+            b.setOnTouchListener( btn_animation );
+            b.setTag( "num" );
+            b.setOnClickListener( this );
+            TiltEffectAttacher.attach( b );
         }
         for (Button b : operators) {
-            b.setOnTouchListener(btn_animation);
-            b.setTag("op");
-            b.setOnClickListener(this);
+            b.setOnTouchListener( btn_animation );
+            b.setTag( "op" );
+            b.setOnClickListener( this );
         }
 
 
-        final Game game = new Game(12);
+        final Game game = new Game( 12 );
 
 
-        startBtn.setOnClickListener(new View.OnClickListener() {
+        startBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (ToggleButton tB : gameBtns)
-                    tB.setChecked(false);
+                    tB.setChecked( false );
                 startStop();
-                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns,0,100)) + "  " + game.getHint());
+//                theNumber.setText( String.valueOf( game.gameGenerator( gameBtns, 0, 100 ) ) + "  " + game.getHint() );
 
             }
-        });
+        } );
 
     }
 
@@ -133,7 +134,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLefetInMillsecons, 1000) {
+        countDownTimer = new CountDownTimer( timeLefetInMillsecons, 1000 ) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLefetInMillsecons = millisUntilFinished;
@@ -156,7 +157,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         timeLeftText += "" + mins + ":";
         if (secs < 10) timeLeftText += "0";
         timeLeftText += secs;
-        coutDownText.setText(timeLeftText);
+        coutDownText.setText( timeLeftText );
     }
 
 
