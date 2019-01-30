@@ -35,7 +35,7 @@
         android:orientation="vertical">
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
-            android:id="@+id/group_choices"
+            android:id="@+id/group_choices_of_numbers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tbgChildSpacingForLastRow="align"
@@ -93,37 +93,53 @@
         android:layout_below="@+id/btn_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp">
-
-        <Button
+<com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/group_choices_of_operators">
+        <ToggleButton
             android:id="@+id/plus"
+            android:tag="plus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/plus_green" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/minus"
+            android:tag="minus"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/minus_red"
 
             />
 
-        <Button
+        <ToggleButton
             android:id="@+id/div"
+            android:tag="div"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/div_blue" />
 
-        <Button
+        <ToggleButton
             android:id="@+id/mul"
+            android:tag="mul"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="5dp"
+            android:textOff=""
+            android:textOn=""
             android:background="@drawable/mul_green" />
 
+</com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
 
     </LinearLayout>
 
