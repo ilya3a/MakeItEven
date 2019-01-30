@@ -23,6 +23,8 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
+
 import java.util.ArrayList;
 
 import java.util.List;
@@ -211,13 +213,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
         };
         for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
-            b.setTag("num");
             b.setOnClickListener(this);
             TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
-            b.setTag("op");
             b.setOnClickListener(this);
         }
 
