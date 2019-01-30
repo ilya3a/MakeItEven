@@ -1,7 +1,6 @@
 package com.yoyo.makeiteven;
 
 
-import android.widget.Button;
 import android.widget.ToggleButton;
 
 import java.sql.Time;
@@ -10,22 +9,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
-    private int difficulty;
+    private int modulo;
     private int score;
     private String hint;
 
 
-    public Game(int difficulty) {
-        this.difficulty = difficulty;
+    public Game(int modulo) {
+        this.modulo = modulo;
         this.score = 0;
     }
 
-    public int getDifficulty() {
-        return difficulty;
+    public int getModulo() {
+        return modulo;
     }
 
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
+    public void setModulo(int modulo) {
+        this.modulo = modulo;
     }
 
     public String getHint() {
@@ -40,10 +39,10 @@ public class Game {
         Time t = new Time(5);
         int randIdx;
 
-        btn1 = randNumber.nextInt(difficulty) + 1;
-        btn2 = randNumber.nextInt(difficulty) + 1;
-        btn3 = randNumber.nextInt(difficulty) + 1;
-        btn4 = randNumber.nextInt(difficulty) + 1;
+        btn1 = randNumber.nextInt(modulo) + 1;
+        btn2 = randNumber.nextInt(modulo) + 1;
+        btn3 = randNumber.nextInt(modulo) + 1;
+        btn4 = randNumber.nextInt(modulo) + 1;
 
         randIdx = randNumber.nextInt(4);
         if (randIdx == 3) {

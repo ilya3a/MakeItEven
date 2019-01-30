@@ -36,7 +36,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 
         final Level_item levelItem = levelItems.get(i);
         levelsViewHolder.btn.setText(levelItem.getLevelNum() + "");
-        TiltEffectAttacher.attach(levelsViewHolder.btn);
+//        TiltEffectAttacher.attach(levelsViewHolder.btn);
 
 
         levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +44,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
             public void onClick(View v) {
 
                 Intent intent = new Intent(mContext, GameActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext,null);
+                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext);
                 mContext.startActivity(intent,compat.toBundle());
             }
         });

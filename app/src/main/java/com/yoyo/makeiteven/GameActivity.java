@@ -11,17 +11,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
 import java.util.ArrayList;
 
@@ -34,7 +31,90 @@ public class GameActivity extends Activity implements View.OnClickListener {
     private long timeLefetInMillsecons = 300000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText;
+    List<ToggleButton> gameBtns;
+    List<ToggleButton> operators;
+    boolean isOperatorSelected = false, isNumberSelected = false;
+    int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
+    int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
+    String operator = "";
+    int theDesiredNumber = 0;
 
+    @Override
+    public void onClick(View v) {
+        /// checks that nobody checked
+        int i = 0;
+        for (ToggleButton toggleButton : gameBtns) {
+
+            if (toggleButton.isChecked())
+                break;
+            i++;
+        }
+        if (i == 4) {
+            num1 = Integer.MAX_VALUE;
+            isNumberSelected = false;
+            selectedNumberId_1 = 0;
+        }
+        //checks that nooperator checked
+        i = 0;
+        for (ToggleButton toggleButton : operators) {
+
+            if (toggleButton.isChecked())
+                break;
+            i++;
+        }
+        if (i == 4) {
+            operator = "";
+            isOperatorSelected = false;
+            selectedOperatorId = 0;
+        }
+        Toast.makeText(this, "" + num1, Toast.LENGTH_SHORT).show();
+        if (num2 != Integer.MAX_VALUE) {
+            int sum = 0;
+            switch (operator) {
+                case "plus":
+                    sum = num1 + num2;
+                    break;
+                case "minus":
+                    sum = num1 - num2;
+                    break;
+                case "div":
+                    sum = num1 / num2;
+                    break;
+                case "mul":
+                    sum = num1 * num2;
+                    break;
+            }
+            //set new button
+            ToggleButton toggleButton = findViewById(selectedNumberId_2);
+            toggleButton.setTextOn(String.valueOf(sum));
+            toggleButton.setTextOff(String.valueOf(sum));
+            toggleButton.setText(String.valueOf(sum));
+            toggleButton.setChecked(false);
+//button to remove+anim
+            ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
+            toggleButtonToHide.setVisibility(View.INVISIBLE);
+            toggleButtonToHide.setEnabled(false);
+
+            ToggleButton operator = findViewById(selectedOperatorId);
+            operator.setChecked(false);
+
+            //reset flags
+            isOperatorSelected = false;
+            isNumberSelected = false;
+            num2 = Integer.MAX_VALUE;
+
+            if (theDesiredNumber == sum) {
+                Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
+                //you win
+            } else {
+                Toast.makeText(this, "YOU LOSE", Toast.LENGTH_SHORT).show();
+                //you loose
+            }
+
+        }
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +126,58 @@ public class GameActivity extends Activity implements View.OnClickListener {
         }
         setContentView(R.layout.activity_game);
 
-        final TextView theNumber = findViewById(R.id.the_number);
+        final TextView theDesiredNumberTV = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
-        final ToggleButton btn1 = findViewById(R.id.btn1);
-        final ToggleButton btn2 = findViewById(R.id.btn2);
+        ToggleButton btn1 = findViewById(R.id.btn1);
+        ToggleButton btn2 = findViewById(R.id.btn2);
         ToggleButton btn3 = findViewById(R.id.btn3);
         ToggleButton btn4 = findViewById(R.id.btn4);
+
+        ToggleButton plusBtn = findViewById(R.id.plus);
+        ToggleButton minusBtn = findViewById(R.id.minus);
+        ToggleButton mulBtn = findViewById(R.id.mul);
+        ToggleButton divButton = findViewById(R.id.div);
         Button startBtn = findViewById(R.id.start_btn);
-        Button plusBtn = findViewById(R.id.plus);
-        Button minusBtn = findViewById(R.id.minus);
-        Button mulBtn = findViewById(R.id.mul);
-        Button divButton = findViewById(R.id.div);
 
 
-        final List<ToggleButton> gameBtns = new ArrayList<>();
+        SingleSelectToggleGroup numberGroup = findViewById(R.id.group_choices_of_numbers);
+        numberGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+
+                ToggleButton checkedToggleButton = findViewById(checkedId);
+
+                if (isNumberSelected && isOperatorSelected) {
+                    num2 = Integer.parseInt(checkedToggleButton.getText().toString());
+                    selectedNumberId_2 = checkedId;
+                } else {
+                    num1 = checkedToggleButton.getText().toString().equals("") ? Integer.MAX_VALUE : Integer.parseInt(checkedToggleButton.getText().toString());
+                    isNumberSelected = true;
+                    selectedNumberId_1 = checkedId;
+                }
+            }
+        });
+
+
+        final SingleSelectToggleGroup operatorGroup = findViewById(R.id.group_choices_of_operators);
+        operatorGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+                ToggleButton checkedToggleButton = findViewById(checkedId);
+                operator = checkedToggleButton.getTag().toString();
+                isOperatorSelected = true;
+                selectedOperatorId = checkedId;
+            }
+
+        });
+
+        gameBtns = new ArrayList<>();
         gameBtns.add(btn1);
         gameBtns.add(btn2);
         gameBtns.add(btn3);
         gameBtns.add(btn4);
 
-        final List<Button> operators = new ArrayList<>();
+        operators = new ArrayList<>();
         operators.add(plusBtn);
         operators.add(minusBtn);
         operators.add(mulBtn);
@@ -94,13 +206,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
         };
         for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
-            b.setTag("num");
             b.setOnClickListener(this);
             TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
             b.setOnTouchListener(btn_animation);
-            b.setTag("op");
             b.setOnClickListener(this);
         }
 
@@ -111,10 +221,13 @@ public class GameActivity extends Activity implements View.OnClickListener {
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (ToggleButton tB : gameBtns)
-                    tB.setChecked(false);
+                for (ToggleButton tB : gameBtns) {
+                    tB.setVisibility(View.VISIBLE);
+                    tB.setEnabled(true);
+                }
                 startStop();
-                theNumber.setText(String.valueOf(game.gameGenerator(gameBtns,0,100)) + "  " + game.getHint());
+                theDesiredNumber = game.gameGenerator(gameBtns, 0, 100);
+                theDesiredNumberTV.setText(String.valueOf(theDesiredNumber) + "  " + game.getHint());
 
             }
         });
@@ -159,12 +272,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         coutDownText.setText(timeLeftText);
     }
 
-
-    @Override
-    public void onClick(View v) {
-//        ((ToggleButton)v).setTextOff(((ToggleButton)v).getText());
-//        ((ToggleButton)v).setTextOn(((ToggleButton)v).getText());
-    }
 
 }
 
