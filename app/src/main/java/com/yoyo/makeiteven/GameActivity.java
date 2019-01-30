@@ -11,8 +11,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -38,6 +43,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     String operator = "";
     int theDesiredNumber = 0;
+    Animation scale_out;
+    Animation scale_in;
 
     @Override
     public void onClick(View v) {
@@ -86,14 +93,19 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
             //set new button
             ToggleButton toggleButton = findViewById(selectedNumberId_2);
+            toggleButton.startAnimation(scale_out);
             toggleButton.setTextOn(String.valueOf(sum));
             toggleButton.setTextOff(String.valueOf(sum));
             toggleButton.setText(String.valueOf(sum));
             toggleButton.setChecked(false);
 //button to remove+anim
             ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
+            toggleButtonToHide.startAnimation(scale_out);
             toggleButtonToHide.setVisibility(View.INVISIBLE);
             toggleButtonToHide.setEnabled(false);
+
+//            toggleButton.setAnimation(scale_in);
+            toggleButton.startAnimation(scale_in);
 
             ToggleButton operator = findViewById(selectedOperatorId);
             operator.setChecked(false);
@@ -116,6 +128,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
     }
 
+    TextView score;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +139,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             getWindow().setEnterTransition(explode);
         }
         setContentView(R.layout.activity_game);
-
+//        score = findViewById(R.id.score_tv);
         final TextView theDesiredNumberTV = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
         ToggleButton btn1 = findViewById(R.id.btn1);
@@ -184,8 +198,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
         operators.add(divButton);
 
 
-        final Animation scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
-        final Animation scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
+        scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
+        scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
@@ -224,6 +238,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 for (ToggleButton tB : gameBtns) {
                     tB.setVisibility(View.VISIBLE);
                     tB.setEnabled(true);
+                    tB.setChecked(false);
                 }
                 startStop();
                 theDesiredNumber = game.gameGenerator(gameBtns, 0, 100);
@@ -271,7 +286,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         timeLeftText += secs;
         coutDownText.setText(timeLeftText);
     }
-
 
 }
 
