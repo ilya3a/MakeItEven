@@ -38,6 +38,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     TextView coutDownText;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
+    Button startBtn;
     boolean isOperatorSelected = false, isNumberSelected = false;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
@@ -115,12 +116,26 @@ public class GameActivity extends Activity implements View.OnClickListener {
             isNumberSelected = false;
             num2 = Integer.MAX_VALUE;
 
-            if (theDesiredNumber == sum) {
-                Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
-                //you win
-            } else {
-                Toast.makeText(this, "YOU LOSE", Toast.LENGTH_SHORT).show();
-                //you loose
+
+            i = 0;
+            for (ToggleButton tb : gameBtns) {
+
+                if (tb.isEnabled())
+                    i++;
+
+            }
+            if (i == 1) {
+                if (theDesiredNumber == sum) {
+                    Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
+                    startBtn.setEnabled(true);
+                    stopTimer();
+                    //you win
+                } else {
+                    Toast.makeText(this, "YOU LOSE", Toast.LENGTH_SHORT).show();
+                    startBtn.setEnabled(true);
+                    stopTimer();
+                    //you loose
+                }
             }
 
         }
@@ -151,7 +166,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         ToggleButton minusBtn = findViewById(R.id.minus);
         ToggleButton mulBtn = findViewById(R.id.mul);
         ToggleButton divButton = findViewById(R.id.div);
-        Button startBtn = findViewById(R.id.start_btn);
+        startBtn = findViewById(R.id.start_btn);
 
 
         SingleSelectToggleGroup numberGroup = findViewById(R.id.group_choices_of_numbers);
@@ -173,7 +188,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         });
 
 
-        final SingleSelectToggleGroup operatorGroup = findViewById(R.id.group_choices_of_operators);
+         SingleSelectToggleGroup operatorGroup = findViewById(R.id.group_choices_of_operators);
         operatorGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
@@ -243,6 +258,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 startStop();
                 theDesiredNumber = game.gameGenerator(gameBtns, 0, 100);
                 theDesiredNumberTV.setText(String.valueOf(theDesiredNumber) + "  " + game.getHint());
+                startBtn.setEnabled(false);
 
             }
         });
@@ -252,7 +268,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
     private void startStop() {
         if (timerRunning) stopTimer();
-        else startTimer();
+        timeLefetInMillsecons = 300000;
+        startTimer();
     }
 
     private void stopTimer() {
