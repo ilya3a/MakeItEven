@@ -33,7 +33,7 @@ public class StartScreenActivity extends Activity {
 
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
-    ImageButton setting_btn;
+    ImageButton setting_btn,scoreBoard_btn;
     Boolean isRotated= Boolean.FALSE;
     RelativeLayout main_layout;
     ENVolumeView volumeView,soundEfVolumeView;
@@ -76,6 +76,7 @@ public class StartScreenActivity extends Activity {
         arcade_mode_btn = findViewById(R.id.arcade_mode_btn);
         setting_btn = findViewById(R.id.setting_btn);
         main_layout=findViewById(R.id.Main_layout);
+        scoreBoard_btn=findViewById(R.id.scoreBoard_btn);
 
         TiltEffectAttacher.attach(game_logo);
         //btn animation
@@ -98,6 +99,7 @@ public class StartScreenActivity extends Activity {
         };
         stage_mode_btn.setOnTouchListener(btn_animation);
         arcade_mode_btn.setOnTouchListener(btn_animation);
+        scoreBoard_btn.setOnTouchListener(btn_animation);
 
         //starts arcade mode
         arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
@@ -196,9 +198,10 @@ public class StartScreenActivity extends Activity {
                 });
                 close_btn.setOnTouchListener(btn_animation);
                 rotat_setting();
-                yourDialog.show();
                 sbVolume.setProgress(mySharedPref.getInt("sbVolume",100));
                 seVolume.setProgress(mySharedPref.getInt("seVolume",100));
+                yourDialog.show();
+
 
             }
         });

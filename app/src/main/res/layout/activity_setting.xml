@@ -39,9 +39,9 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="20dp"
-                app:volume_bg_line_color="#888888"
+                app:volume_bg_line_color="#000000"
                 app:volume_bg_line_width="10"
-                app:volume_line_color="#050505"
+                app:volume_line_color="#949494"
                 app:volume_line_width="10" />
             <SeekBar
                 android:id="@+id/seek_bar_1"
