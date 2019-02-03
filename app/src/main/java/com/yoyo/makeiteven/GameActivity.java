@@ -236,6 +236,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
             b.setOnClickListener(this);
+            b.setEnabled(false);
             TiltEffectAttacher.attach(b);
         }
         for (Button b : operators) {
