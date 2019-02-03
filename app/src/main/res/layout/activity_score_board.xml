@@ -6,34 +6,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="HigeScore"
+        android:text="@string/HigeScore"
         android:textSize="50sp"
-        android:id="@+id/HigeScore_tv"
-        android:visibility="invisible"/>
+        android:id="@+id/HigeScore_tv"/>
+
 <ListView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:id="@android:id/list"
     android:layout_below="@+id/HigeScore_tv"
-    android:layout_margin="30dp"
-    android:background="@color/Gray">
+    android:layout_margin="30dp">
 </ListView>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="write"
-        android:id="@+id/name_fild"/>
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="score"
-        android:id="@+id/score_fild"
-        android:layout_toEndOf="@id/name_fild"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btn_test"
-        android:layout_below="@id/name_fild"
-        android:text="btn"/>
+
 </RelativeLayout>

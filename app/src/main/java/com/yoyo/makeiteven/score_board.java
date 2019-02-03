@@ -32,13 +32,6 @@ SharedPreferences.Editor myEditor;
         setContentView(R.layout.activity_score_board);
         mySharedPref=getApplicationContext().getSharedPreferences("Mypref",MODE_PRIVATE);
         myEditor=mySharedPref.edit();
-        final EditText name=findViewById(R.id.name_fild);
-        final EditText score=findViewById(R.id.score_fild);
-        final Button btn=findViewById(R.id.btn_test);
-
-         final Gson gson=new Gson();
-         String response=mySharedPref.getString("MyObject","");
-         players=gson.fromJson(response,new TypeToken<List<player>>(){}.getType());
 
 //        players.add(new player("roni",205));
 //        players.add(new player("dani",700));
@@ -97,26 +90,21 @@ SharedPreferences.Editor myEditor;
         data.add(p19);
         data.add(p20);
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                players.add(new player(name.getText().toString(),Integer.parseInt(score.getText().toString())));
-                for (int i=0;i<players.size();i++)
-                {
-                    data.get(i).put("number",i+1+"");
-                    data.get(i).put("name",players.get(i).getName());
-                    data.get(i).put("score",players.get(i).getScore().toString());
-                }
-
-                String [] from = {"number","name","score"};
-                int[] ids= {R.id.flag_txt,R.id.name_txt,R.id.score_txt};
-                final SimpleAdapter simpleAdapter = new SimpleAdapter(score_board.this,data,R.layout.score_cell,from,ids);
-                setListAdapter(simpleAdapter);
-                String json = gson.toJson(players);
-                myEditor.putString("MyObject", json);
-                myEditor.commit();
+        final Gson gson=new Gson();
+        String response=mySharedPref.getString("MyObject","");
+        players=gson.fromJson(response,new TypeToken<List<player>>(){}.getType());
+        if (response!="") {
+            for (int i = 0; i < players.size() && i < 20; i++) {
+                int temp = i + 1;
+                data.get(i).put("number", " " + temp);
+                data.get(i).put("name", players.get(i).getName() + "                     ");
+                data.get(i).put("score", players.get(i).getScore().toString());
             }
-        });
+        }
+        String [] from = {"number","name","score"};
+        int[] ids= {R.id.flag_txt,R.id.name_txt,R.id.score_txt};
+        final SimpleAdapter simpleAdapter = new SimpleAdapter(score_board.this,data,R.layout.score_cell,from,ids);
+        setListAdapter(simpleAdapter);
 
     }
 }
