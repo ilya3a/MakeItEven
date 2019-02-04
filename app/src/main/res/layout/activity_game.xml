@@ -25,6 +25,7 @@
         android:textSize="30sp"
         android:layout_below="@id/upper_layout"/>
 
+
     <LinearLayout
         android:id="@+id/btn_layout"
         android:layout_width="wrap_content"

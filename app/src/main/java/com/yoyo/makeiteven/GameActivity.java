@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.transition.Explode;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -139,12 +140,13 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
             if (i == 1) {
                 if (theDesiredNumber == sum) {
-                    Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
+                    Toasty.success(this,"YOU WIN",Toast.LENGTH_SHORT).show();
                     startBtn.setEnabled(true);
                     stopTimer();
                     //you win
                 } else {
-                    Toast.makeText(this, "YOU LOSE", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "YOU LOSE", Toast.LENGTH_SHORT).show();
                     startBtn.setEnabled(true);
                     stopTimer();
                     //you loose
@@ -197,6 +199,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
         game_reset_btn=findViewById(R.id.restart_level);
         back_btn=findViewById(R.id.game_back_btn);
         hint_btn=findViewById(R.id.hint_btn);
+
+        
         final Game game = new Game(12);
         init_toasty();
 
