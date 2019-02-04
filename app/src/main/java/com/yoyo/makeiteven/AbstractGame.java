@@ -2,6 +2,8 @@ package com.yoyo.makeiteven;
 
 import android.widget.ToggleButton;
 
+import org.w3c.dom.Text;
+
 import java.sql.Time;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +14,7 @@ public abstract class AbstractGame {
     private int difficulty;
     private String hint;
     GameEventPresenter mGameEventPresenter;
+    Text text;
 
     public AbstractGame(int difficulty) {
         this.difficulty = difficulty;
