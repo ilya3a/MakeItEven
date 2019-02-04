@@ -28,7 +28,7 @@ public class LevelsActivity extends AppCompatActivity {
             Transition transition = inflater.inflateTransition(R.transition.transition_a);
             getWindow().setExitTransition(transition);
             Explode explode = new Explode();
-            explode.setDuration(1000);
+            explode.setDuration(600);
             getWindow().setEnterTransition(explode);
 
 

@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.app.ActionBar;
 import android.app.Activity;
 
 import android.os.Build;
@@ -9,12 +10,15 @@ import android.os.CountDownTimer;
 import android.transition.Explode;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 
 
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -35,7 +39,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     TextView coutDownText;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
-    Button startBtn;
+    ImageButton startBtn;
     boolean isOperatorSelected = false, isNumberSelected = false;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
@@ -43,6 +47,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     int theDesiredNumber = 0;
     Animation scale_out;
     Animation scale_in;
+    ImageButton game_reset_btn,back_btn;
 
     @Override
     public void onClick(View v) {
@@ -149,16 +154,29 @@ public class GameActivity extends Activity implements View.OnClickListener {
 //        static final String EXTRA_USER_NAME = "extra_user_nickname";
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= 21) {
             Explode explode = new Explode();
-            explode.setDuration(1000);
+            explode.setDuration(600);
             getWindow().setEnterTransition(explode);
         }
+        
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
+
+        scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
+        scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
+        final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
+        final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 //        score = findViewById(R.id.score_tv);
         final TextView theDesiredNumberTV = findViewById(R.id.the_number);
         coutDownText = findViewById(R.id.timer_txt);
@@ -172,6 +190,40 @@ public class GameActivity extends Activity implements View.OnClickListener {
         ToggleButton mulBtn = findViewById(R.id.mul);
         ToggleButton divButton = findViewById(R.id.div);
         startBtn = findViewById(R.id.start_btn);
+        game_reset_btn=findViewById(R.id.restart_level);
+        back_btn=findViewById(R.id.game_back_btn);
+
+        View.OnTouchListener btn_animation = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.startAnimation(btn_press);
+                    btn_press.setFillAfter(true);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.startAnimation(btn_release);
+
+
+                }
+                return false;
+            }
+        };
+
+        back_btn.setOnTouchListener(btn_animation);
+        final Animation rotateAnimation = AnimationUtils.loadAnimation( this, R.anim.rotate_restart);
+        game_reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                game_reset_btn.startAnimation(rotateAnimation);
+                startBtn.callOnClick();
+            }
+        });
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
 //        Bundle bundle = getIntent().getExtras();
 //        mGameType = bundle.getString(EXTRA_GAME_TYPE);
@@ -222,26 +274,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
         operators.add(divButton);
 
 
-        scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
-        scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
-        final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
-        final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
-
-        View.OnTouchListener btn_animation = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation(btn_press);
-                    btn_press.setFillAfter(true);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_release);
 
 
-                }
-                return false;
-            }
-        };
         for (ToggleButton b : gameBtns) {
             b.setOnTouchListener(btn_animation);
             b.setOnClickListener(this);
@@ -273,7 +307,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         });
 
     }
-
 //        private void createGameModel ( final String gameType, final int difficulty){
 //
 //            mAbstractGame = GameFactory.getGame(gameType, difficulty);

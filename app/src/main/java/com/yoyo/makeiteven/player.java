@@ -69,21 +69,18 @@ public class player implements Comparable {
         final Gson gson=new Gson();
         //get the data form Sharedpref
         String response=mySharedPref.getString("MyObject","");
-        if (response!="")
+        if (!response.equals(""))
         {
             //set list if the list is not in the first run
             players=gson.fromJson(response,new TypeToken<List<player>>(){}.getType());
         }
         //adding new player to list
-        players.add(new player(name,score));
+        players.add(this);
         //sorting the list
         Collections.sort(players);
         //saving back to Sharedpref
-        if(players.size()>20)
-           players.remove(20);
         String json = gson.toJson(players);
-        myEditor.putString("MyObject", json);
-        myEditor.commit();//may use apply
+        myEditor.putString("MyObject", json).apply();
 
     }
 

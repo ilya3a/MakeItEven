@@ -48,7 +48,7 @@ public class StartScreenActivity extends Activity {
             getWindow().setExitTransition( transition );
 
             Explode explode = new Explode();
-            explode.setDuration( 1000 );
+            explode.setDuration( 600 );
             getWindow().setEnterTransition( explode );
 
 
@@ -166,7 +166,7 @@ public class StartScreenActivity extends Activity {
 
     }
 
-    protected void toggleRotation(View v) {
+    private void toggleRotation(View v) {
         if (isRotated) {
             v.setRotation(0.0f);
             isRotated = false;

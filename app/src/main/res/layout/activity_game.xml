@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".GameActivity"
+    android:layoutDirection="ltr">
 
     <TextView
         android:id="@+id/score_tv"
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         android:text="Score:"
         android:textSize="30sp" />
 
@@ -23,7 +24,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:text="Make it even"
         android:textSize="30sp" />
 
     <TextView
@@ -42,9 +42,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="160dp"
+        android:layout_below="@id/timer_txt"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="4dp">
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
             android:id="@+id/group_choices_of_numbers"
@@ -55,13 +55,16 @@
 
             <ToggleButton
                 android:id="@+id/btn1"
+                android:textColor="#fff"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
+                android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:textSize="40sp" />
 
             <ToggleButton
                 android:id="@+id/btn2"
@@ -69,9 +72,11 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
+                android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:textSize="40sp" />
 
             <ToggleButton
                 android:id="@+id/btn3"
@@ -79,9 +84,11 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
+                android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:textSize="40sp" />
 
             <ToggleButton
                 android:id="@+id/btn4"
@@ -89,9 +96,11 @@
                 android:layout_height="120dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/game_qube_btns"
+                android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:textOff=""
-                android:textOn="" />
+                android:textOn=""
+                android:textSize="40sp" />
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 
@@ -100,7 +109,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="60dp"
+        android:id="@+id/operators_layot">
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
             android:id="@+id/group_choices_of_operators"
@@ -109,55 +119,89 @@
 
             <ToggleButton
                 android:id="@+id/plus"
-                android:tag="plus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/plus_green"
+                android:background="@drawable/selector_plus_img"
+                android:tag="plus"
                 android:textOff=""
                 android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/minus"
-                android:tag="minus"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/minus_red"
+                android:background="@drawable/selector_minus_img"
+                android:tag="minus"
                 android:textOff=""
                 android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/div"
-                android:tag="div"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/div_blue"
+                android:background="@drawable/selector_division_img"
+                android:tag="div"
                 android:textOff=""
                 android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/mul"
-                android:tag="mul"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/mul_green"
+                android:background="@drawable/selector_multipliction_img"
+                android:tag="mul"
                 android:textOff=""
                 android:textOn="" />
 
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_margin="5dp"
+        android:background="@color/Transparent"
+        android:src="@drawable/ic_back"
+        android:id="@+id/game_back_btn"
+        android:contentDescription=""/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_question_mark"
+            android:layout_toStartOf="@id/restart_level"
+            android:background="@color/Transparent"
+            android:contentDescription=""/>
+        <ImageButton
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@color/Transparent"
+            android:src="@drawable/restart_img"
+            android:layout_gravity="center"
+            android:id="@+id/restart_level"
+            android:layout_alignParentEnd="true"
+            />
+    </RelativeLayout>
 
-    <Button
+</LinearLayout>
+    <ImageButton
         android:id="@+id/start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
-        android:text="START" />
+        android:layout_below="@id/operators_layot"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_play_button"
+        android:background="@color/Transparent"
+        />
 
     <TextView
         android:id="@+id/timer_txt"
@@ -165,7 +209,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/score_tv"
         android:layout_centerHorizontal="true"
-        android:padding="15dp"
+        android:padding="10dp"
         android:text="TextView"
         android:textSize="24sp"
         tools:text="10:00" />

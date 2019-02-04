@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources >
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -9,6 +9,7 @@
         <item name="android:progressBackgroundTint">#000000</item>
         <item name="android:fontFamily">@font/robotoslab_regular</item>
         <item name="android:textSize">20sp</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="AppTheme.CustomTheme" >
@@ -16,7 +17,8 @@
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
         <item name="android:transition">@anim/fade_out</item>
-        <item name="android:windowTransitionBackgroundFadeDuration">1000</item>
+        <item name="android:windowTransitionBackgroundFadeDuration">600</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

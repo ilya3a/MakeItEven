@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ ArrayList<player> players = new ArrayList<>();
 List<Map<String,Object>> data =new ArrayList<>();
 SharedPreferences mySharedPref;
 SharedPreferences.Editor myEditor;
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,68 +35,12 @@ SharedPreferences.Editor myEditor;
         mySharedPref=getApplicationContext().getSharedPreferences("Mypref",MODE_PRIVATE);
         myEditor=mySharedPref.edit();
 
-//        players.add(new player("roni",205));
-//        players.add(new player("dani",700));
-//        players.add(new player("dogi",450));
-//        players.add(new player("eli",1));
-//        players.add(new player("garik",200));
-//        players.add(new player("alex",3030));
-//        players.add(new player("loni",105000));
-//        players.add(new player("asi",260));
-//        players.add(new player("mohamadni",7009));
-//        players.add(new player("lovi",4750));
-//        players.add(new player("eli",6603));
-//        players.add(new player("kori",2400));
-//        players.add(new player("lala",300));
-//        players.add(new player("dori",104000));
-//        Collections.sort(players);
-
-        HashMap<String,Object> p1 =new HashMap<>();
-        HashMap<String,Object> p2 =new HashMap<>();
-        HashMap<String,Object> p3 =new HashMap<>();
-        HashMap<String,Object> p4 =new HashMap<>();
-        HashMap<String,Object> p5 =new HashMap<>();
-        HashMap<String,Object> p6 =new HashMap<>();
-        HashMap<String,Object> p7 =new HashMap<>();
-        HashMap<String,Object> p8 =new HashMap<>();
-        HashMap<String,Object> p9 =new HashMap<>();
-        HashMap<String,Object> p10 =new HashMap<>();
-        HashMap<String,Object> p11 =new HashMap<>();
-        HashMap<String,Object> p12 =new HashMap<>();
-        HashMap<String,Object> p13 =new HashMap<>();
-        HashMap<String,Object> p14 =new HashMap<>();
-        HashMap<String,Object> p15 =new HashMap<>();
-        HashMap<String,Object> p16 =new HashMap<>();
-        HashMap<String,Object> p17 =new HashMap<>();
-        HashMap<String,Object> p18 =new HashMap<>();
-        HashMap<String,Object> p19 =new HashMap<>();
-        HashMap<String,Object> p20 =new HashMap<>();
-        data.add(p1);
-        data.add(p2);
-        data.add(p3);
-        data.add(p4);
-        data.add(p5);
-        data.add(p6);
-        data.add(p7);
-        data.add(p8);
-        data.add(p9);
-        data.add(p10);
-        data.add(p11);
-        data.add(p12);
-        data.add(p13);
-        data.add(p14);
-        data.add(p15);
-        data.add(p16);
-        data.add(p17);
-        data.add(p18);
-        data.add(p19);
-        data.add(p20);
-
         final Gson gson=new Gson();
         String response=mySharedPref.getString("MyObject","");
         players=gson.fromJson(response,new TypeToken<List<player>>(){}.getType());
-        if (response!="") {
-            for (int i = 0; i < players.size() && i < 20; i++) {
+        if (!response.equals("")) {
+            for (int i = 0; i < players.size(); i++) {
+                data.add(new HashMap<String, Object>());
                 int temp = i + 1;
                 data.get(i).put("number", " " + temp);
                 data.get(i).put("name", players.get(i).getName() + "                     ");
