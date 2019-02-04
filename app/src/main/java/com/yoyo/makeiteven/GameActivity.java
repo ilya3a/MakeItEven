@@ -1,21 +1,29 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+
 import android.os.Build;
 import android.os.Bundle;
+
 import android.os.CountDownTimer;
 import android.transition.Explode;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
 import android.widget.Button;
+
+
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
+
 import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -25,9 +33,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
     private long timeLefetInMillsecons = 300000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText;
-    TextView score;
-    AbstractGame mAbstractGame;
-
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
     Button startBtn;
@@ -82,7 +87,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         Toast.makeText(this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT).show();
                         startStop();
                         startBtn.setEnabled(true);
-                        
+
                     } else
                         sum = num1 / num2;
                     break;
@@ -139,23 +144,20 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
         }
 
-    String mGameType;
-    static final String EXTRA_GAME_TYPE = "extra_game_type";
-    static final String EXTRA_USER_NAME = "extra_user_nickname";
+//        String mGameType;
+//        static final String EXTRA_GAME_TYPE = "extra_game_type";
+//        static final String EXTRA_USER_NAME = "extra_user_nickname";
     }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
+        super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= 21) {
             Explode explode = new Explode();
-            explode.setDuration( 1000 );
-            getWindow().setEnterTransition( explode );
+            explode.setDuration(1000);
+            getWindow().setEnterTransition(explode);
         }
-
-        setContentView( R.layout.activity_game );
-
         setContentView(R.layout.activity_game);
 //        score = findViewById(R.id.score_tv);
         final TextView theDesiredNumberTV = findViewById(R.id.the_number);
@@ -171,32 +173,17 @@ public class GameActivity extends Activity implements View.OnClickListener {
         ToggleButton divButton = findViewById(R.id.div);
         startBtn = findViewById(R.id.start_btn);
 
+//        Bundle bundle = getIntent().getExtras();
+//        mGameType = bundle.getString(EXTRA_GAME_TYPE);
+//        final String type = bundle.getString(EXTRA_GAME_TYPE);
+//        final String userName = bundle.getString(EXTRA_USER_NAME);
 
         SingleSelectToggleGroup numberGroup = findViewById(R.id.group_choices_of_numbers);
         numberGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
 
-
-        Bundle bundle = getIntent().getExtras();
-        mGameType = bundle.getString( EXTRA_GAME_TYPE );
-        final String type = bundle.getString( EXTRA_GAME_TYPE );
-        final String userName = bundle.getString( EXTRA_USER_NAME );
-
-
-
-        final TextView theNumber = findViewById( R.id.the_number );
-        score = findViewById( R.id.score_tv );
-        coutDownText = findViewById( R.id.timer_txt );
-        final ToggleButton btn1 = findViewById( R.id.btn1 );
-        final ToggleButton btn2 = findViewById( R.id.btn2 );
-        ToggleButton btn3 = findViewById( R.id.btn3 );
-        ToggleButton btn4 = findViewById( R.id.btn4 );
-        Button startBtn = findViewById( R.id.start_btn );
-        Button plusBtn = findViewById( R.id.plus );
-        Button minusBtn = findViewById( R.id.minus );
-        Button mulBtn = findViewById( R.id.mul );
-        Button divButton = findViewById( R.id.div );
+                ToggleButton checkedToggleButton = findViewById(checkedId);
 
                 if (isNumberSelected && isOperatorSelected) {
                     num2 = Integer.parseInt(checkedToggleButton.getText().toString());
@@ -220,35 +207,35 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 selectedOperatorId = checkedId;
             }
 
+        });
+
+        gameBtns = new ArrayList<>();
+        gameBtns.add(btn1);
+        gameBtns.add(btn2);
+        gameBtns.add(btn3);
+        gameBtns.add(btn4);
+
+        operators = new ArrayList<>();
+        operators.add(plusBtn);
+        operators.add(minusBtn);
+        operators.add(mulBtn);
+        operators.add(divButton);
 
 
-        final List<ToggleButton> gameBtns = new ArrayList<>();
-        gameBtns.add( btn1 );
-        gameBtns.add( btn2 );
-        gameBtns.add( btn3 );
-        gameBtns.add( btn4 );
-
-        final List<Button> operators = new ArrayList<>();
-        operators.add( plusBtn );
-        operators.add( minusBtn );
-        operators.add( mulBtn );
-        operators.add( divButton );
-
-
-        final Animation scale_out = AnimationUtils.loadAnimation( this, R.anim.scale_out );
-        final Animation scale_in = AnimationUtils.loadAnimation( this, R.anim.scale_in );
-        final Animation btn_press = AnimationUtils.loadAnimation( this, R.anim.btn_pressed );
-        final Animation btn_release = AnimationUtils.loadAnimation( this, R.anim.btn_realeas );
+        scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
+        scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
+        final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
+        final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
         View.OnTouchListener btn_animation = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation( btn_press );
-                    btn_press.setFillAfter( true );
+                    v.startAnimation(btn_press);
+                    btn_press.setFillAfter(true);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation( btn_release );
+                    v.startAnimation(btn_release);
 
 
                 }
@@ -256,45 +243,43 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
         };
         for (ToggleButton b : gameBtns) {
-
             b.setOnTouchListener(btn_animation);
             b.setOnClickListener(this);
             b.setEnabled(false);
             TiltEffectAttacher.attach(b);
-
         }
         for (Button b : operators) {
-            b.setOnTouchListener( btn_animation );
-           
-            b.setOnClickListener( this );
+            b.setOnTouchListener(btn_animation);
+            b.setOnClickListener(this);
         }
 
-        final Game game = new Game( 12 );
+        final Game game = new Game(12);
 
-        startBtn.setOnClickListener( new View.OnClickListener() {
+        startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (ToggleButton tB : gameBtns)
-                    tB.setChecked( false );
+                for (ToggleButton tB : gameBtns) {
+                    tB.setVisibility(View.VISIBLE);
+                    tB.setEnabled(true);
+                    tB.setChecked(false);
+                }
                 startStop();
-
-                theNumber.setText( String.valueOf( game.gameGenerator( gameBtns, 0, 100 ) ) + "  " + game.getHint() );
                 theDesiredNumber = game.gameGenerator(gameBtns, 0, 100);
                 theDesiredNumberTV.setText(String.valueOf(theDesiredNumber) + "  " + game.getHint());
                 startBtn.setEnabled(false);
 
 
             }
-        } );
+        });
 
     }
 
-    private void createGameModel(final String gameType, final int difficulty) {
-
-        mAbstractGame = GameFactory.getGame( gameType, difficulty );
-
-//        final GameEventPresenter gameEventPresenter = new GameEventPresenter() {}
-    }
+//        private void createGameModel ( final String gameType, final int difficulty){
+//
+//            mAbstractGame = GameFactory.getGame(gameType, difficulty);
+//
+////        final GameEventPresenter gameEventPresenter = new GameEventPresenter() {}
+//        }
 
     private void startStop() {
         if (timerRunning) stopTimer();
@@ -308,7 +293,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer( timeLefetInMillsecons, 1000 ) {
+        countDownTimer = new CountDownTimer(timeLefetInMillsecons, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLefetInMillsecons = millisUntilFinished;
@@ -317,7 +302,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
-//you loose
+                //you loose
             }
         }.start();
         timerRunning = true;
@@ -331,16 +316,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
         timeLeftText += "" + mins + ":";
         if (secs < 10) timeLeftText += "0";
         timeLeftText += secs;
-        coutDownText.setText( timeLeftText );
+        coutDownText.setText(timeLeftText);
     }
 
-
-    @Override
-    public void onClick(View v) {
-//        ((ToggleButton)v).setTextOff(((ToggleButton)v).getText());
-//        ((ToggleButton)v).setTextOn(((ToggleButton)v).getText());
-    }
 }
+
 
 
 
