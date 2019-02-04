@@ -86,7 +86,13 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     sum = num1 - num2;
                     break;
                 case "div":
-                    sum = num1 / num2;
+                    if (num2 == 0 || num1 % num2 != 0) {
+                        Toast.makeText(this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT).show();
+                        startStop();
+                        startBtn.setEnabled(true);
+                        
+                    } else
+                        sum = num1 / num2;
                     break;
                 case "mul":
                     sum = num1 * num2;
@@ -99,13 +105,14 @@ public class GameActivity extends Activity implements View.OnClickListener {
             toggleButton.setTextOff(String.valueOf(sum));
             toggleButton.setText(String.valueOf(sum));
             toggleButton.setChecked(false);
+
 //button to remove+anim
             ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
             toggleButtonToHide.startAnimation(scale_out);
             toggleButtonToHide.setVisibility(View.INVISIBLE);
             toggleButtonToHide.setEnabled(false);
 
-//            toggleButton.setAnimation(scale_in);
+
             toggleButton.startAnimation(scale_in);
 
             ToggleButton operator = findViewById(selectedOperatorId);
@@ -143,8 +150,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
     }
 
-    TextView score;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -180,7 +185,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     num2 = Integer.parseInt(checkedToggleButton.getText().toString());
                     selectedNumberId_2 = checkedId;
                 } else {
-                    num1 = checkedToggleButton.getText().toString().equals("") ? Integer.MAX_VALUE : Integer.parseInt(checkedToggleButton.getText().toString());
+                    num1 = Integer.parseInt(checkedToggleButton.getText().toString());
                     isNumberSelected = true;
                     selectedNumberId_1 = checkedId;
                 }
@@ -188,7 +193,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         });
 
 
-         SingleSelectToggleGroup operatorGroup = findViewById(R.id.group_choices_of_operators);
+        SingleSelectToggleGroup operatorGroup = findViewById(R.id.group_choices_of_operators);
         operatorGroup.setOnCheckedChangeListener(new SingleSelectToggleGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
