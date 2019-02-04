@@ -50,27 +50,27 @@ public class Game {
 
             if (btn1 % btn2 == 0) {
                 sum = btn1 / btn2;
-                hint = hint.concat(btn1 + "/" + btn2);
+                hint = hint.concat("("+btn1 + "/" + btn2+")");
             } else {
                 sum = btn1 + btn2;
-                hint = hint.concat(btn1 + "+" + btn2);
+                hint = hint.concat("("+btn1 + "+" + btn2+")");
             }
 
 
         } else if (randIdx == 2) {
             sum = btn1 * btn2;
-            hint = hint.concat(btn1 + "*" + btn2);
+            hint = hint.concat("("+btn1 + "*" + btn2+")");
         } else if (randIdx == 1) {
             if (btn1 - btn2 > 0) {
                 sum = btn1 - btn2;
-                hint = hint.concat(btn1 + "-" + btn2);
+                hint = hint.concat("("+btn1 + "-" + btn2+")");
             } else {
                 sum = btn1 + btn2;
-                hint = hint.concat(btn1 + "+" + btn2);
+                hint = hint.concat("("+btn1 + "+" + btn2+")");
             }
         } else {
             sum = btn1 + btn2;
-            hint = hint.concat(btn1 + "+" + btn2);
+            hint = hint.concat("("+btn1 + "+" + btn2+")");
         }
 
         randIdx = randNumber.nextInt(4);
@@ -79,55 +79,55 @@ public class Game {
         if (randIdx == 3) {
             if (sum % btn3 == 0) {
                 sum = sum / btn3;
-                hint = hint.concat("/" + btn3);
+                hint = hint.concat("/" + btn3+")");
             } else {
                 sum = sum + btn3;
-                hint = hint.concat("+" + btn3);
+                hint = hint.concat("+" + btn3+")");
             }
 
 
         } else if (randIdx == 2) {
             sum = sum * btn3;
-            hint = hint.concat("*" + btn3);
+            hint = hint.concat("*" + btn3+")");
         } else if (randIdx == 1) {
             if (sum - btn3 > 0) {
                 sum = sum - btn3;
-                hint = hint.concat("-" + btn3);
+                hint = hint.concat("-" + btn3+")");
             } else {
                 sum = sum + btn3;
-                hint = hint.concat("+" + btn3);
+                hint = hint.concat("+" + btn3+")");
             }
 
         } else {
             sum = sum + btn3;
-            hint = hint.concat("+" + btn3);
+            hint = hint.concat("+" + btn3+")");
         }
         randIdx = randNumber.nextInt(4);
 
         if (randIdx == 3) {
             if (sum % btn4 == 0) {
                 sum = sum / btn4;
-                hint = hint.concat("/" + btn4);
+                hint = hint.concat("/" + btn4+")");
             } else {
                 sum = sum + btn4;
-                hint = hint.concat("+" + btn4);
+                hint = hint.concat("+" + btn4+")");
             }
 
 
         } else if (randIdx == 2) {
             sum = sum * btn4;
-            hint = hint.concat("*" + btn4);
+            hint = hint.concat("*" + btn4+")");
         } else if (randIdx == 1) {
             if (sum - btn4 > 0) {
                 sum = sum - btn4;
-                hint = hint.concat("-" + btn4);
+                hint = hint.concat("-" + btn4+")");
             } else {
                 sum = sum + btn4;
-                hint = hint.concat("+" + btn4);
+                hint = hint.concat("+" + btn4+")");
             }
         } else {
             sum = sum + btn4;
-            hint = hint.concat("+" + btn4);
+            hint = hint.concat("+" + btn4+")");
         }
 
         Collections.shuffle(btns);

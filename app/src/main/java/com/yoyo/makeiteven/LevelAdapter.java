@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 
     @Override
     public LevelsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.level, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.level_cell, viewGroup, false);
         return new LevelsViewHolder(view);
     }
 

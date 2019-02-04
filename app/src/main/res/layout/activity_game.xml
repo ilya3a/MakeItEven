@@ -11,31 +11,19 @@
         android:id="@+id/score_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
         android:text="Score:"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_below="@id/the_number"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/the_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/progress_sol"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btn_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="hint"
-        android:textSize="25sp" />
+        android:textSize="30sp"
+        android:layout_below="@id/upper_layout"/>
 
     <LinearLayout
         android:id="@+id/btn_layout"
@@ -64,7 +52,8 @@
                 android:padding="5dp"
                 android:textOff=""
                 android:textOn=""
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:stateListAnimator="@null"/>
 
             <ToggleButton
                 android:id="@+id/btn2"
@@ -76,7 +65,9 @@
                 android:padding="5dp"
                 android:textOff=""
                 android:textOn=""
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:stateListAnimator="@null"
+                android:textColor="#fff"/>
 
             <ToggleButton
                 android:id="@+id/btn3"
@@ -88,7 +79,9 @@
                 android:padding="5dp"
                 android:textOff=""
                 android:textOn=""
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:stateListAnimator="@null"
+                android:textColor="#fff"/>
 
             <ToggleButton
                 android:id="@+id/btn4"
@@ -100,7 +93,9 @@
                 android:padding="5dp"
                 android:textOff=""
                 android:textOn=""
-                android:textSize="40sp" />
+                android:textSize="40sp"
+                android:stateListAnimator="@null"
+                android:textColor="#fff"/>
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 
@@ -119,9 +114,9 @@
 
             <ToggleButton
                 android:id="@+id/plus"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/selector_plus_img"
                 android:tag="plus"
                 android:textOff=""
@@ -129,39 +124,40 @@
 
             <ToggleButton
                 android:id="@+id/minus"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/selector_minus_img"
                 android:tag="minus"
                 android:textOff=""
                 android:textOn="" />
 
             <ToggleButton
+                android:id="@+id/mul"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/selector_multipliction_img"
+                android:tag="mul"
+                android:textOff=""
+                android:textOn="" />
+            <ToggleButton
                 android:id="@+id/div"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/selector_division_img"
                 android:tag="div"
                 android:textOff=""
                 android:textOn="" />
 
-            <ToggleButton
-                android:id="@+id/mul"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/selector_multipliction_img"
-                android:tag="mul"
-                android:textOff=""
-                android:textOn="" />
 
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/upper_layout">
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -179,7 +175,8 @@
             android:src="@drawable/ic_question_mark"
             android:layout_toStartOf="@id/restart_level"
             android:background="@color/Transparent"
-            android:contentDescription=""/>
+            android:contentDescription=""
+            android:id="@+id/hint_btn"/>
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="match_parent"
@@ -212,7 +209,8 @@
         android:padding="10dp"
         android:text="TextView"
         android:textSize="24sp"
-        tools:text="10:00" />
+        tools:text="10:00"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

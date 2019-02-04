@@ -5,4 +5,4 @@
     android:layout_margin="5dp"
     android:background="@drawable/levels_color"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_centerHorizontal="true"/>
+    android:stateListAnimator="@null"/>

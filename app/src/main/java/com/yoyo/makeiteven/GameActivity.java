@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.transition.Explode;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 
 public class GameActivity extends Activity implements View.OnClickListener {
 
@@ -47,7 +50,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     int theDesiredNumber = 0;
     Animation scale_out;
     Animation scale_in;
-    ImageButton game_reset_btn,back_btn;
+    ImageButton game_reset_btn,back_btn,hint_btn;
 
     @Override
     public void onClick(View v) {
@@ -107,6 +110,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             toggleButton.setTextOff(String.valueOf(sum));
             toggleButton.setText(String.valueOf(sum));
             toggleButton.setChecked(false);
+            //toggleButton.callOnClick();
 
 //button to remove+anim
             ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
@@ -168,7 +172,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             explode.setDuration(600);
             getWindow().setEnterTransition(explode);
         }
-        
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
@@ -192,6 +196,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
         startBtn = findViewById(R.id.start_btn);
         game_reset_btn=findViewById(R.id.restart_level);
         back_btn=findViewById(R.id.game_back_btn);
+        hint_btn=findViewById(R.id.hint_btn);
+        final Game game = new Game(12);
+        init_toasty();
 
         View.OnTouchListener btn_animation = new View.OnTouchListener() {
             @Override
@@ -287,8 +294,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
             b.setOnClickListener(this);
         }
 
-        final Game game = new Game(12);
-
         startBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -299,10 +304,16 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 }
                 startStop();
                 theDesiredNumber = game.gameGenerator(gameBtns, 0, 100);
-                theDesiredNumberTV.setText(String.valueOf(theDesiredNumber) + "  " + game.getHint());
+                theDesiredNumberTV.setText(String.valueOf(theDesiredNumber));
                 startBtn.setEnabled(false);
 
 
+            }
+        });
+        hint_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toasty.info(GameActivity.this,game.getHint() , Toast.LENGTH_SHORT, true).show();
             }
         });
 
@@ -351,7 +362,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
         timeLeftText += secs;
         coutDownText.setText(timeLeftText);
     }
-
+    private void init_toasty(){
+        Toasty.Config.getInstance().tintIcon(false).setTextSize(30).allowQueue(true).apply();
+    }
 }
 
 
