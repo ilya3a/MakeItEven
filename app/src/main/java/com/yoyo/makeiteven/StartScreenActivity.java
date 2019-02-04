@@ -88,9 +88,19 @@ public class StartScreenActivity extends Activity {
                 return false;
             }
         };
-        stage_mode_btn.setOnTouchListener( btn_animation );
-        arcade_mode_btn.setOnTouchListener( btn_animation );
 
+
+        stage_mode_btn.setOnTouchListener(btn_animation);
+        arcade_mode_btn.setOnTouchListener(btn_animation);
+        scoreBoard_btn.setOnTouchListener(btn_animation);
+        scoreBoard_btn.setOnTouchListener(btn_animation);
+
+        scoreBoard_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StartScreenActivity.this,score_board.class));
+            }
+        });
         //starts arcade mode
         arcade_mode_btn.setOnClickListener( new View.OnClickListener() {
 
