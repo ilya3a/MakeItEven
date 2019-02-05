@@ -81,7 +81,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             isOperatorSelected = false;
             selectedOperatorId = 0;
         }
-        Toast.makeText(this, "" + num1, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "" + num1, Toast.LENGTH_SHORT).show();
         if (num2 != Integer.MAX_VALUE) {
             int sum = 0;
             switch (operator) {
@@ -93,7 +93,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     break;
                 case "div":
                     if (num2 == 0 || num1 % num2 != 0) {
-                        Toast.makeText(this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT).show();
+                        Toasty.warning(this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT).show();
                         startStop();
                         startBtn.setEnabled(true);
 
@@ -140,7 +140,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
             if (i == 1) {
                 if (theDesiredNumber == sum) {
-//                    Toast.makeText(this, "YOU WIN", Toast.LENGTH_SHORT).show();
                     Toasty.success(this,"YOU WIN",Toast.LENGTH_SHORT).show();
                     startBtn.setEnabled(true);
                     stopTimer();
@@ -200,7 +199,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
         back_btn=findViewById(R.id.game_back_btn);
         hint_btn=findViewById(R.id.hint_btn);
 
-        
+
         final Game game = new Game(12);
         init_toasty();
 
