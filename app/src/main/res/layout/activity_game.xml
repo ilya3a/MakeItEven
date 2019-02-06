@@ -111,13 +111,13 @@
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
             android:id="@+id/group_choices_of_operators"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <ToggleButton
                 android:id="@+id/plus"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="20dp"
                 android:background="@drawable/selector_plus_img"
                 android:tag="plus"
                 android:textOff=""
