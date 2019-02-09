@@ -42,7 +42,7 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
             tvScore.setTextColor( mContext.getResources().getColor( R.color.primaryTextColor ) );
         }
 
-        tvName.setText( position + 1 + "." + item.getmNickName() );
+        tvName.setText( position + 1 + "   " + item.getmNickName() );
         tvScore.setText( item.getmFinalScore() + " " );
         return v;
     }

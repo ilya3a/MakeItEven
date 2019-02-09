@@ -9,13 +9,7 @@
     android:layout_width="wrap_content"
     android:layout_height="43dp"
     android:layout_centerHorizontal="true">
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:text="test"
-        android:textSize="30sp"
-        android:id="@+id/flag_txt"
-        tools:ignore="HardcodedText" />
+
     <TextView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
