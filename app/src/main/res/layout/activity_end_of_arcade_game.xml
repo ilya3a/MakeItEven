@@ -53,11 +53,24 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/next_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/play_again_btn"
+        android:layout_width="250dp"
+        android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50sp"
-        android:text="Next"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/arcade_btn"
+        android:text="Play again"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    <ImageButton
+        android:id="@+id/scoreBoard_ib"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/Transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/score_btn_icon" />
 
 </LinearLayout>
