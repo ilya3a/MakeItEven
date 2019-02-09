@@ -1,6 +1,7 @@
 package com.yoyo.makeiteven;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static com.yoyo.makeiteven.GameActivity.EXTRA_SCORE;
+
 public class EndOfArcadeGame extends AppCompatActivity {
 
-    static final String EXTRA_SCORE = "extra_score";
+
     EditText nickNameEt;
     TextView finalScoreTv;
 
@@ -23,15 +33,41 @@ public class EndOfArcadeGame extends AppCompatActivity {
         nickNameEt = findViewById( R.id.nickname_et );
 
         final int score = getIntent().getIntExtra( EXTRA_SCORE, 0 );
-        final String nickname = nickNameEt.getText().toString();
-        finalScoreTv.setText( score );
+        finalScoreTv.setText( score + "" );
 
         Button nextBtn = findViewById( R.id.next_btn );
         nextBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent( EndOfArcadeGame.this, ScoreBoardActivity.class );
+                final String nickname = nickNameEt.getText().toString();
+
                 ScoreBoard scoreBoard = new ScoreBoard( nickname, score );
+
+                // get instance of shared prefs with relevant key
+                SharedPreferences sharedPref = getSharedPreferences( DataStore.PREFS, MODE_PRIVATE );
+                String scoreBoardJsonList = sharedPref.getString( DataStore.SHARED_KEY_SCORE_BOARD, "[]" );
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<ArrayList<ScoreBoard>>() {
+                }.getType();
+
+                // convert the json String to Java ArrayList object
+                ArrayList<ScoreBoard> scoreBoards = gson.fromJson( scoreBoardJsonList, type );
+
+                // manipulate the java arrayList
+                scoreBoards.add( scoreBoard );
+
+                Collections.sort( scoreBoards, scoreBoard );
+
+                // convert the array list back to json string
+                String jsonUpdatedScoreBoard = gson.toJson( scoreBoards );
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                // save the json string back to the shared prefs
+                editor.putString( DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard );
+                editor.apply();
 
                 startActivity( intent );
                 finish();

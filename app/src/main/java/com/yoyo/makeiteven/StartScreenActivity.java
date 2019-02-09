@@ -24,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+
+
 public class StartScreenActivity extends Activity {
 
     ImageView game_logo;
@@ -32,10 +34,6 @@ public class StartScreenActivity extends Activity {
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout main_layout;
 
-    static final String EXTRA_GAME_TYPE = "extra_game_type";
-    static final String EXTRA_NICKNAME = "extra_user_nickname";
-//    private Context mContext;
-//    private Activity mActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

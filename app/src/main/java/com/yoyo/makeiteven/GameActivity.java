@@ -31,7 +31,7 @@ import es.dmoral.toasty.Toasty;
 public class GameActivity extends Activity implements View.OnClickListener {
 
     private CountDownTimer countDownTimer;
-    private long timeLefetInMillsecons = 300000;//5:00 mints
+    private long timeLefetInMillsecons = 30000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText, score, actualScore;
     List<ToggleButton> gameBtns;
@@ -51,6 +51,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     int winsCounter = 0;
     static final String EXTRA_GAME_TYPE = "extra_game_type";
     static final String EXTRA_SCORE = "extra_score";
+    TextView theDesiredNumberTV;
 
     @Override
     public void onClick(View v) {
@@ -93,7 +94,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 case "div":
                     if (num2 == 0 || num1 % num2 != 0) {
                         Toasty.warning( this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT ).show();
-                        startStop();
+                        if (mGameType.equals( ArcadeGame.TYPE )) {
+                            startBtn.callOnClick();
+                        }
                         startBtn.setEnabled( true );
 
                     } else
@@ -141,9 +144,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 //you win
                 if (theDesiredNumber == sum) {
                     Toasty.success( this, "Correct answer", Toast.LENGTH_SHORT ).show();
-                    startBtn.setEnabled( true );
                     if (mGameType.equals( ArcadeGame.TYPE )) {
-                        startBtn.callOnClick();
+                        gameInit();
                         scoreCounter = scoreCounter + 100;
                         winsCounter = winsCounter + 1;
                         if (winsCounter >= 3)
@@ -164,9 +166,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 } else {
                     //you loose
                     Toasty.error( this, "Wrong answer", Toast.LENGTH_SHORT ).show();
-                    startBtn.setEnabled( true );
                     stopTimer();
-                    startBtn.callOnClick();
+                    gameInit();
                     startTimer();
                 }
             }
@@ -198,18 +199,16 @@ public class GameActivity extends Activity implements View.OnClickListener {
         final Animation btn_release = AnimationUtils.loadAnimation( this, R.anim.btn_realeas );
         score = findViewById( R.id.score_tv );
         actualScore = findViewById( R.id.actual_score_tv );
-        final TextView theDesiredNumberTV = findViewById( R.id.the_number );
+        theDesiredNumberTV = findViewById( R.id.the_number );
         coutDownText = findViewById( R.id.timer_txt );
         ToggleButton btn1 = findViewById( R.id.btn1 );
         ToggleButton btn2 = findViewById( R.id.btn2 );
         ToggleButton btn3 = findViewById( R.id.btn3 );
         ToggleButton btn4 = findViewById( R.id.btn4 );
-
         ToggleButton plusBtn = findViewById( R.id.plus );
         ToggleButton minusBtn = findViewById( R.id.minus );
         ToggleButton mulBtn = findViewById( R.id.mul );
         ToggleButton divButton = findViewById( R.id.div );
-        startBtn = findViewById( R.id.start_btn );
         game_reset_btn = findViewById( R.id.restart_level );
         back_btn = findViewById( R.id.game_back_btn );
         hint_btn = findViewById( R.id.hint_btn );
@@ -221,7 +220,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
         createGameModel( mGameType );
         if (mGameType.equals( ArcadeGame.TYPE )) {
-
             arcadeContainer.setVisibility( View.VISIBLE );
             actualScore.setText( "0" );
         }
@@ -314,37 +312,36 @@ public class GameActivity extends Activity implements View.OnClickListener {
             b.setOnClickListener( this );
         }
 
-        startBtn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                for (ToggleButton tB : gameBtns) {
-                    tB.setVisibility( View.VISIBLE );
-                    tB.setEnabled( true );
-                    tB.setChecked( false );
-                }
-                startTimer();
-                theDesiredNumber = mAbstractGame.gameGenerator( gameBtns, 0, 100 );
-                theDesiredNumberTV.setText( String.valueOf( theDesiredNumber ) );
-                startBtn.setEnabled( false );
 
-            }
-        } );
         hint_btn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toasty.info( GameActivity.this, mAbstractGame.getHint(), Toast.LENGTH_SHORT, true ).show();
             }
         } );
+        gameInit();
+    }
 
+    private void gameInit() {
+        for (ToggleButton tB : gameBtns) {
+            tB.setVisibility( View.VISIBLE );
+            tB.setEnabled( true );
+            tB.setChecked( false );
+        }
+        theDesiredNumber = mAbstractGame.gameGenerator( gameBtns, 0, 100 );
+        theDesiredNumberTV.setText( String.valueOf( theDesiredNumber ) );
     }
 
     private void createGameModel(final String gameType) {
         mAbstractGame = GameFactory.getGame( gameType, 12 );
+        if (mGameType.equals( ArcadeGame.TYPE )) {
+            startTimer();
+        }
     }
 
     private void startStop() {
         if (timerRunning) stopTimer();
-        timeLefetInMillsecons = 300000;
+        timeLefetInMillsecons = 10000;
 
     }
 
@@ -363,8 +360,11 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onFinish() {
+
                 Intent intent = new Intent( GameActivity.this, EndOfArcadeGame.class );
                 intent.putExtra( EXTRA_SCORE, scoreCounter );
+                startActivity( intent );
+                finish();
             }
         }.start();
         timerRunning = true;
