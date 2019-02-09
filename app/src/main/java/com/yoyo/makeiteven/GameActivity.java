@@ -36,7 +36,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     TextView coutDownText, score, actualScore;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
-    ImageButton startBtn;
+
     boolean isOperatorSelected = false, isNumberSelected = false;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
@@ -95,9 +95,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
                     if (num2 == 0 || num1 % num2 != 0) {
                         Toasty.warning( this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT ).show();
                         if (mGameType.equals( ArcadeGame.TYPE )) {
-                            startBtn.callOnClick();
+                            gameInit();
                         }
-                        startBtn.setEnabled( true );
 
                     } else
                         sum = num1 / num2;
@@ -246,7 +245,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             @Override
             public void onClick(View v) {
                 game_reset_btn.startAnimation( rotateAnimation );
-                startBtn.callOnClick();
+                gameInit();
             }
         } );
         back_btn.setOnClickListener( new View.OnClickListener() {
