@@ -2,7 +2,6 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -29,11 +28,10 @@ public class StartScreenActivity extends Activity {
 
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
-    ImageButton setting_btn,scoreBoard_btn;
+    ImageButton setting_btn, scoreBoard_btn;
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout main_layout;
 
-    String mGameType;
     static final String EXTRA_GAME_TYPE = "extra_game_type";
     static final String EXTRA_NICKNAME = "extra_user_nickname";
 //    private Context mContext;
@@ -54,10 +52,7 @@ public class StartScreenActivity extends Activity {
 
         }
         setContentView( R.layout.activity_start__screen );
-        //test
-//        mContext = getApplicationContext();
-//        mActivity = StartScreenActivity.this;
-//        final RelativeLayout mCLayout =findViewById(R.id.Main_layout);
+
 
         //logo animation
         game_logo = findViewById( R.id.game_logo );
@@ -68,7 +63,7 @@ public class StartScreenActivity extends Activity {
         arcade_mode_btn = findViewById( R.id.arcade_mode_btn );
         setting_btn = findViewById( R.id.setting_btn );
         main_layout = findViewById( R.id.Main_layout );
-        scoreBoard_btn = findViewById(R.id.scoreBoard_btn);
+        scoreBoard_btn = findViewById( R.id.scoreBoard_btn );
 
         TiltEffectAttacher.attach( game_logo );
         //btn animation
@@ -91,40 +86,33 @@ public class StartScreenActivity extends Activity {
         };
 
 
-        stage_mode_btn.setOnTouchListener(btn_animation);
-        arcade_mode_btn.setOnTouchListener(btn_animation);
-        scoreBoard_btn.setOnTouchListener(btn_animation);
-        scoreBoard_btn.setOnTouchListener(btn_animation);
+        stage_mode_btn.setOnTouchListener( btn_animation );
+        arcade_mode_btn.setOnTouchListener( btn_animation );
+        scoreBoard_btn.setOnTouchListener( btn_animation );
+        scoreBoard_btn.setOnTouchListener( btn_animation );
 
-        scoreBoard_btn.setOnClickListener(new View.OnClickListener() {
+        scoreBoard_btn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(StartScreenActivity.this,score_board.class));
+                startActivity( new Intent( StartScreenActivity.this, ScoreBoardActivity.class ) );
             }
-        });
+        } );
         //starts arcade mode
         arcade_mode_btn.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                String gameType = ArcadeGame.TYPE;
-                String userName = null;
-                Intent intent = new Intent( StartScreenActivity.this, GameActivity.class );
-                intent.putExtra( EXTRA_NICKNAME, userName );
-                intent.putExtra( EXTRA_GAME_TYPE, gameType );
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( StartScreenActivity.this );
-                startActivity( intent, compat.toBundle() );
+                String type = ArcadeGame.TYPE;
+                GameActivity.startGameActivity( StartScreenActivity.this, type );
             }
         } );
+
 
         stage_mode_btn.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String gameType = StageGame.TYPE;
                 Intent intent = new Intent( StartScreenActivity.this, LevelsActivity.class );
-                intent.putExtra( EXTRA_GAME_TYPE, gameType );
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( StartScreenActivity.this );
                 startActivity( intent, compat.toBundle() );
             }
@@ -168,14 +156,13 @@ public class StartScreenActivity extends Activity {
 
     private void toggleRotation(View v) {
         if (isRotated) {
-            v.setRotation(0.0f);
+            v.setRotation( 0.0f );
             isRotated = false;
         } else {
             v.setRotation( 90.0f );
             isRotated = true;
         }
     }
-
 
     private void Reset_game() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder( StartScreenActivity.this );

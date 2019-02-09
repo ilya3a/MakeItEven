@@ -30,8 +30,6 @@ public class LevelsActivity extends AppCompatActivity {
             Explode explode = new Explode();
             explode.setDuration(600);
             getWindow().setEnterTransition(explode);
-
-
         }
 
         setContentView(R.layout.activity_levels);

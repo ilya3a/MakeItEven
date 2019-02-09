@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".score_board"></activity>
+        <activity android:name=".EndOfArcadeGame"></activity>
+        <activity android:name=".ScoreBoardActivity" />
         <activity
             android:name=".SettingActivity"
-            android:theme="@style/AppTheme.CustomTheme"></activity>
+            android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".LevelsActivity"
             android:theme="@style/AppTheme" />

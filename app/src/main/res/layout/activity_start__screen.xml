@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/Main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/color_change"
     android:layoutDirection="ltr">
 
@@ -11,48 +11,51 @@
         android:layout_width="360dp"
         android:layout_height="324dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/makeiteven_v2"
-        android:contentDescription=""/>
+        android:contentDescription=""
+        android:src="@drawable/makeiteven_v2" />
+
     <Button
+        android:id="@+id/stage_mode_btn"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_centerInParent="true"
         android:background="@drawable/stage_btn"
         android:text="@string/Stage_mode"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:textAllCaps="false"
-        android:id="@+id/stage_mode_btn"/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <Button
+        android:id="@+id/arcade_mode_btn"
         android:layout_width="250dp"
         android:layout_height="60dp"
+        android:layout_below="@id/stage_mode_btn"
         android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"
         android:background="@drawable/arcade_btn"
         android:text="@string/Arcade_mode"
-        android:textSize="20sp"
         android:textAllCaps="false"
-        android:id="@+id/arcade_mode_btn"
-        android:layout_below="@id/stage_mode_btn"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"/>
-<ImageButton
-    android:layout_width="50dp"
-    android:layout_height="50dp"
-    android:layout_margin="10dp"
-    android:layout_alignParentBottom="true"
-    android:layout_alignParentEnd="true"
-    android:background="@drawable/setting_btn"
-    android:src="@drawable/ic_settings_black_24dp"
-    android:id="@+id/setting_btn"
-    android:contentDescription=""/>
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
     <ImageButton
+        android:id="@+id/setting_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/setting_btn"
+        android:contentDescription=""
+        android:src="@drawable/ic_settings_black_24dp" />
+
+    <ImageButton
+        android:id="@+id/scoreBoard_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/score_btn_icon"
-        android:background="@color/Transparent"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
-        android:id="@+id/scoreBoard_btn"/>
+        android:background="@color/Transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/score_btn_icon" />
 </RelativeLayout>

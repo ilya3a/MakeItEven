@@ -5,7 +5,6 @@ public class ArcadeGame extends AbstractGame {
     public static final String TYPE = "Arcade_game";
     private String mName;
     private int mScore;
-    private boolean mShouldInit = true;
 
     public ArcadeGame(int difficulty) {
         super( difficulty );
@@ -27,16 +26,5 @@ public class ArcadeGame extends AbstractGame {
         this.mScore = mScore;
     }
 
-    private void handlePresenter() {
 
-        // checks if its the first time we ask
-        // for a question to notify the presenter
-        if (mShouldInit) {
-            mGameEventPresenter.initTimer();
-            mGameEventPresenter.resetTimer();
-            mShouldInit = false;
-        } else {
-            mGameEventPresenter.resetTimer();
-        }
-    }
 }
