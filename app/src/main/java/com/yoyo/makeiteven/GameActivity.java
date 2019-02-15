@@ -29,35 +29,260 @@ import es.dmoral.toasty.Toasty;
 
 public class GameActivity extends Activity implements View.OnClickListener {
 
-    private CountDownTimer countDownTimer;
-    private long timeLeftInMillSeconds = 30000;//5:00 mints
+
+    private long timeLeftInMillSeconds = 180000;//5:00 mints
+    private int currentStage = 1,levelNum;
+    int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
+    int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     private boolean timerRunning;
-    TextView coutDownText, score, actualScore;
+    boolean isOperatorSelected = false, isNumberSelected = false;
+
+    private CountDownTimer mCountDownTimer;
+    TextView mCountDownTv, mScoreTv, mActualScoreTv, mTheDesiredNumberTv;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
 
-    boolean isOperatorSelected = false, isNumberSelected = false;
-    int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
-    int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     String operator = "";
     int theDesiredNumber = 0;
     Animation scale_out;
     Animation scale_in;
-    ImageButton game_reset_btn, back_btn, hint_btn;
+    ImageButton mGameResetBtnIb, backBtnIb, hintBtnIb;
     AbstractGame mAbstractGame;
     String mGameType;
-    int scoreCounter = 0;
-    int winsCounter = 0;
+    private int scoreCounter = 0;
+    private int winsCounter = 0;
     static final String EXTRA_GAME_TYPE = "extra_game_type";
     static final String EXTRA_LEVEL_NUMBER = "extra_level_number";
     static final String EXTRA_SCORE = "extra_score";
-    TextView theDesiredNumberTV;
 
-    //        public static int currentStage = 1;
-    private int currentStage = 1;
 
-    private int levelNum;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (timerRunning) {
+            mCountDownTimer.cancel();
+        }
+        finish();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate( savedInstanceState );
+        if (Build.VERSION.SDK_INT >= 21) {
+            Explode explode = new Explode();
+            explode.setDuration( 600 );
+            getWindow().setEnterTransition( explode );
+        }
+
+        getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN );
+        setContentView( R.layout.activity_game );
+
+        scale_out = AnimationUtils.loadAnimation( this, R.anim.scale_out );
+        scale_in = AnimationUtils.loadAnimation( this, R.anim.scale_in );
+        final Animation btn_press = AnimationUtils.loadAnimation( this, R.anim.btn_pressed );
+        final Animation btn_release = AnimationUtils.loadAnimation( this, R.anim.btn_realeas );
+        mScoreTv = findViewById( R.id.score_tv );
+        mActualScoreTv = findViewById( R.id.actual_score_tv );
+        mTheDesiredNumberTv = findViewById( R.id.the_number );
+        mCountDownTv = findViewById( R.id.timer_txt );
+        ToggleButton btn1 = findViewById( R.id.btn1 );
+        ToggleButton btn2 = findViewById( R.id.btn2 );
+        ToggleButton btn3 = findViewById( R.id.btn3 );
+        ToggleButton btn4 = findViewById( R.id.btn4 );
+        ToggleButton plusBtn = findViewById( R.id.plus );
+        ToggleButton minusBtn = findViewById( R.id.minus );
+        ToggleButton mulBtn = findViewById( R.id.mul );
+        ToggleButton divButton = findViewById( R.id.div );
+        mGameResetBtnIb = findViewById( R.id.restart_level );
+        backBtnIb = findViewById( R.id.game_back_btn );
+        hintBtnIb = findViewById( R.id.hint_btn );
+
+        Bundle bundle = getIntent().getExtras();
+        mGameType = bundle.getString( EXTRA_GAME_TYPE );
+        levelNum = bundle.getInt( EXTRA_LEVEL_NUMBER );
+
+        final View arcadeContainer = findViewById( R.id.arcade_container );
+
+
+        createGameModel( mGameType );
+        if (mGameType.equals( ArcadeGameMode.TYPE )) {
+            arcadeContainer.setVisibility( View.VISIBLE );
+            mActualScoreTv.setText( "0" );
+        }
+
+        init_toasty();
+
+        View.OnTouchListener btn_animation = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.startAnimation( btn_press );
+                    btn_press.setFillAfter( true );
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.startAnimation( btn_release );
+                }
+                return false;
+            }
+        };
+
+        backBtnIb.setOnTouchListener( btn_animation );
+        final Animation rotateAnimation = AnimationUtils.loadAnimation( this, R.anim.rotate_restart );
+        mGameResetBtnIb.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGameResetBtnIb.startAnimation( rotateAnimation );
+                gameInit();
+            }
+        } );
+        backBtnIb.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        } );
+
+
+        SingleSelectToggleGroup numberGroup = findViewById( R.id.group_choices_of_numbers );
+        numberGroup.setOnCheckedChangeListener( new SingleSelectToggleGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+
+                ToggleButton checkedToggleButton = findViewById( checkedId );
+
+                if (isNumberSelected && isOperatorSelected) {
+                    num2 = Integer.parseInt( checkedToggleButton.getText().toString() );
+                    selectedNumberId_2 = checkedId;
+                } else {
+                    num1 = Integer.parseInt( checkedToggleButton.getText().toString() );
+                    isNumberSelected = true;
+                    selectedNumberId_1 = checkedId;
+                }
+            }
+        } );
+
+
+        SingleSelectToggleGroup operatorGroup = findViewById( R.id.group_choices_of_operators );
+        operatorGroup.setOnCheckedChangeListener( new SingleSelectToggleGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
+                ToggleButton checkedToggleButton = findViewById( checkedId );
+                operator = checkedToggleButton.getTag().toString();
+                isOperatorSelected = true;
+                selectedOperatorId = checkedId;
+            }
+
+        } );
+
+        gameBtns = new ArrayList<>();
+        gameBtns.add( btn1 );
+        gameBtns.add( btn2 );
+        gameBtns.add( btn3 );
+        gameBtns.add( btn4 );
+
+        operators = new ArrayList<>();
+        operators.add( plusBtn );
+        operators.add( minusBtn );
+        operators.add( mulBtn );
+        operators.add( divButton );
+
+
+        for (ToggleButton b : gameBtns) {
+            b.setOnTouchListener( btn_animation );
+            b.setOnClickListener( this );
+            b.setEnabled( false );
+            TiltEffectAttacher.attach( b );
+        }
+        for (Button b : operators) {
+            b.setOnTouchListener( btn_animation );
+            b.setOnClickListener( this );
+        }
+
+
+        hintBtnIb.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toasty.info( GameActivity.this, mAbstractGame.getHint(), Toast.LENGTH_SHORT, true ).show();
+            }
+        } );
+        gameInit();
+    }
+
+    private void gameInit() {
+        for (ToggleButton tB : gameBtns) {
+            tB.setVisibility( View.VISIBLE );
+            tB.setEnabled( true );
+            tB.setChecked( false );
+        }
+        theDesiredNumber = mAbstractGame.gameGenerator( gameBtns, 0, 100 );
+        mTheDesiredNumberTv.setText( String.valueOf( theDesiredNumber ) );
+    }
+
+    private void createGameModel(final String gameType) {
+        mAbstractGame = GameFactory.getGame( gameType, 12 );
+        if (mGameType.equals( ArcadeGameMode.TYPE )) {
+            startTimer();
+        }
+    }
+
+    private void startStop() {
+        if (timerRunning) stopTimer();
+        timeLeftInMillSeconds = 10000;
+
+    }
+
+    private void stopTimer() {
+        mCountDownTimer.cancel();
+        timerRunning = false;
+    }
+
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer( timeLeftInMillSeconds, 1000 ) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillSeconds = millisUntilFinished;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+                Intent intent = new Intent( GameActivity.this, EndOfArcadeGame.class );
+                intent.putExtra( EXTRA_SCORE, scoreCounter );
+                startActivity( intent );
+                finish();
+            }
+        }.start();
+        timerRunning = true;
+    }
+
+    private void updateTimer() {
+        int mins = (int) timeLeftInMillSeconds / 60000;
+        int secs = (int) timeLeftInMillSeconds % 60000 / 1000;
+        String timeLeftText = "";
+        if (mins < 10) timeLeftText += "0";
+        timeLeftText += "" + mins + ":";
+        if (secs < 10) timeLeftText += "0";
+        timeLeftText += secs;
+        mCountDownTv.setText( timeLeftText );
+    }
+
+    private void init_toasty() {
+        Toasty.Config.getInstance().tintIcon( false ).setTextSize( 30 ).allowQueue( true ).apply();
+    }
+
+    public static void startGameActivity(Context context, String gameType, int levelNum) {
+
+        Intent intent = new Intent( context, GameActivity.class );
+        intent.putExtra( EXTRA_GAME_TYPE, gameType );
+        intent.putExtra( EXTRA_LEVEL_NUMBER, levelNum );
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) context );
+        context.startActivity( intent, compat.toBundle() );
+
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -161,7 +386,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                             scoreCounter = scoreCounter + 300;
                         }
 
-                        actualScore.setText( scoreCounter + "" );
+                        mActualScoreTv.setText( scoreCounter + "" );
 
                     } else {
                         currentStage = DataStore.getInstance( this ).getCurrentStage();
@@ -188,232 +413,5 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (timerRunning) {
-            countDownTimer.cancel();
-        }
-        finish();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        if (Build.VERSION.SDK_INT >= 21) {
-            Explode explode = new Explode();
-            explode.setDuration( 600 );
-            getWindow().setEnterTransition( explode );
-        }
-
-        getWindow().setFlags( WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN );
-        setContentView( R.layout.activity_game );
-
-        scale_out = AnimationUtils.loadAnimation( this, R.anim.scale_out );
-        scale_in = AnimationUtils.loadAnimation( this, R.anim.scale_in );
-        final Animation btn_press = AnimationUtils.loadAnimation( this, R.anim.btn_pressed );
-        final Animation btn_release = AnimationUtils.loadAnimation( this, R.anim.btn_realeas );
-        score = findViewById( R.id.score_tv );
-        actualScore = findViewById( R.id.actual_score_tv );
-        theDesiredNumberTV = findViewById( R.id.the_number );
-        coutDownText = findViewById( R.id.timer_txt );
-        ToggleButton btn1 = findViewById( R.id.btn1 );
-        ToggleButton btn2 = findViewById( R.id.btn2 );
-        ToggleButton btn3 = findViewById( R.id.btn3 );
-        ToggleButton btn4 = findViewById( R.id.btn4 );
-        ToggleButton plusBtn = findViewById( R.id.plus );
-        ToggleButton minusBtn = findViewById( R.id.minus );
-        ToggleButton mulBtn = findViewById( R.id.mul );
-        ToggleButton divButton = findViewById( R.id.div );
-        game_reset_btn = findViewById( R.id.restart_level );
-        back_btn = findViewById( R.id.game_back_btn );
-        hint_btn = findViewById( R.id.hint_btn );
-
-        Bundle bundle = getIntent().getExtras();
-        mGameType = bundle.getString( EXTRA_GAME_TYPE );
-        levelNum = bundle.getInt( EXTRA_LEVEL_NUMBER );
-
-        final View arcadeContainer = findViewById( R.id.arcade_container );
-
-
-        createGameModel( mGameType );
-        if (mGameType.equals( ArcadeGameMode.TYPE )) {
-            arcadeContainer.setVisibility( View.VISIBLE );
-            actualScore.setText( "0" );
-        }
-
-        init_toasty();
-
-        View.OnTouchListener btn_animation = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation( btn_press );
-                    btn_press.setFillAfter( true );
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation( btn_release );
-                }
-                return false;
-            }
-        };
-
-        back_btn.setOnTouchListener( btn_animation );
-        final Animation rotateAnimation = AnimationUtils.loadAnimation( this, R.anim.rotate_restart );
-        game_reset_btn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                game_reset_btn.startAnimation( rotateAnimation );
-                gameInit();
-            }
-        } );
-        back_btn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        } );
-
-
-        SingleSelectToggleGroup numberGroup = findViewById( R.id.group_choices_of_numbers );
-        numberGroup.setOnCheckedChangeListener( new SingleSelectToggleGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
-
-                ToggleButton checkedToggleButton = findViewById( checkedId );
-
-                if (isNumberSelected && isOperatorSelected) {
-                    num2 = Integer.parseInt( checkedToggleButton.getText().toString() );
-                    selectedNumberId_2 = checkedId;
-                } else {
-                    num1 = Integer.parseInt( checkedToggleButton.getText().toString() );
-                    isNumberSelected = true;
-                    selectedNumberId_1 = checkedId;
-                }
-            }
-        } );
-
-
-        SingleSelectToggleGroup operatorGroup = findViewById( R.id.group_choices_of_operators );
-        operatorGroup.setOnCheckedChangeListener( new SingleSelectToggleGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
-                ToggleButton checkedToggleButton = findViewById( checkedId );
-                operator = checkedToggleButton.getTag().toString();
-                isOperatorSelected = true;
-                selectedOperatorId = checkedId;
-            }
-
-        } );
-
-        gameBtns = new ArrayList<>();
-        gameBtns.add( btn1 );
-        gameBtns.add( btn2 );
-        gameBtns.add( btn3 );
-        gameBtns.add( btn4 );
-
-        operators = new ArrayList<>();
-        operators.add( plusBtn );
-        operators.add( minusBtn );
-        operators.add( mulBtn );
-        operators.add( divButton );
-
-
-        for (ToggleButton b : gameBtns) {
-            b.setOnTouchListener( btn_animation );
-            b.setOnClickListener( this );
-            b.setEnabled( false );
-            TiltEffectAttacher.attach( b );
-        }
-        for (Button b : operators) {
-            b.setOnTouchListener( btn_animation );
-            b.setOnClickListener( this );
-        }
-
-
-        hint_btn.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toasty.info( GameActivity.this, mAbstractGame.getHint(), Toast.LENGTH_SHORT, true ).show();
-            }
-        } );
-        gameInit();
-    }
-
-    private void gameInit() {
-        for (ToggleButton tB : gameBtns) {
-            tB.setVisibility( View.VISIBLE );
-            tB.setEnabled( true );
-            tB.setChecked( false );
-        }
-        theDesiredNumber = mAbstractGame.gameGenerator( gameBtns, 0, 100 );
-        theDesiredNumberTV.setText( String.valueOf( theDesiredNumber ) );
-    }
-
-    private void createGameModel(final String gameType) {
-        mAbstractGame = GameFactory.getGame( gameType, 12 );
-        if (mGameType.equals( ArcadeGameMode.TYPE )) {
-            startTimer();
-        }
-    }
-
-    private void startStop() {
-        if (timerRunning) stopTimer();
-        timeLeftInMillSeconds = 10000;
-
-    }
-
-    private void stopTimer() {
-        countDownTimer.cancel();
-        timerRunning = false;
-    }
-
-    private void startTimer() {
-        countDownTimer = new CountDownTimer( timeLeftInMillSeconds, 1000 ) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillSeconds = millisUntilFinished;
-                updateTimer();
-            }
-
-            @Override
-            public void onFinish() {
-
-                Intent intent = new Intent( GameActivity.this, EndOfArcadeGame.class );
-                intent.putExtra( EXTRA_SCORE, scoreCounter );
-                startActivity( intent );
-                finish();
-            }
-        }.start();
-        timerRunning = true;
-    }
-
-    private void updateTimer() {
-        int mins = (int) timeLeftInMillSeconds / 60000;
-        int secs = (int) timeLeftInMillSeconds % 60000 / 1000;
-        String timeLeftText = "";
-        if (mins < 10) timeLeftText += "0";
-        timeLeftText += "" + mins + ":";
-        if (secs < 10) timeLeftText += "0";
-        timeLeftText += secs;
-        coutDownText.setText( timeLeftText );
-    }
-
-    private void init_toasty() {
-        Toasty.Config.getInstance().tintIcon( false ).setTextSize( 30 ).allowQueue( true ).apply();
-    }
-
-    public static void startGameActivity(Context context, String gameType, int levelNum) {
-
-        Intent intent = new Intent( context, GameActivity.class );
-        intent.putExtra( EXTRA_GAME_TYPE, gameType );
-        intent.putExtra( EXTRA_LEVEL_NUMBER, levelNum );
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) context );
-        context.startActivity( intent, compat.toBundle() );
-
-
     }
 }

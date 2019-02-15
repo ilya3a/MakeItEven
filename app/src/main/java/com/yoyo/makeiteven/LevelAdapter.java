@@ -14,13 +14,14 @@ import java.util.List;
 public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHolder> {
 
     private List<Level> levelItems;
-
+    private int mCurrentStage;
     private Context mContext;
 
-    public LevelAdapter(List<Level> levelItems, Context context) {
+    public LevelAdapter(List<Level> levelItems, Context context, int currentStage) {
 
         this.levelItems = levelItems;
         this.mContext = context;
+        this.mCurrentStage = currentStage;
     }
 
     @Override
@@ -33,18 +34,15 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
 
-        int currentStage = DataStore.getInstance( mContext ).getCurrentStage();
-
         final Level levelItem = levelItems.get( i );
         levelsViewHolder.stageNumberTv.setText( levelItem.getLevelNum() + "" );
 
-        if (levelItem.getLevelNum() <= currentStage) {
+        if (levelItem.getLevelNum() <= mCurrentStage) {
             levelsViewHolder.stageNumberLayout.setVisibility( View.VISIBLE );
             levelsViewHolder.lockStage.setVisibility( View.INVISIBLE );
         } else {
             levelsViewHolder.lockStage.setVisibility( View.VISIBLE );
             levelsViewHolder.stageNumberLayout.setVisibility( View.INVISIBLE );
-
         }
 
         TiltEffectAttacher.attach( levelsViewHolder.btn );
@@ -55,8 +53,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
                 public void onClick(View v) {
                     String type = StageGameMode.TYPE;
                     GameActivity.startGameActivity( mContext, type, levelItem.getLevelNum() );
-
-
                 }
             } );
         }

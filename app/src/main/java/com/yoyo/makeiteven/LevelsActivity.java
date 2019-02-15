@@ -17,6 +17,7 @@ import java.util.List;
 public class LevelsActivity extends AppCompatActivity {
 
     private List<Level> levelItems;
+    private int mCurrentStage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class LevelsActivity extends AppCompatActivity {
             explode.setDuration( 600 );
             getWindow().setEnterTransition( explode );
         }
+        mCurrentStage = DataStore.getInstance( this ).getCurrentStage();
         setContentView( R.layout.activity_levels );
 
         levelItems = new ArrayList<>();
@@ -41,7 +43,7 @@ public class LevelsActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById( R.id.recycler_levels_list );
-        LevelAdapter adapter = new LevelAdapter( levelItems, this );
+        LevelAdapter adapter = new LevelAdapter( levelItems, this, mCurrentStage );
         recyclerView.setAdapter( adapter );
         recyclerView.setLayoutManager( new GridLayoutManager( LevelsActivity.this, 4 ) );
     }
