@@ -172,6 +172,11 @@ public class StartScreenActivity extends Activity {
                 .setPositiveButton( R.string.Yes,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
+
+                                int currentStage = 1;
+                                DataStore.getInstance( StartScreenActivity.this ).saveCurrentStage( currentStage );
+
+
                                 dialog.cancel();
                             }
                         } );
