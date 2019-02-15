@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.media.audiofx.DynamicsProcessing;
 import android.widget.ToggleButton;
 
 import org.w3c.dom.Text;
@@ -13,6 +14,7 @@ public abstract class AbstractGame {
 
     private int difficulty;
     private String hint;
+
 
 
     public AbstractGame(int difficulty) {

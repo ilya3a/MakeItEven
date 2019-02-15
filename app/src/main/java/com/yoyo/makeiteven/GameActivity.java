@@ -1,7 +1,6 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -31,7 +30,7 @@ import es.dmoral.toasty.Toasty;
 public class GameActivity extends Activity implements View.OnClickListener {
 
     private CountDownTimer countDownTimer;
-    private long timeLefetInMillsecons = 30000;//5:00 mints
+    private long timeLeftInMillSeconds = 30000;//5:00 mints
     private boolean timerRunning;
     TextView coutDownText, score, actualScore;
     List<ToggleButton> gameBtns;
@@ -50,8 +49,15 @@ public class GameActivity extends Activity implements View.OnClickListener {
     int scoreCounter = 0;
     int winsCounter = 0;
     static final String EXTRA_GAME_TYPE = "extra_game_type";
+    static final String EXTRA_LEVEL_NUMBER = "extra_level_number";
     static final String EXTRA_SCORE = "extra_score";
     TextView theDesiredNumberTV;
+
+    //        public static int currentStage = 1;
+    private int currentStage = 1;
+
+    private int levelNum;
+
 
     @Override
     public void onClick(View v) {
@@ -68,7 +74,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
             isNumberSelected = false;
             selectedNumberId_1 = 0;
         }
-        //checks that nooperator checked
+        //checks that no operator checked
         i = 0;
         for (ToggleButton toggleButton : operators) {
 
@@ -94,7 +100,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 case "div":
                     if (num2 == 0 || num1 % num2 != 0) {
                         Toasty.warning( this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT ).show();
-                        if (mGameType.equals( ArcadeGame.TYPE )) {
+                        if (mGameType.equals( ArcadeGameMode.TYPE )) {
                             gameInit();
                         }
 
@@ -143,7 +149,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                 //you win
                 if (theDesiredNumber == sum) {
                     Toasty.success( this, "Correct answer", Toast.LENGTH_SHORT ).show();
-                    if (mGameType.equals( ArcadeGame.TYPE )) {
+                    if (mGameType.equals( ArcadeGameMode.TYPE )) {
                         gameInit();
                         scoreCounter = scoreCounter + 100;
                         winsCounter = winsCounter + 1;
@@ -158,16 +164,27 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         actualScore.setText( scoreCounter + "" );
 
                     } else {
-                        Intent intent = new Intent( GameActivity.this, LevelsActivity.class );
-                        startActivity( intent );
+                        currentStage = DataStore.getInstance( this ).getCurrentStage();
+                        if (levelNum == currentStage) {
+                            currentStage++;
+                        }
+
+                        DataStore.getInstance( this ).saveCurrentStage( currentStage );
+                        LevelsActivity.startLevelsActivity( this );
+                        finish();
                     }
 
                 } else {
                     //you loose
                     Toasty.error( this, "Wrong answer", Toast.LENGTH_SHORT ).show();
-                    stopTimer();
-                    gameInit();
-                    startTimer();
+                    if (mGameType.equals( ArcadeGameMode.TYPE )) {
+                        stopTimer();
+                        gameInit();
+                        startTimer();
+                    } else {
+                        LevelsActivity.startLevelsActivity( this );
+                        finish();
+                    }
                 }
             }
         }
@@ -176,6 +193,9 @@ public class GameActivity extends Activity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        if (timerRunning) {
+            countDownTimer.cancel();
+        }
         finish();
     }
 
@@ -214,11 +234,13 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
         Bundle bundle = getIntent().getExtras();
         mGameType = bundle.getString( EXTRA_GAME_TYPE );
+        levelNum = bundle.getInt( EXTRA_LEVEL_NUMBER );
+
         final View arcadeContainer = findViewById( R.id.arcade_container );
 
 
         createGameModel( mGameType );
-        if (mGameType.equals( ArcadeGame.TYPE )) {
+        if (mGameType.equals( ArcadeGameMode.TYPE )) {
             arcadeContainer.setVisibility( View.VISIBLE );
             actualScore.setText( "0" );
         }
@@ -333,14 +355,14 @@ public class GameActivity extends Activity implements View.OnClickListener {
 
     private void createGameModel(final String gameType) {
         mAbstractGame = GameFactory.getGame( gameType, 12 );
-        if (mGameType.equals( ArcadeGame.TYPE )) {
+        if (mGameType.equals( ArcadeGameMode.TYPE )) {
             startTimer();
         }
     }
 
     private void startStop() {
         if (timerRunning) stopTimer();
-        timeLefetInMillsecons = 10000;
+        timeLeftInMillSeconds = 10000;
 
     }
 
@@ -350,10 +372,10 @@ public class GameActivity extends Activity implements View.OnClickListener {
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer( timeLefetInMillsecons, 1000 ) {
+        countDownTimer = new CountDownTimer( timeLeftInMillSeconds, 1000 ) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeLefetInMillsecons = millisUntilFinished;
+                timeLeftInMillSeconds = millisUntilFinished;
                 updateTimer();
             }
 
@@ -370,8 +392,8 @@ public class GameActivity extends Activity implements View.OnClickListener {
     }
 
     private void updateTimer() {
-        int mins = (int) timeLefetInMillsecons / 60000;
-        int secs = (int) timeLefetInMillsecons % 60000 / 1000;
+        int mins = (int) timeLeftInMillSeconds / 60000;
+        int secs = (int) timeLeftInMillSeconds % 60000 / 1000;
         String timeLeftText = "";
         if (mins < 10) timeLeftText += "0";
         timeLeftText += "" + mins + ":";
@@ -384,11 +406,14 @@ public class GameActivity extends Activity implements View.OnClickListener {
         Toasty.Config.getInstance().tintIcon( false ).setTextSize( 30 ).allowQueue( true ).apply();
     }
 
-    public static void startGameActivity(Context context, String gameType) {
+    public static void startGameActivity(Context context, String gameType, int levelNum) {
 
         Intent intent = new Intent( context, GameActivity.class );
         intent.putExtra( EXTRA_GAME_TYPE, gameType );
+        intent.putExtra( EXTRA_LEVEL_NUMBER, levelNum );
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation( (Activity) context );
         context.startActivity( intent, compat.toBundle() );
+
+
     }
 }

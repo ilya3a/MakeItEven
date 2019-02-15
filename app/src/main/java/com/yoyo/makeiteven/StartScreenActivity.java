@@ -25,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-
 public class StartScreenActivity extends Activity {
 
     ImageView game_logo;
@@ -100,8 +99,8 @@ public class StartScreenActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                String type = ArcadeGame.TYPE;
-                GameActivity.startGameActivity( StartScreenActivity.this, type );
+                String type = ArcadeGameMode.TYPE;
+                GameActivity.startGameActivity( StartScreenActivity.this, type, 0 );
             }
         } );
 
@@ -128,8 +127,10 @@ public class StartScreenActivity extends Activity {
                 LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService( LAYOUT_INFLATER_SERVICE );
                 View layoutToinflate = inflater.inflate( R.layout.activity_setting, (ViewGroup) findViewById( R.id.root_element_settings ) );
                 yourDialog.setContentView( layoutToinflate );
+
                 Button reset = layoutToinflate.findViewById( R.id.game_reset_btn );
                 reset.setOnTouchListener( btn_animation );
+
                 reset.setOnClickListener( new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

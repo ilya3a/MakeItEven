@@ -9,6 +9,7 @@
     <color name="primaryDarkColor">#c77c02</color>
     <color name="primaryTextColor">#000000</color>
     <color name="Gray">#A7A7A7</color>
+    <color name="gray_transparent">#888D8B8B</color>
     <color name="White">#ffffff</color>
     <color name="Transparent">#00FFFFFF</color>
     <color name="green">#84FF00</color>

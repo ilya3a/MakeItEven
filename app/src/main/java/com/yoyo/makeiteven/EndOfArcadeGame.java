@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,14 +40,29 @@ public class EndOfArcadeGame extends AppCompatActivity {
         finalScoreTv.setText( score + "" );
 
 
-
         Button playAgainBtn = findViewById( R.id.play_again_btn );
         playAgainBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveName();
-                GameActivity.startGameActivity( EndOfArcadeGame.this, ArcadeGame.TYPE );
-                finish();
+
+                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
+                    saveName();
+                    GameActivity.startGameActivity( EndOfArcadeGame.this, ArcadeGameMode.TYPE, 0 );
+                    finish();
+                }
+            }
+        } );
+
+        Button playStageBtn = findViewById( R.id.play_stage_mode_btn );
+        playStageBtn.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
+                    saveName();
+                    Intent intent = new Intent( EndOfArcadeGame.this, LevelsActivity.class );
+                    startActivity( intent );
+                    finish();
+                }
             }
         } );
 
@@ -55,14 +71,14 @@ public class EndOfArcadeGame extends AppCompatActivity {
         scoreBoardBtn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveName();
-                Intent intent = new Intent( EndOfArcadeGame.this, ScoreBoardActivity.class );
-                startActivity( intent );
-                finish();
+                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
+                    saveName();
+                    Intent intent = new Intent( EndOfArcadeGame.this, ScoreBoardActivity.class );
+                    startActivity( intent );
+                    finish();
+                }
             }
         } );
-
-
     }
 
     private void saveName() {

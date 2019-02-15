@@ -1,8 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:id="@+id/level_btn"
-    android:layout_margin="5dp"
-    android:background="@drawable/levels_color"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:stateListAnimator="@null"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/level_btn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/levels_color"
+        android:stateListAnimator="@null" />
+
+    <RelativeLayout
+        android:id="@+id/stage_number_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/stage_number_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/primaryTextColor"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/lock_iv"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignEnd="@id/level_btn"
+        android:layout_alignBottom="@id/level_btn"
+        android:layout_marginBottom="2dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/ic_lock" />
+
+</RelativeLayout>
