@@ -49,5 +49,12 @@ public class LevelsActivity extends AppCompatActivity {
     public static void startLevelsActivity(Context context) {
         Intent intent = new Intent( context, LevelsActivity.class );
         context.startActivity( intent );
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        StartScreenActivity.startStartScreenActivity( this );
     }
 }

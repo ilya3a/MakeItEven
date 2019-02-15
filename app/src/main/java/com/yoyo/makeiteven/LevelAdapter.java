@@ -56,6 +56,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
                     String type = StageGameMode.TYPE;
                     GameActivity.startGameActivity( mContext, type, levelItem.getLevelNum() );
 
+
                 }
             } );
         }

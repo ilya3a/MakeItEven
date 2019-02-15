@@ -2,6 +2,7 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -196,5 +197,10 @@ public class StartScreenActivity extends Activity {
         changeTransform.setInterpolator( new AccelerateInterpolator() );
         TransitionManager.beginDelayedTransition( main_layout, changeTransform );
         toggleRotation( setting_btn );
+    }
+
+    public static void startStartScreenActivity(Context context) {
+        Intent intent = new Intent( context, StartScreenActivity.class );
+        context.startActivity( intent );
     }
 }
