@@ -12,5 +12,7 @@
     <color name="gray_transparent">#888D8B8B</color>
     <color name="White">#ffffff</color>
     <color name="Transparent">#00FFFFFF</color>
-    <color name="green">#84FF00</color>
+    <color name="blue">#0072C9</color>
+    <color name="pink">#FF4183</color>
+    <color name="red">#C22C00</color>
 </resources>

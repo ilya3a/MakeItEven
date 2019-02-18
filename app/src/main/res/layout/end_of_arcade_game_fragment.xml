@@ -1,56 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:id="@+id/end_of_arcade_game_screen"
-    tools:context=".EndOfArcadeGame">
+    android:layout_width="300dp"
+    android:layout_height="500dp"
+    android:layout_centerInParent="true"
+    android:background="@drawable/fragment_background"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:padding="20dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
         android:text="TimesUp!!"
+        android:textColor="@color/primaryTextColor"
         android:textSize="50sp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Your total score is:  "
-            android:textSize="20sp" />
+            android:padding="10dp"
+            android:text="Score:  "
+            android:textColor="#FFC12B"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/final_score_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:padding="10dp"
             android:text="1000"
-            android:textSize="20sp" />
-
+            android:textColor="@color/blue"
+            android:textSize="30sp"
+            android:textStyle="italic" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/nickname_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:text="Please enter your nickname:  "
-        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/nickname_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nickname"
-        android:padding="20dp"
+        android:hint="Enter  nickname: "
+        android:inputType="textCapSentences"
+        android:padding="10dp"
         android:textSize="20sp" />
 
     <Button
@@ -58,7 +56,7 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/arcade_btn"
         android:text="Play again"
         android:textAllCaps="false"
@@ -70,7 +68,7 @@
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/stage_btn"
         android:text="Play stage mode"
         android:textAllCaps="false"
@@ -81,8 +79,9 @@
         android:id="@+id/scoreBoard_ib"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
         android:background="@color/Transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/score_btn_icon" />

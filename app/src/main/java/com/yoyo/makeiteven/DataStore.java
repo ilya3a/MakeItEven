@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DataStore {
@@ -43,6 +44,32 @@ public class DataStore {
         // convert the json String to Java ArrayList object
         return mGson.fromJson( scoreBoardJsonList, type );
     }
+
+    public void saveNameAndScore(String nickName, int scoreCounter) {
+
+        ScoreBoard scoreBoard = new ScoreBoard( nickName, scoreCounter );
+        // get instance of shared prefs with relevant key
+        String scoreBoardJsonList = mSharedPref.getString( DataStore.SHARED_KEY_SCORE_BOARD, "[]" );
+        Type type = new TypeToken<ArrayList<ScoreBoard>>() {
+        }.getType();
+        // convert the json String to Java ArrayList object
+        ArrayList<ScoreBoard> scoreBoards = mGson.fromJson( scoreBoardJsonList, type );
+
+        // manipulate the java arrayList
+        scoreBoards.add( scoreBoard );
+
+        Collections.sort( scoreBoards, scoreBoard );
+
+        // convert the array list back to json string
+        String jsonUpdatedScoreBoard = mGson.toJson( scoreBoards );
+
+        SharedPreferences.Editor editor = mSharedPref.edit();
+
+        // save the json string back to the shared prefs
+        editor.putString( DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard );
+        editor.apply();
+    }
+
 
     public void saveCurrentStage(int currentStage) {
         mEditor.putInt( CURRENT_STAGE, currentStage );

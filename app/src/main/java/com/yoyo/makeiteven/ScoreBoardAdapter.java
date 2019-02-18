@@ -1,6 +1,7 @@
 package com.yoyo.makeiteven;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,14 +36,19 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
 
         if (position == 0) {
 
-            tvName.setTextColor( mContext.getResources().getColor( R.color.green ) );
-            tvScore.setTextColor( mContext.getResources().getColor( R.color.green ) );
+            tvName.setTextColor( mContext.getResources().getColor( R.color.blue ) );
+            tvScore.setTextColor( mContext.getResources().getColor( R.color.blue ) );
+            if (Build.VERSION.SDK_INT >= 23){
+            tvName.setTextAppearance( R.style.TextAppearance_AppCompat_Large );
+            tvScore.setTextAppearance( R.style.TextAppearance_AppCompat_Large );
+            }
         } else {
             tvName.setTextColor( mContext.getResources().getColor( R.color.primaryTextColor ) );
             tvScore.setTextColor( mContext.getResources().getColor( R.color.primaryTextColor ) );
         }
 
         tvName.setText( position + 1 + "   " + item.getmNickName() );
+
         tvScore.setText( item.getmFinalScore() + " " );
         return v;
     }

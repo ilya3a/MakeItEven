@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
@@ -22,21 +23,27 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text=""
-            android:textSize="24sp" />
+            android:textColor="@color/primaryTextColor"
+            android:textSize="24sp"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/score_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="    Score: "
-            android:textSize="30sp" />
+            android:textColor="@color/primaryTextColor"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/actual_score_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:textSize="30sp" />
+            android:textColor="@color/blue"
+            android:textSize="30sp"
+            android:textStyle="italic" />
 
 
     </LinearLayout>
@@ -48,7 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/arcade_container"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
+        android:textColor="@color/pink"
+        android:layout_marginTop="15dp"
+        android:textSize="35sp"
+        android:textStyle="bold" />
 
 
     <LinearLayout
@@ -64,6 +74,7 @@
             android:id="@+id/group_choices_of_numbers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
             app:tbgChildSpacingForLastRow="align"
 
             app:tbgRowSpacing="5dp">
@@ -77,7 +88,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="#fff"
+                android:textColor="@color/pink"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -91,7 +102,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="#fff"
+                android:textColor="@color/pink"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -105,7 +116,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="#fff"
+                android:textColor="@color/pink"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -119,7 +130,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="#fff"
+                android:textColor="@color/pink"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />

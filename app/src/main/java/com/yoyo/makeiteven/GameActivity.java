@@ -1,6 +1,8 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -27,21 +29,19 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 
-public class GameActivity extends Activity implements View.OnClickListener {
+public class GameActivity extends Activity implements View.OnClickListener, EndOfArcadeGameFragment.EndOfArcadeGameFragmentListener {
 
-
-    private long timeLeftInMillSeconds = 180000;//5:00 mints
-    private int currentStage = 1,levelNum;
+    //180000
+    private long timeLeftInMillSeconds = 30000;//5:00 mints
+    private int levelNum;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     private boolean timerRunning;
     boolean isOperatorSelected = false, isNumberSelected = false;
-
     private CountDownTimer mCountDownTimer;
     TextView mCountDownTv, mScoreTv, mActualScoreTv, mTheDesiredNumberTv;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
-
     String operator = "";
     int theDesiredNumber = 0;
     Animation scale_out;
@@ -54,8 +54,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
     static final String EXTRA_GAME_TYPE = "extra_game_type";
     static final String EXTRA_LEVEL_NUMBER = "extra_level_number";
     static final String EXTRA_SCORE = "extra_score";
-
-
+    static final String SCORE_COUNTER = "score_counter";
 
     @Override
     public void onBackPressed() {
@@ -227,12 +226,6 @@ public class GameActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private void startStop() {
-        if (timerRunning) stopTimer();
-        timeLeftInMillSeconds = 10000;
-
-    }
-
     private void stopTimer() {
         mCountDownTimer.cancel();
         timerRunning = false;
@@ -249,10 +242,17 @@ public class GameActivity extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
 
-                Intent intent = new Intent( GameActivity.this, EndOfArcadeGame.class );
-                intent.putExtra( EXTRA_SCORE, scoreCounter );
-                startActivity( intent );
-                finish();
+                Bundle bundle = new Bundle();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                bundle.putInt( SCORE_COUNTER, scoreCounter );
+                EndOfArcadeGameFragment endOfArcadeGameFragment = new EndOfArcadeGameFragment();
+                endOfArcadeGameFragment.setArguments( bundle );
+                transaction.add( R.id.root_container, endOfArcadeGameFragment );
+                transaction.commit();
+
+
             }
         }.start();
         timerRunning = true;
@@ -389,7 +389,7 @@ public class GameActivity extends Activity implements View.OnClickListener {
                         mActualScoreTv.setText( scoreCounter + "" );
 
                     } else {
-                        currentStage = DataStore.getInstance( this ).getCurrentStage();
+                        int currentStage = DataStore.getInstance( this ).getCurrentStage();
                         if (levelNum == currentStage) {
                             currentStage++;
                         }
@@ -414,4 +414,31 @@ public class GameActivity extends Activity implements View.OnClickListener {
             }
         }
     }
+
+
+    @Override
+    public void onArcadeGameEndAndPlayAgain(String nickName) {
+
+        DataStore.getInstance( GameActivity.this ).saveNameAndScore( nickName, scoreCounter );
+        GameActivity.startGameActivity( GameActivity.this, ArcadeGameMode.TYPE, 0 );
+        finish();
+    }
+
+    @Override
+    public void onArcadeGameEndAndPlayStage(String nickName) {
+        DataStore.getInstance( GameActivity.this ).saveNameAndScore( nickName, scoreCounter );
+        Intent intent = new Intent( GameActivity.this, LevelsActivity.class );
+        startActivity( intent );
+        finish();
+    }
+
+    @Override
+    public void onArcadeGameEndAndGoToScoreboard(String nickName) {
+
+        DataStore.getInstance( GameActivity.this ).saveNameAndScore( nickName, scoreCounter );
+        Intent intent = new Intent( GameActivity.this, ScoreBoardActivity.class );
+        startActivity( intent );
+        finish();
+    }
 }
+
