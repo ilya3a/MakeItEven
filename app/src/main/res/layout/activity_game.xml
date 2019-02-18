@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/upper_layout"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <TextView
@@ -23,28 +23,35 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text=""
+            android:layout_gravity="center_horizontal"
             android:textColor="@color/primaryTextColor"
             android:textSize="24sp"
             android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/score_tv"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="    Score: "
-            android:textColor="@color/primaryTextColor"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/actual_score_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/blue"
-            android:textSize="30sp"
-            android:textStyle="italic" />
+            <TextView
+                android:id="@+id/score_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Score: "
+                android:textColor="@color/primaryTextColor"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/actual_score_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/blue"
+                android:textSize="30sp"
+                android:textStyle="italic" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -55,9 +62,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/arcade_container"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/pink"
-        android:layout_marginTop="15dp"
+        android:textColor="@color/primaryTextColor"
+        android:layout_marginTop="5dp"
         android:textSize="35sp"
+        android:text=""
         android:textStyle="bold" />
 
 
@@ -68,13 +76,13 @@
         android:layout_below="@id/the_number"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:padding="4dp">
+        >
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
             android:id="@+id/group_choices_of_numbers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="15dp"
             app:tbgChildSpacingForLastRow="align"
 
             app:tbgRowSpacing="5dp">
@@ -88,7 +96,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="@color/pink"
+                android:textColor="#fff"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -102,7 +110,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="@color/pink"
+                android:textColor="#fff"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -116,7 +124,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="@color/pink"
+                android:textColor="#fff"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -130,7 +138,7 @@
                 android:fontFamily="@font/robotoslab_bold"
                 android:padding="5dp"
                 android:stateListAnimator="@null"
-                android:textColor="@color/pink"
+                android:textColor="#fff"
                 android:textOff=""
                 android:textOn=""
                 android:textSize="40sp" />
@@ -143,7 +151,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="50dp">
 
         <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
             android:id="@+id/group_choices_of_operators"

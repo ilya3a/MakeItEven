@@ -53,7 +53,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private int winsCounter = 0;
     static final String EXTRA_GAME_TYPE = "extra_game_type";
     static final String EXTRA_LEVEL_NUMBER = "extra_level_number";
-    static final String EXTRA_SCORE = "extra_score";
     static final String SCORE_COUNTER = "score_counter";
 
     @Override
