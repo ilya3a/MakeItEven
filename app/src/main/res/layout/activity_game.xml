@@ -7,15 +7,17 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     tools:context=".GameActivity">
-
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true">
     <LinearLayout
         android:id="@+id/arcade_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upper_layout"
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/timer_txt"
@@ -26,7 +28,7 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/primaryTextColor"
             android:textSize="24sp"
-            android:textStyle="italic" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -45,12 +47,13 @@
 
             <TextView
                 android:id="@+id/actual_score_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:padding="5dp"
                 android:textColor="@color/blue"
                 android:textSize="30sp"
-                android:textStyle="italic" />
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>
@@ -64,7 +67,7 @@
         android:layout_centerHorizontal="true"
         android:textColor="@color/primaryTextColor"
         android:layout_marginTop="5dp"
-        android:textSize="35sp"
+        android:textSize="55sp"
         android:text=""
         android:textStyle="bold" />
 
@@ -200,6 +203,7 @@
 
         </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
     </LinearLayout>
+</RelativeLayout>
 
     <LinearLayout
         android:id="@+id/upper_layout"

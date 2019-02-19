@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:padding="10dp"
-        android:text="TimesUp!!"
+        android:text="Times Up!!"
         android:textColor="@color/primaryTextColor"
         android:textSize="50sp" />
 
@@ -33,13 +33,13 @@
 
         <TextView
             android:id="@+id/final_score_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="1000"
             android:textColor="@color/blue"
             android:textSize="30sp"
-            android:textStyle="italic" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <EditText
@@ -79,9 +79,8 @@
         android:id="@+id/scoreBoard_ib"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_gravity="center_horizontal"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="45dp"
         android:background="@color/Transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/score_btn_icon" />
