@@ -1,7 +1,8 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,10 +14,8 @@ import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -26,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-public class StartScreenActivity extends Activity {
+
+
+public class StartScreenActivity extends Activity implements SettingFragment.SettingsFragmentListener {
 
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
@@ -60,7 +61,7 @@ public class StartScreenActivity extends Activity {
         stage_mode_btn = findViewById( R.id.stage_mode_btn );
         arcade_mode_btn = findViewById( R.id.arcade_mode_btn );
         setting_btn = findViewById( R.id.setting_btn );
-        main_layout = findViewById( R.id.Main_layout );
+        main_layout = findViewById( R.id.start_activity_container);
         scoreBoard_btn = findViewById( R.id.scoreBoard_btn );
 
         TiltEffectAttacher.attach( game_logo );
@@ -120,37 +121,49 @@ public class StartScreenActivity extends Activity {
         setting_btn.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(StartScreenActivity.this, SettingActivity.class);
-                //startActivity(i);
-                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                final Dialog yourDialog = new Dialog( StartScreenActivity.this );
-                yourDialog.setCanceledOnTouchOutside( false );
-                LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService( LAYOUT_INFLATER_SERVICE );
-                View layoutToinflate = inflater.inflate( R.layout.activity_setting, (ViewGroup) findViewById( R.id.root_element_settings ) );
-                yourDialog.setContentView( layoutToinflate );
 
-                Button reset = layoutToinflate.findViewById( R.id.game_reset_btn );
-                reset.setOnTouchListener( btn_animation );
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                reset.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Reset_game();
-                    }
-                } );
-                ImageButton close_btn = layoutToinflate.findViewById( R.id.close_btn );
-                close_btn.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        yourDialog.dismiss();
-                        rotat_setting();
-                    }
-                } );
-                close_btn.setOnTouchListener( btn_animation );
-                rotat_setting();
-                yourDialog.show();
+                SettingFragment settingFragment = new SettingFragment();
+//                transaction.add(R.id.start_activity_container,settingFragment);
+                transaction.commit();
+
+
+//                //Intent i = new Intent(StartScreenActivity.this, SettingFragment.class);
+////                //startActivity(i);
+////                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+////                final Dialog yourDialog = new Dialog( StartScreenActivity.this );
+////                yourDialog.setCanceledOnTouchOutside( false );
+////                LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService( LAYOUT_INFLATER_SERVICE );
+////                View layoutToinflate = inflater.inflate( R.layout.fragment_setting, (ViewGroup) findViewById( R.id.root_element_settings ) );
+////                yourDialog.setContentView( layoutToinflate );
+////
+////                Button reset = layoutToinflate.findViewById( R.id.game_reset_btn );
+////                reset.setOnTouchListener( btn_animation );
+////
+////                reset.setOnClickListener( new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        Reset_game();
+////                    }
+////                } );
+////                ImageButton close_btn = layoutToinflate.findViewById( R.id.close_btn );
+////                close_btn.setOnClickListener( new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        yourDialog.dismiss();
+////                        rotat_setting();
+////                    }
+////                } );
+////                close_btn.setOnTouchListener( btn_animation );
+////                rotat_setting();
+////                yourDialog.show();
+
             }
-        } );
+        });
+
+
 
     }
 
@@ -164,6 +177,35 @@ public class StartScreenActivity extends Activity {
         }
     }
 
+
+
+    private void rotat_setting() {
+        ChangeTransform changeTransform = new ChangeTransform();
+        changeTransform.setDuration( 200 );
+        changeTransform.setInterpolator( new AccelerateInterpolator() );
+        TransitionManager.beginDelayedTransition( main_layout, changeTransform );
+        toggleRotation( setting_btn );
+    }
+
+    public static void startStartScreenActivity(Context context) {
+        Intent intent = new Intent( context, StartScreenActivity.class );
+        context.startActivity( intent );
+    }
+
+    @Override
+    public void OnSeekBarMainVoluem(int mainVolume) {
+
+    }
+
+    @Override
+    public void OnseekBarSoundEffects(int soundEffectsVolume) {
+
+    }
+
+    @Override
+    public void OnResetGame() {
+        Reset_game();
+    }
     private void Reset_game() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder( StartScreenActivity.this );
         alertDialogBuilder.setTitle( "Game Reset" );
@@ -189,18 +231,5 @@ public class StartScreenActivity extends Activity {
                 } );
         android.app.AlertDialog alert = alertDialogBuilder.create();
         alert.show();
-    }
-
-    private void rotat_setting() {
-        ChangeTransform changeTransform = new ChangeTransform();
-        changeTransform.setDuration( 200 );
-        changeTransform.setInterpolator( new AccelerateInterpolator() );
-        TransitionManager.beginDelayedTransition( main_layout, changeTransform );
-        toggleRotation( setting_btn );
-    }
-
-    public static void startStartScreenActivity(Context context) {
-        Intent intent = new Intent( context, StartScreenActivity.class );
-        context.startActivity( intent );
     }
 }

@@ -248,7 +248,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 bundle.putInt( SCORE_COUNTER, scoreCounter );
                 EndOfArcadeGameFragment endOfArcadeGameFragment = new EndOfArcadeGameFragment();
                 endOfArcadeGameFragment.setArguments( bundle );
-                transaction.add( R.id.root_container, endOfArcadeGameFragment );
+                transaction.add( R.id.game_root_container, endOfArcadeGameFragment );
                 transaction.commit();
 
 

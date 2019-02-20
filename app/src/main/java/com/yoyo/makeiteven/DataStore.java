@@ -69,7 +69,18 @@ public class DataStore {
         editor.putString( DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard );
         editor.apply();
     }
+    public void saveVolumeSetting (int mainSound,int soundEffects){
 
+        mEditor.putString("mainSound",String.valueOf(mainSound));
+        mEditor.putString("soundEffects",String.valueOf(soundEffects));
+        mEditor.apply();
+    }
+    public int getMainSoundSetting (){
+        return mSharedPref.getInt("mainSound",100);
+    }
+    public int getSoundEffectSetting (){
+        return mSharedPref.getInt("soundEffects",100);
+    }
 
     public void saveCurrentStage(int currentStage) {
         mEditor.putInt( CURRENT_STAGE, currentStage );

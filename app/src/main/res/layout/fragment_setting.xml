@@ -44,7 +44,7 @@
                 app:volume_line_color="#949494"
                 app:volume_line_width="10" />
             <SeekBar
-                android:id="@+id/seek_bar_1"
+                android:id="@+id/main_sound_seekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/main_sound_txtv" />
@@ -76,7 +76,7 @@
             app:volume_line_width="10"
             android:layout_centerHorizontal="true"/>
         <SeekBar
-            android:id="@+id/seek_bar_2"
+            android:id="@+id/soundEffect_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/view_sound_efects" />
