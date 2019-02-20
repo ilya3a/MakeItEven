@@ -17,7 +17,7 @@ public class DataStore {
 
     private static DataStore sInstance;
     static final String SHARED_KEY_SCORE_BOARD = "scoreBoard";
-    static final String SHARED_KEY_STAGE_INFO="stageInfo";
+    static final String SHARED_KEY_STAGE_INFO = "stageInfo";
     static final String CURRENT_STAGE = "currentStage";
     static final String PREFS = "sharedPref";
 
@@ -27,91 +27,100 @@ public class DataStore {
 
     public static DataStore getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new DataStore( context );
+            sInstance = new DataStore(context);
         }
         return sInstance;
     }
 
     @SuppressLint("CommitPrefEdits")
     private DataStore(Context context) {
-        mSharedPref = context.getSharedPreferences( PREFS, Context.MODE_PRIVATE );
+        mSharedPref = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
         mEditor = mSharedPref.edit();
     }
 
     public List<ScoreBoard> getScoreBoardList() {
-        String scoreBoardJsonList = mSharedPref.getString( SHARED_KEY_SCORE_BOARD, "[]" );
+        String scoreBoardJsonList = mSharedPref.getString(SHARED_KEY_SCORE_BOARD, "[]");
         Type type = new TypeToken<ArrayList<ScoreBoard>>() {
         }.getType();
 
         // convert the json String to Java ArrayList object
-        return mGson.fromJson( scoreBoardJsonList, type );
+        return mGson.fromJson(scoreBoardJsonList, type);
     }
 
     public void saveNameAndScore(String nickName, int scoreCounter) {
 
-        ScoreBoard scoreBoard = new ScoreBoard( nickName, scoreCounter );
+        ScoreBoard scoreBoard = new ScoreBoard(nickName, scoreCounter);
         // get instance of shared prefs with relevant key
-        String scoreBoardJsonList = mSharedPref.getString( DataStore.SHARED_KEY_SCORE_BOARD, "[]" );
+        String scoreBoardJsonList = mSharedPref.getString(DataStore.SHARED_KEY_SCORE_BOARD, "[]");
         Type type = new TypeToken<ArrayList<ScoreBoard>>() {
         }.getType();
         // convert the json String to Java ArrayList object
-        ArrayList<ScoreBoard> scoreBoards = mGson.fromJson( scoreBoardJsonList, type );
+        ArrayList<ScoreBoard> scoreBoards = mGson.fromJson(scoreBoardJsonList, type);
 
         // manipulate the java arrayList
-        scoreBoards.add( scoreBoard );
+        scoreBoards.add(scoreBoard);
 
-        Collections.sort( scoreBoards, scoreBoard );
+        Collections.sort(scoreBoards, scoreBoard);
 
         // convert the array list back to json string
-        String jsonUpdatedScoreBoard = mGson.toJson( scoreBoards );
-
-        SharedPreferences.Editor editor = mSharedPref.edit();
+        String jsonUpdatedScoreBoard = mGson.toJson(scoreBoards);
 
         // save the json string back to the shared prefs
-        editor.putString( DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard );
-        editor.apply();
-    }
-    public void saveVolumeSetting (int mainSound,int soundEffects){
-
-        mEditor.putInt("mainSound",mainSound);
-        mEditor.putInt("soundEffects",soundEffects);
+        mEditor.putString(DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard);
         mEditor.apply();
     }
-    public int getMainSoundSetting (){
-        return mSharedPref.getInt("mainSound",100);
-    }
-    public int getSoundEffectSetting (){
 
-        return mSharedPref.getInt("soundEffects",100);
+    public void saveVolumeSetting(int mainSound, int soundEffects) {
+
+        mEditor.putInt("mainSound", mainSound);
+        mEditor.putInt("soundEffects", soundEffects);
+        mEditor.apply();
+    }
+
+    public int getMainSoundSetting() {
+        return mSharedPref.getInt("mainSound", 100);
+    }
+
+    public int getSoundEffectSetting() {
+
+        return mSharedPref.getInt("soundEffects", 100);
     }
 
     public void saveCurrentStage(int currentStage) {
-        mEditor.putInt( CURRENT_STAGE, currentStage );
+        mEditor.putInt(CURRENT_STAGE, currentStage);
         mEditor.apply();
     }
 
     public int getCurrentStage() {
 
-        return mSharedPref.getInt( CURRENT_STAGE, 1 );
+        return mSharedPref.getInt(CURRENT_STAGE, 1);
     }
 
-    public  void saveStageInfo (StageInfo currentStageToSave){
+    public void saveStageInfo(StageInfo currentStageToSave) {
         ArrayList<StageInfo> stageInfos;
-        String stageInfoJsonList=mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO,"[]");
+        String stageInfoJsonList = mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO, "[]");
         if (!stageInfoJsonList.equals("[]")) {
             stageInfos = mGson.fromJson(stageInfoJsonList, new TypeToken<ArrayList<StageInfo>>() {
             }.getType());
-        }else {
-            stageInfos=new ArrayList<>();
+        } else {
+            stageInfos = new ArrayList<>();
         }
         stageInfos.add(currentStageToSave);
-        String jsonUpdatedStageInfo = mGson.toJson( stageInfos );
-        mEditor.putString(SHARED_KEY_STAGE_INFO,jsonUpdatedStageInfo);
+        String jsonUpdatedStageInfo = mGson.toJson(stageInfos);
+        mEditor.putString(SHARED_KEY_STAGE_INFO, jsonUpdatedStageInfo);
         mEditor.commit();
     }
-    public ArrayList<StageInfo> getStageInfo (){
-        String stageInfoJsonList=mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO,"[]");
-        ArrayList<StageInfo> stageInfos=mGson.fromJson(stageInfoJsonList,new TypeToken<ArrayList<StageInfo>>() {
+
+    public ArrayList<StageInfo> getStageInfo() {
+        String stageInfoJsonList = mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO, "[]");
+        ArrayList<StageInfo> stageInfos;
+
+        if (stageInfoJsonList.equals("[]")){
+            stageInfos = new ArrayList<>();
+            return stageInfos;
+        }
+
+        stageInfos = mGson.fromJson(stageInfoJsonList, new TypeToken<ArrayList<StageInfo>>() {
         }.getType());
         return stageInfos;
     }
