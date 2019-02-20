@@ -71,14 +71,15 @@ public class DataStore {
     }
     public void saveVolumeSetting (int mainSound,int soundEffects){
 
-        mEditor.putString("mainSound",String.valueOf(mainSound));
-        mEditor.putString("soundEffects",String.valueOf(soundEffects));
+        mEditor.putInt("mainSound",mainSound);
+        mEditor.putInt("soundEffects",soundEffects);
         mEditor.apply();
     }
     public int getMainSoundSetting (){
         return mSharedPref.getInt("mainSound",100);
     }
     public int getSoundEffectSetting (){
+
         return mSharedPref.getInt("soundEffects",100);
     }
 

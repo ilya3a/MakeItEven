@@ -2,13 +2,15 @@ package com.yoyo.makeiteven;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
+
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,6 +20,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 
 import moe.codeest.enviews.ENVolumeView;
@@ -27,6 +30,7 @@ public class SettingFragment extends Fragment {
     private SettingsFragmentListener listener;
     private SeekBar mainVolumeBar,soundEffectsBar;
     private Button resetGameBtn;
+    private ImageButton exitBtn;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -46,9 +50,12 @@ public class SettingFragment extends Fragment {
         soundEffectsBar=rootView.findViewById(R.id.soundEffect_bar);
         mainVolumeView=rootView.findViewById(R.id.view_volume);
         soundEffectView=rootView.findViewById(R.id.view_sound_efects);
+        exitBtn=rootView.findViewById(R.id.close_setting_btn);
 
         mainVolumeView.updateVolumeValue(DataStore.getInstance(inflater.getContext()).getMainSoundSetting());
         soundEffectView.updateVolumeValue(DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
+        mainVolumeBar.setProgress(DataStore.getInstance(inflater.getContext()).getMainSoundSetting());
+        soundEffectsBar.setProgress(DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
 
             SeekBar.OnSeekBarChangeListener seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -89,6 +96,12 @@ public class SettingFragment extends Fragment {
                 return false;
             }
         };
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getFragmentManager().beginTransaction().remove(SettingFragment.this).commit();
+            }
+        });
 
         resetGameBtn.setOnTouchListener(btn_animation);
         resetGameBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +116,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach( context );
-        if (context instanceof EndOfArcadeGameFragment.EndOfArcadeGameFragmentListener) {
+        if (context instanceof SettingFragment.SettingsFragmentListener) {
             listener = (SettingsFragmentListener) context;
         } else {
             throw new RuntimeException( context.toString() + "The activity must implement onSignUpListener interface" );

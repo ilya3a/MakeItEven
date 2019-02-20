@@ -126,7 +126,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                 SettingFragment settingFragment = new SettingFragment();
-//                transaction.add(R.id.start_activity_container,settingFragment);
+                transaction.add(R.id.start_activity_container,settingFragment);
                 transaction.commit();
 
 

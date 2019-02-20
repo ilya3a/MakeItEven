@@ -7,11 +7,6 @@
     android:background="@drawable/color_change"
     android:layoutDirection="ltr"
     tools:context=".StartScreenActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/temp_container">
-    </RelativeLayout>
 
     <ImageView
         android:id="@+id/game_logo"
