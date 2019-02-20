@@ -3,6 +3,7 @@ package com.yoyo.makeiteven;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,6 +17,7 @@ public class DataStore {
 
     private static DataStore sInstance;
     static final String SHARED_KEY_SCORE_BOARD = "scoreBoard";
+    static final String SHARED_KEY_STAGE_INFO="stageInfo";
     static final String CURRENT_STAGE = "currentStage";
     static final String PREFS = "sharedPref";
 
@@ -91,5 +93,26 @@ public class DataStore {
     public int getCurrentStage() {
 
         return mSharedPref.getInt( CURRENT_STAGE, 1 );
+    }
+
+    public  void saveStageInfo (StageInfo currentStageToSave){
+        ArrayList<StageInfo> stageInfos;
+        String stageInfoJsonList=mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO,"[]");
+        if (!stageInfoJsonList.equals("[]")) {
+            stageInfos = mGson.fromJson(stageInfoJsonList, new TypeToken<ArrayList<StageInfo>>() {
+            }.getType());
+        }else {
+            stageInfos=new ArrayList<>();
+        }
+        stageInfos.add(currentStageToSave);
+        String jsonUpdatedStageInfo = mGson.toJson( stageInfos );
+        mEditor.putString(SHARED_KEY_STAGE_INFO,jsonUpdatedStageInfo);
+        mEditor.commit();
+    }
+    public ArrayList<StageInfo> getStageInfo (){
+        String stageInfoJsonList=mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO,"[]");
+        ArrayList<StageInfo> stageInfos=mGson.fromJson(stageInfoJsonList,new TypeToken<ArrayList<StageInfo>>() {
+        }.getType());
+        return stageInfos;
     }
 }
