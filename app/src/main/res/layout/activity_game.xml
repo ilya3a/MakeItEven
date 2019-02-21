@@ -223,17 +223,36 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <ImageButton
+                android:id="@+id/hint_btn_3"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/hint_btn_2"
+                android:background="@color/Transparent"
+                android:contentDescription=""
+                android:src="@drawable/ic_help"
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="7dp"/>
+            <ImageButton
+                android:id="@+id/hint_btn_2"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/hint_btn"
+                android:background="@color/Transparent"
+                android:contentDescription=""
+                android:src="@drawable/ic_help"
+                android:scaleType="fitCenter"
+                android:layout_marginEnd="7dp"/>
             <ImageButton
                 android:id="@+id/hint_btn"
-                android:layout_width="70dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_toStartOf="@id/restart_level"
                 android:background="@color/Transparent"
                 android:contentDescription=""
                 android:src="@drawable/ic_help"
                 android:scaleType="fitCenter"
-                android:layout_margin="5dp"/>
+                android:layout_marginEnd="7dp"/>
 
             <ImageButton
                 android:id="@+id/restart_level"
@@ -252,7 +271,7 @@
     android:layout_height="match_parent"
     android:background="#ffff"
     android:id="@+id/hiding_layout"
-    android:visibility="invisible">
+    android:visibility="gone">
 
 </RelativeLayout>
     <ImageView

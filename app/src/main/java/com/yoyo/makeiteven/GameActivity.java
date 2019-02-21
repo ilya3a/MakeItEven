@@ -53,7 +53,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     int theDesiredNumber = 0;
     Animation scale_out;
     Animation scale_in;
-    ImageButton mGameResetBtnIb, backBtnIb, hintBtnIb;
+    ImageButton mGameResetBtnIb, backBtnIb, hintBtnIb,hintBtn_2,hintBtn_3;
     AbstractGame mAbstractGame;
     String mGameType;
     private int scoreCounter = 0;
@@ -131,6 +131,20 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         backBtnIb = findViewById(R.id.game_back_btn);
         hintBtnIb = findViewById(R.id.hint_btn);
         hidingLayout = findViewById(R.id.hiding_layout);
+        hintBtn_2=findViewById(R.id.hint_btn_2);
+        hintBtn_3=findViewById(R.id.hint_btn_3);
+
+        View.OnClickListener helpListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ImageButton)v).setImageResource(R.drawable.ic_help_off);
+                ((ImageButton)v).setEnabled(false);
+                gameInit();
+            }
+        };
+        hintBtn_3.setOnClickListener(helpListener);
+        hintBtn_2.setOnClickListener(helpListener);
+
 
         countdounImageView = findViewById(R.id.countdown_imageview);
         countdounImageView.setBackgroundResource(R.drawable.three_two_one);
