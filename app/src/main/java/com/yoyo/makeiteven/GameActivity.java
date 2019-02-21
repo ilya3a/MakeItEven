@@ -229,28 +229,30 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 if (currStage < 10) {
                     min = 0;
                     max = 20;
+                    mAbstractGame.setDifficulty(6);
                 } else if (currStage < 20) {
                     min = 20;
                     max = 40;
+                    mAbstractGame.setDifficulty(8);
                 } else if (currStage < 30) {
                     min = 40;
                     max = 60;
+                    mAbstractGame.setDifficulty(9);
                 } else if (currStage < 40) {
                     min = 60;
-                    max = 80;
-                } else if (currStage < 70) {
-                    min = 80;
                     max = 90;
+                    mAbstractGame.setDifficulty(10);
+                } else if (currStage < 100) {
+                    min = 80;
+                    max = 120;
+                    mAbstractGame.setDifficulty(12);
                 }
 
                 do {
                     theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, min, max);
                 } while (theDesiredNumber > max || theDesiredNumber < min);
-                
-                mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
 
-//                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
-//                mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
+                mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
 
 
                 StageInfo stageInfo = new StageInfo(Integer.parseInt(gameBtns.get(0).getText().toString()), Integer.parseInt(gameBtns.get(1).getText().toString()),
@@ -261,6 +263,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 startSavedGameInfo(gameBtns, stageInfosArray, mLevelNum);
             }
         } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
+            mAbstractGame.setDifficulty(12);
             theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
             mHint = mAbstractGame.getHint();

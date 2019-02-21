@@ -124,4 +124,11 @@ public class DataStore {
         }.getType());
         return stageInfos;
     }
+    public void resetLevels(){
+        ArrayList<StageInfo> stageInfos= new ArrayList<>();
+        String jsonCleanStageInfo = mGson.toJson(stageInfos);
+        mEditor.putString(SHARED_KEY_STAGE_INFO, jsonCleanStageInfo);
+        mEditor.commit();
+
+    }
 }

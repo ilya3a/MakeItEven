@@ -12,6 +12,10 @@ import java.util.Random;
 
 public abstract class AbstractGame {
 
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
     private int difficulty;
     private String hint;
     private Random randNumber;
@@ -139,8 +143,6 @@ public abstract class AbstractGame {
         btns.get( 2 ).setText( String.valueOf( btn3 ) );
         btns.get( 3 ).setText( String.valueOf( btn4 ) );
 
-        if (sum > maxSum || sum < minSum)
-            sum = gameGenerator( btns, minSum, maxSum );
 
         return sum;
     }

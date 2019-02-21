@@ -100,6 +100,7 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().getFragmentManager().beginTransaction().remove(SettingFragment.this).commit();
+                listener.OnExit();
             }
         });
 
@@ -108,6 +109,7 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.OnResetGame();
+
             }
         });
         return rootView;
@@ -132,5 +134,6 @@ public class SettingFragment extends Fragment {
         void OnSeekBarMainVoluem(int mainVolume);
         void OnseekBarSoundEffects(int soundEffectsVolume);
         void OnResetGame ();
+        void OnExit();
     }
 }
