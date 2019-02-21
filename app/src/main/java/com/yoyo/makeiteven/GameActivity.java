@@ -221,11 +221,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
         if (mGameType.equals(StageGameMode.TYPE)) {
-            int min=0, max=0;
+            int min = 0, max = 0;
             int currStage = DataStore.getInstance(this).getCurrentStage();
             stageInfosArray = DataStore.getInstance(this).getStageInfo();
 
-            if (stageInfosArray.isEmpty() || currStage < mLevelNum) {
+            if (stageInfosArray.size() < mLevelNum || currStage < mLevelNum) {
                 if (currStage < 10) {
                     min = 0;
                     max = 20;
@@ -243,45 +243,52 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     max = 90;
                 }
 
-                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, min, max);
+                do {
+                    theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, min, max);
+                } while (theDesiredNumber > max || theDesiredNumber < min);
+                
                 mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
+
+//                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
+//                mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
+
 
                 StageInfo stageInfo = new StageInfo(Integer.parseInt(gameBtns.get(0).getText().toString()), Integer.parseInt(gameBtns.get(1).getText().toString()),
                         Integer.parseInt(gameBtns.get(2).getText().toString()), Integer.parseInt(gameBtns.get(3).getText().toString()), theDesiredNumber, mAbstractGame.getHint());
                 DataStore.getInstance(this).saveStageInfo(stageInfo);
-                mHint=mAbstractGame.getHint();
+                mHint = mAbstractGame.getHint();
             } else {
-                startSavedGameInfo(gameBtns,stageInfosArray,mLevelNum);
+                startSavedGameInfo(gameBtns, stageInfosArray, mLevelNum);
             }
-        }else if(mGameType.equals(ArcadeGameMode.TYPE)) {
+        } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
             theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-            mHint=mAbstractGame.getHint();
+            mHint = mAbstractGame.getHint();
         }
     }
 
     private void startSavedGameInfo(List<ToggleButton> gameBtns, ArrayList<StageInfo> stageInfosArray, int levelNum) {
         Collections.shuffle(gameBtns);
 
-        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
-        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
-        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
+        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
 
-        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
-        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
-        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
+        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
 
-        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
-        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
-        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
+        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
 
-        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
-        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
-        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
+        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
 
-        theDesiredNumber =stageInfosArray.get(levelNum).getTarget();
+        theDesiredNumber = stageInfosArray.get(levelNum-1).getTarget();
         mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-        mHint = stageInfosArray.get(levelNum).getHint();
+        mHint = stageInfosArray.get(levelNum-1).getHint();
     }
 
     private void createGameModel(final String gameType) {

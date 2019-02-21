@@ -14,11 +14,13 @@ public abstract class AbstractGame {
 
     private int difficulty;
     private String hint;
+    private Random randNumber;
 
 
 
     public AbstractGame(int difficulty) {
         this.difficulty = difficulty;
+        randNumber = new Random();
     }
 
 
@@ -29,11 +31,8 @@ public abstract class AbstractGame {
     public int gameGenerator(List<ToggleButton> btns, int minSum, int maxSum) {
 
         int btn1, btn2, btn3, btn4, sum;
-        Random randNumber = new Random();
-        hint = new String();
-        Time t = new Time( 5 );
         int randIdx;
-
+        hint = new String();
         btn1 = randNumber.nextInt( difficulty ) + 1;
         btn2 = randNumber.nextInt( difficulty ) + 1;
         btn3 = randNumber.nextInt( difficulty ) + 1;
