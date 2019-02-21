@@ -1,17 +1,11 @@
 package com.yoyo.makeiteven;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,10 +13,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-
 import moe.codeest.enviews.ENVolumeView;
 
 public class SettingFragment extends Fragment {
@@ -131,8 +123,8 @@ public class SettingFragment extends Fragment {
     }
 
     interface SettingsFragmentListener{
-        void OnSeekBarMainVoluem(int mainVolume);
-        void OnseekBarSoundEffects(int soundEffectsVolume);
+        void OnSeekBarMainVolume(int mainVolume);
+        void OnSeekBarSoundEffects(int soundEffectsVolume);
         void OnResetGame ();
         void OnExit();
     }

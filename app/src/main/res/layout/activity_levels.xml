@@ -9,36 +9,13 @@
         android:layout_height="wrap_content">
 
         <ImageButton
-            android:id="@+id/game_back_btn"
+            android:id="@+id/game_back_btn_levels_screen"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@color/Transparent"
-            android:contentDescription=""
-            android:src="@drawable/ic_back" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/hint_btn"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@id/restart_level"
-                android:background="@color/Transparent"
-                android:contentDescription=""
-                android:src="@drawable/ic_question_mark" />
-
-            <ImageButton
-                android:id="@+id/restart_level"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center"
-                android:background="@color/Transparent"
-                android:src="@drawable/restart_img" />
-        </RelativeLayout>
+            android:src="@drawable/ic_back"
+            android:clickable="true"/>
 
     </LinearLayout>
 

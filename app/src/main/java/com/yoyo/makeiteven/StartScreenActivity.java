@@ -193,29 +193,17 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     }
 
     @Override
-    public void OnSeekBarMainVoluem(int mainVolume) {
+    public void OnSeekBarMainVolume(int mainVolume) {
 
     }
 
     @Override
-    public void OnseekBarSoundEffects(int soundEffectsVolume) {
+    public void OnSeekBarSoundEffects(int soundEffectsVolume) {
 
     }
 
     @Override
     public void OnResetGame() {
-        Reset_game();
-    }
-
-    @Override
-    public void OnExit() {
-        stage_mode_btn.setVisibility(View.VISIBLE);
-        arcade_mode_btn.setVisibility(View.VISIBLE);
-        scoreBoard_btn.setEnabled(true);
-        setting_btn.setEnabled(true);
-    }
-
-    private void Reset_game() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(StartScreenActivity.this);
         alertDialogBuilder.setTitle("Game Reset");
         alertDialogBuilder.setIcon(R.drawable.warning_icon);
@@ -242,4 +230,13 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         android.app.AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
+    @Override
+    public void OnExit() {
+        stage_mode_btn.setVisibility(View.VISIBLE);
+        arcade_mode_btn.setVisibility(View.VISIBLE);
+        scoreBoard_btn.setEnabled(true);
+        setting_btn.setEnabled(true);
+    }
+
 }

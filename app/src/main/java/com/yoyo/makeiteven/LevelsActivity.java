@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ public class LevelsActivity extends AppCompatActivity {
             explode.setDuration( 600 );
             getWindow().setEnterTransition( explode );
         }
+
         mCurrentStage = DataStore.getInstance( this ).getCurrentStage();
         setContentView( R.layout.activity_levels );
 
@@ -39,6 +43,13 @@ public class LevelsActivity extends AppCompatActivity {
 
 
         initRecyclerView();
+        ImageButton temo =(ImageButton)findViewById(R.id.game_back_btn_levels_screen);
+        temo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initRecyclerView() {

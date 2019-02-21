@@ -5,9 +5,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
 import android.view.MotionEvent;
@@ -17,6 +20,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -57,6 +63,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     static final String SCORE_COUNTER = "score_counter";
     private ArrayList<StageInfo> stageInfosArray;
     private String mHint;
+    private ImageView countdounImageView;
+    private AnimationDrawable cuntDownAnim;
+    private RelativeLayout hidingLayout;
 
     @Override
     public void onBackPressed() {
@@ -68,6 +77,26 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (mGameType.equals(ArcadeGameMode.TYPE)) {
+            cuntDownAnim.start();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    countdounImageView.setVisibility(View.GONE);
+                    hidingLayout.setVisibility(View.GONE);
+                    startTimer();
+                }
+            }, 3000);
+        } else if (mGameType.equals(StageGameMode.TYPE)) {
+            hidingLayout.setVisibility(View.GONE);
+            countdounImageView.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Build.VERSION.SDK_INT >= 21) {
@@ -75,6 +104,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             explode.setDuration(600);
             getWindow().setEnterTransition(explode);
         }
+
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -84,6 +114,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
+        final Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         mScoreTv = findViewById(R.id.score_tv);
         mActualScoreTv = findViewById(R.id.actual_score_tv);
         mTheDesiredNumberTv = findViewById(R.id.the_number);
@@ -99,6 +130,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         mGameResetBtnIb = findViewById(R.id.restart_level);
         backBtnIb = findViewById(R.id.game_back_btn);
         hintBtnIb = findViewById(R.id.hint_btn);
+        hidingLayout = findViewById(R.id.hiding_layout);
+
+        countdounImageView = findViewById(R.id.countdown_imageview);
+        countdounImageView.setBackgroundResource(R.drawable.three_two_one);
+        cuntDownAnim = (AnimationDrawable) countdounImageView.getBackground();
 
         Bundle bundle = getIntent().getExtras();
         mGameType = bundle.getString(EXTRA_GAME_TYPE);
@@ -210,6 +246,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             }
         });
         gameInit();
+
     }
 
     private void gameInit() {
@@ -264,7 +301,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             }
         } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
             mAbstractGame.setDifficulty(12);
-            theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
+            do {
+                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
+            } while (theDesiredNumber > 100 || theDesiredNumber < 0);
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
             mHint = mAbstractGame.getHint();
         }
@@ -273,32 +312,32 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private void startSavedGameInfo(List<ToggleButton> gameBtns, ArrayList<StageInfo> stageInfosArray, int levelNum) {
         Collections.shuffle(gameBtns);
 
-        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
-        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
-        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
+        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
+        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
 
-        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
-        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
-        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
+        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
+        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
 
-        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
-        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
-        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
+        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
+        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
 
-        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
-        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
-        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
+        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
+        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
 
-        theDesiredNumber = stageInfosArray.get(levelNum-1).getTarget();
+        theDesiredNumber = stageInfosArray.get(levelNum - 1).getTarget();
         mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-        mHint = stageInfosArray.get(levelNum-1).getHint();
+        mHint = stageInfosArray.get(levelNum - 1).getHint();
     }
 
     private void createGameModel(final String gameType) {
         mAbstractGame = GameFactory.getGame(gameType, 12);
-        if (mGameType.equals(ArcadeGameMode.TYPE)) {
-            startTimer();
-        }
+//        if (mGameType.equals(ArcadeGameMode.TYPE)) {
+//            startTimer();
+//        }
     }
 
     private void stopTimer() {
