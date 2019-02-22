@@ -75,7 +75,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 }
                 finish();
             }
-        },3000);
+        }, 3000);
 
     }
 
@@ -523,51 +523,34 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         winsCounter = winsCounter + 1;
                         if (winsCounter >= 3)
                             scoreCounter = scoreCounter + 100;
-
-                            winsCounter = winsCounter + 1;
-                            if (winsCounter >= 3)
-                                scoreCounter = scoreCounter + 100;
-                            if (winsCounter >= 7)
-                                scoreCounter = scoreCounter + 200;
-                            if (winsCounter >= 10) {
-                                scoreCounter = scoreCounter + 300;
-                            }
-
-                            mActualScoreTv.setText(scoreCounter + "");
-
-                        } else {
-                            int currentStage = DataStore.getInstance(this).getCurrentStage();
-                            if (mLevelNum == currentStage) {
-                                currentStage++;
-                            }
-
-                            DataStore.getInstance(this).saveCurrentStage(currentStage);
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    LevelsActivity.startLevelsActivity(GameActivity.this);
-                                    finish();
-                                }
-                            },500);
-
+                        winsCounter = winsCounter + 1;
+                        if (winsCounter >= 3)
+                            scoreCounter = scoreCounter + 100;
                         if (winsCounter >= 7)
                             scoreCounter = scoreCounter + 200;
                         if (winsCounter >= 10) {
                             scoreCounter = scoreCounter + 300;
-
                         }
 
                         mActualScoreTv.setText(scoreCounter + "");
 
-                    } else if(mGameType.equals(StageGameMode.TYPE)) {
+                    } else if (mGameType.equals(StageGameMode.TYPE)) {
                         int currentStage = DataStore.getInstance(this).getCurrentStage();
                         if (mLevelNum == currentStage) {
                             currentStage++;
                         }
 
                         DataStore.getInstance(this).saveCurrentStage(currentStage);
-                        LevelsActivity.startLevelsActivity(this);
-                        finish();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                LevelsActivity.startLevelsActivity(GameActivity.this);
+                                finish();
+                            }
+                        }, 500);
+                        
+                        mActualScoreTv.setText(scoreCounter + "");
+
                     }
 
                 } else {
@@ -577,7 +560,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         stopTimer();
                         gameInit();
                         startTimer();
-                    } else if(mGameType.equals(StageGameMode.TYPE)){
+                    } else if (mGameType.equals(StageGameMode.TYPE)) {
                         LevelsActivity.startLevelsActivity(this);
                         finish();
                     }
@@ -586,6 +569,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
         }
     }
+
 
 
     @Override
