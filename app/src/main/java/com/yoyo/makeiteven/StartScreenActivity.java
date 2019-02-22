@@ -115,6 +115,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         });
 
         //
+        setting_btn.setOnTouchListener(btn_animation);
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

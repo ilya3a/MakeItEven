@@ -142,11 +142,33 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             public void onClick(View v) {
                 ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
                 ((ImageButton) v).setEnabled(false);
-                gameInit();
+                if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                    gameInit();
+                }else if (mGameType.equals(StageGameMode.TYPE)){
+                    Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
+                }
+
             }
         };
+        final View.OnTouchListener btn_animation = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.startAnimation(btn_press);
+                    btn_press.setFillAfter(true);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.startAnimation(btn_release);
+                }
+                return false;
+            }
+        };
+        hintBtnIb.setOnClickListener(helpListener);
         hintBtn_3.setOnClickListener(helpListener);
         hintBtn_2.setOnClickListener(helpListener);
+        hintBtnIb.setOnTouchListener(btn_animation);
+        hintBtn_3.setOnTouchListener(btn_animation);
+        hintBtn_2.setOnTouchListener(btn_animation);
 
 
         countdownImageView = findViewById(R.id.countdown_imageview);
@@ -167,20 +189,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         }
 
         init_toasty();
-
-        View.OnTouchListener btn_animation = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation(btn_press);
-                    btn_press.setFillAfter(true);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_release);
-                }
-                return false;
-            }
-        };
 
         backBtnIb.setOnTouchListener(btn_animation);
         final Animation rotateAnimation = AnimationUtils.loadAnimation(this, R.anim.rotate_restart);
@@ -255,13 +263,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             b.setOnClickListener(this);
         }
 
-
-        hintBtnIb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
-            }
-        });
         gameInit();
 //        Rational rational = new Rational(4,5);
 //        rational.doubleValue();
@@ -548,7 +549,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 finish();
                             }
                         }, 500);
-                        
+
                         mActualScoreTv.setText(scoreCounter + "");
 
                     }
@@ -569,7 +570,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
         }
     }
-
 
 
     @Override

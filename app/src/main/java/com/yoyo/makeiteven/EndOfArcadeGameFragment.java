@@ -8,8 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -67,6 +70,22 @@ public class EndOfArcadeGameFragment extends Fragment {
         playStageBtn = rootView.findViewById(R.id.play_stage_mode_btn);
         scoreBoardIb = rootView.findViewById(R.id.scoreBoard_ib);
 
+        final Animation btn_press = AnimationUtils.loadAnimation(inflater.getContext(), R.anim.btn_pressed);
+        final Animation btn_release = AnimationUtils.loadAnimation(inflater.getContext(), R.anim.btn_realeas);
+        final View.OnTouchListener btn_animation = new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    v.startAnimation(btn_press);
+                    btn_press.setFillAfter(true);
+                }
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    v.startAnimation(btn_release);
+                }
+                return false;
+            }
+        };
+        playAgainBtn.setOnTouchListener(btn_animation);
         playAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +100,7 @@ public class EndOfArcadeGameFragment extends Fragment {
             }
         });
 
-
+        playStageBtn.setOnTouchListener(btn_animation);
         playStageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +113,7 @@ public class EndOfArcadeGameFragment extends Fragment {
             }
         });
 
-
+        scoreBoardIb.setOnTouchListener(btn_animation);
         scoreBoardIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
