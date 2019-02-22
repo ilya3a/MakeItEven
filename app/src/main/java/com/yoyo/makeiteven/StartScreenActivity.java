@@ -165,7 +165,14 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
             }
         });
 
-
+        Button ttbtn=findViewById(R.id.totorial_btn);
+        ttbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StartScreenActivity.this, TutorialActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void toggleRotation(View v) {

@@ -535,8 +535,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             }
 
                             DataStore.getInstance(this).saveCurrentStage(currentStage);
-                            LevelsActivity.startLevelsActivity(this);
-                            finish();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    LevelsActivity.startLevelsActivity(GameActivity.this);
+                                    finish();
+                                }
+                            },500);
+
                         }
 
                     } else {
