@@ -6,6 +6,6 @@ public class ArcadeGameMode extends AbstractGame {
 
 
     public ArcadeGameMode(int difficulty) {
-        super( difficulty );
+        super(difficulty);
     }
 }

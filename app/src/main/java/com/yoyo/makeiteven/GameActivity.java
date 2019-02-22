@@ -448,7 +448,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 //        Toast.makeText(this, "" + num1, Toast.LENGTH_SHORT).show();
         if (num2 != Integer.MAX_VALUE) {
             int sum = 0;
-            boolean isDivideZero=false;
+            boolean isDivideZero = false;
             switch (operator) {
                 case "plus":
                     sum = num1 + num2;
@@ -469,89 +469,88 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     sum = num1 * num2;
                     break;
             }
-                //set new button
-                ToggleButton toggleButton = findViewById(selectedNumberId_2);
-                toggleButton.startAnimation(scale_out);
-                toggleButton.setTextOn(String.valueOf(sum));
-                toggleButton.setTextOff(String.valueOf(sum));
-                toggleButton.setText(String.valueOf(sum));
-                toggleButton.setChecked(false);
-                //toggleButton.callOnClick();
+            //set new button
+            ToggleButton toggleButton = findViewById(selectedNumberId_2);
+            toggleButton.startAnimation(scale_out);
+            toggleButton.setTextOn(String.valueOf(sum));
+            toggleButton.setTextOff(String.valueOf(sum));
+            toggleButton.setText(String.valueOf(sum));
+            toggleButton.setChecked(false);
+            //toggleButton.callOnClick();
 
-                //button to remove+anim
-                ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
-                toggleButtonToHide.startAnimation(scale_out);
-                toggleButtonToHide.setVisibility(View.INVISIBLE);
-                toggleButtonToHide.setEnabled(false);
-
-
-
-                toggleButton.startAnimation(scale_in);
-
-                ToggleButton operator = findViewById(selectedOperatorId);
-                operator.setChecked(false);
-
-                //reset flags
-                isOperatorSelected = false;
-                isNumberSelected = false;
-                num2 = Integer.MAX_VALUE;
+            //button to remove+anim
+            ToggleButton toggleButtonToHide = findViewById(selectedNumberId_1);
+            toggleButtonToHide.startAnimation(scale_out);
+            toggleButtonToHide.setVisibility(View.INVISIBLE);
+            toggleButtonToHide.setEnabled(false);
 
 
-                i = 0;
-                for (ToggleButton tb : gameBtns) {
+            toggleButton.startAnimation(scale_in);
 
-                    if (tb.isEnabled())
-                        i++;
+            ToggleButton operator = findViewById(selectedOperatorId);
+            operator.setChecked(false);
 
-                }
-
-                if (isDivideZero)
-                    //false division
-                    gameInit();
+            //reset flags
+            isOperatorSelected = false;
+            isNumberSelected = false;
+            num2 = Integer.MAX_VALUE;
 
 
-                if (i == 1) {
-                    //you win
-                    if (theDesiredNumber == sum) {
-                        Toasty.success(this, "Correct answer", Toast.LENGTH_SHORT).show();
-                        if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                            gameInit();
+            i = 0;
+            for (ToggleButton tb : gameBtns) {
+
+                if (tb.isEnabled())
+                    i++;
+
+            }
+
+            if (isDivideZero)
+                //false division
+                gameInit();
+
+
+            if (i == 1) {
+                //you win
+                if (theDesiredNumber == sum) {
+                    Toasty.success(this, "Correct answer", Toast.LENGTH_SHORT).show();
+                    if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                        gameInit();
+                        scoreCounter = scoreCounter + 100;
+                        winsCounter = winsCounter + 1;
+                        if (winsCounter >= 3)
                             scoreCounter = scoreCounter + 100;
-                            winsCounter = winsCounter + 1;
-                            if (winsCounter >= 3)
-                                scoreCounter = scoreCounter + 100;
-                            if (winsCounter >= 7)
-                                scoreCounter = scoreCounter + 200;
-                            if (winsCounter >= 10) {
-                                scoreCounter = scoreCounter + 300;
-                            }
-
-                            mActualScoreTv.setText(scoreCounter + "");
-
-                        } else {
-                            int currentStage = DataStore.getInstance(this).getCurrentStage();
-                            if (mLevelNum == currentStage) {
-                                currentStage++;
-                            }
-
-                            DataStore.getInstance(this).saveCurrentStage(currentStage);
-                            LevelsActivity.startLevelsActivity(this);
-                            finish();
+                        if (winsCounter >= 7)
+                            scoreCounter = scoreCounter + 200;
+                        if (winsCounter >= 10) {
+                            scoreCounter = scoreCounter + 300;
                         }
+
+                        mActualScoreTv.setText(scoreCounter + "");
 
                     } else {
-                        //you loose
-                        Toasty.error(this, "Wrong answer", Toast.LENGTH_SHORT).show();
-                        if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                            stopTimer();
-                            gameInit();
-                            startTimer();
-                        } else {
-                            LevelsActivity.startLevelsActivity(this);
-                            finish();
+                        int currentStage = DataStore.getInstance(this).getCurrentStage();
+                        if (mLevelNum == currentStage) {
+                            currentStage++;
                         }
+
+                        DataStore.getInstance(this).saveCurrentStage(currentStage);
+                        LevelsActivity.startLevelsActivity(this);
+                        finish();
+                    }
+
+                } else {
+                    //you loose
+                    Toasty.error(this, "Wrong answer", Toast.LENGTH_SHORT).show();
+                    if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                        stopTimer();
+                        gameInit();
+                        startTimer();
+                    } else {
+                        LevelsActivity.startLevelsActivity(this);
+                        finish();
                     }
                 }
+            }
 
         }
     }
