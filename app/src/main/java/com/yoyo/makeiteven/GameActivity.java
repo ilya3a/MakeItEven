@@ -523,10 +523,38 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         winsCounter = winsCounter + 1;
                         if (winsCounter >= 3)
                             scoreCounter = scoreCounter + 100;
+
+                            winsCounter = winsCounter + 1;
+                            if (winsCounter >= 3)
+                                scoreCounter = scoreCounter + 100;
+                            if (winsCounter >= 7)
+                                scoreCounter = scoreCounter + 200;
+                            if (winsCounter >= 10) {
+                                scoreCounter = scoreCounter + 300;
+                            }
+
+                            mActualScoreTv.setText(scoreCounter + "");
+
+                        } else {
+                            int currentStage = DataStore.getInstance(this).getCurrentStage();
+                            if (mLevelNum == currentStage) {
+                                currentStage++;
+                            }
+
+                            DataStore.getInstance(this).saveCurrentStage(currentStage);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    LevelsActivity.startLevelsActivity(GameActivity.this);
+                                    finish();
+                                }
+                            },500);
+
                         if (winsCounter >= 7)
                             scoreCounter = scoreCounter + 200;
                         if (winsCounter >= 10) {
                             scoreCounter = scoreCounter + 300;
+
                         }
 
                         mActualScoreTv.setText(scoreCounter + "");

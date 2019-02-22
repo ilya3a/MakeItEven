@@ -60,6 +60,18 @@
         android:background="@color/Transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/score_btn_icon" />
+
+
+    <Button
+        android:id="@+id/totorial_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="79dp"
+        android:layout_marginBottom="13dp"
+        android:text="Button" />
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,4 +79,5 @@
         android:layout_centerInParent="true">
 
     </RelativeLayout>
+
 </RelativeLayout>
