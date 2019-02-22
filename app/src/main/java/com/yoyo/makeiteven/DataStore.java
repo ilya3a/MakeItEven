@@ -115,7 +115,7 @@ public class DataStore {
         String stageInfoJsonList = mSharedPref.getString(DataStore.SHARED_KEY_STAGE_INFO, "[]");
         ArrayList<StageInfo> stageInfos;
 
-        if (stageInfoJsonList.equals("[]")){
+        if (stageInfoJsonList.equals("[]")) {
             stageInfos = new ArrayList<>();
             return stageInfos;
         }
@@ -124,8 +124,9 @@ public class DataStore {
         }.getType());
         return stageInfos;
     }
-    public void resetLevels(){
-        ArrayList<StageInfo> stageInfos= new ArrayList<>();
+
+    public void resetLevels() {
+        ArrayList<StageInfo> stageInfos = new ArrayList<>();
         String jsonCleanStageInfo = mGson.toJson(stageInfos);
         mEditor.putString(SHARED_KEY_STAGE_INFO, jsonCleanStageInfo);
         mEditor.commit();

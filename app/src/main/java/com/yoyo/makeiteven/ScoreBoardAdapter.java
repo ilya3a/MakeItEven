@@ -15,7 +15,7 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
     Context mContext;
 
     public ScoreBoardAdapter(Context context, int resource, List<ScoreBoard> items) {
-        super( context, resource, items );
+        super(context, resource, items);
         mContext = context;
     }
 
@@ -26,30 +26,30 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
 
         if (v == null) {
             LayoutInflater layoutInflater;
-            layoutInflater = LayoutInflater.from( getContext() );
-            v = layoutInflater.inflate( R.layout.score_cell, null );
+            layoutInflater = LayoutInflater.from(getContext());
+            v = layoutInflater.inflate(R.layout.score_cell, null);
         }
-        ScoreBoard item = getItem( position );
+        ScoreBoard item = getItem(position);
 
-        TextView tvName = v.findViewById( R.id.name_txt );
-        TextView tvScore = v.findViewById( R.id.score_txt );
+        TextView tvName = v.findViewById(R.id.name_txt);
+        TextView tvScore = v.findViewById(R.id.score_txt);
 
         if (position == 0) {
 
-            tvName.setTextColor( mContext.getResources().getColor( R.color.blue ) );
-            tvScore.setTextColor( mContext.getResources().getColor( R.color.blue ) );
-            if (Build.VERSION.SDK_INT >= 23){
-            tvName.setTextAppearance( R.style.TextAppearance_AppCompat_Large );
-            tvScore.setTextAppearance( R.style.TextAppearance_AppCompat_Large );
+            tvName.setTextColor(mContext.getResources().getColor(R.color.blue));
+            tvScore.setTextColor(mContext.getResources().getColor(R.color.blue));
+            if (Build.VERSION.SDK_INT >= 23) {
+                tvName.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
+                tvScore.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
             }
         } else {
-            tvName.setTextColor( mContext.getResources().getColor( R.color.primaryTextColor ) );
-            tvScore.setTextColor( mContext.getResources().getColor( R.color.primaryTextColor ) );
+            tvName.setTextColor(mContext.getResources().getColor(R.color.primaryTextColor));
+            tvScore.setTextColor(mContext.getResources().getColor(R.color.primaryTextColor));
         }
 
-        tvName.setText( position + 1 + "   " + item.getmNickName() );
+        tvName.setText(position + 1 + "   " + item.getmNickName());
 
-        tvScore.setText( item.getmFinalScore() + " " );
+        tvScore.setText(item.getmFinalScore() + " ");
         return v;
     }
 }

@@ -27,27 +27,28 @@ public class EndOfArcadeGameFragment extends Fragment {
     private EndOfArcadeGameFragmentListener listener;
 
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated( savedInstanceState );
+        super.onActivityCreated(savedInstanceState);
         listener = (EndOfArcadeGameFragmentListener) getActivity();
 
     }
 
     interface EndOfArcadeGameFragmentListener {
         void onArcadeGameEndAndPlayAgain(String nickName);
+
         void onArcadeGameEndAndPlayStage(String nickName);
+
         void onArcadeGameEndAndGoToScoreboard(String nickName);
     }
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach( context );
+        super.onAttach(context);
         if (context instanceof EndOfArcadeGameFragmentListener) {
             listener = (EndOfArcadeGameFragmentListener) context;
         } else {
-            throw new RuntimeException( context.toString() + "The activity must implement onSignUpListener interface" );
+            throw new RuntimeException(context.toString() + "The activity must implement onSignUpListener interface");
         }
     }
 
@@ -56,54 +57,54 @@ public class EndOfArcadeGameFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
-        int finalScoreFromGameActivity = bundle.getInt( SCORE_COUNTER, 123 );
-        View rootView = inflater.inflate( R.layout.fragment_end_of_arcade_game, container, false );
+        int finalScoreFromGameActivity = bundle.getInt(SCORE_COUNTER, 123);
+        View rootView = inflater.inflate(R.layout.fragment_end_of_arcade_game, container, false);
 
-        finalScoreTv = rootView.findViewById( R.id.final_score_tv );
-        finalScoreTv.setText( finalScoreFromGameActivity + "" );
-        nickNameEt = rootView.findViewById( R.id.nickname_et );
-        playAgainBtn = rootView.findViewById( R.id.play_again_btn );
-        playStageBtn = rootView.findViewById( R.id.play_stage_mode_btn );
-        scoreBoardIb = rootView.findViewById( R.id.scoreBoard_ib );
+        finalScoreTv = rootView.findViewById(R.id.final_score_tv);
+        finalScoreTv.setText(finalScoreFromGameActivity + "");
+        nickNameEt = rootView.findViewById(R.id.nickname_et);
+        playAgainBtn = rootView.findViewById(R.id.play_again_btn);
+        playStageBtn = rootView.findViewById(R.id.play_stage_mode_btn);
+        scoreBoardIb = rootView.findViewById(R.id.scoreBoard_ib);
 
-        playAgainBtn.setOnClickListener( new View.OnClickListener() {
+        playAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
-                    listener.onArcadeGameEndAndPlayAgain( nickNameEt.getText().toString() );
+                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
+                    listener.onArcadeGameEndAndPlayAgain(nickNameEt.getText().toString());
 
                 } else {
-                    Toast.makeText( getActivity(), "please enter nickname", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                 }
             }
-        } );
+        });
 
 
-        playStageBtn.setOnClickListener( new View.OnClickListener() {
+        playStageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
-                    listener.onArcadeGameEndAndPlayStage( nickNameEt.getText().toString() );
+                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
+                    listener.onArcadeGameEndAndPlayStage(nickNameEt.getText().toString());
 
                 } else {
-                    Toast.makeText( getActivity(), "please enter nickname", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                 }
             }
-        } );
+        });
 
 
-        scoreBoardIb.setOnClickListener( new View.OnClickListener() {
+        scoreBoardIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty( nickNameEt.getText().toString() )) {
-                    listener.onArcadeGameEndAndGoToScoreboard( nickNameEt.getText().toString() );
+                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
+                    listener.onArcadeGameEndAndGoToScoreboard(nickNameEt.getText().toString());
                 } else {
-                    Toast.makeText( getActivity(), "please enter nickname", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                 }
             }
-        } );
+        });
 
         return rootView;
     }
@@ -140,7 +141,7 @@ public class EndOfArcadeGameFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
-        super.onCreate( savedInstanceState );
+        super.onCreate(savedInstanceState);
     }
 
 

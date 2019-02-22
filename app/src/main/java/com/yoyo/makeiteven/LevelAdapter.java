@@ -27,34 +27,34 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     @Override
     public LevelsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from( viewGroup.getContext() ).inflate( R.layout.level_cell, viewGroup, false );
-        return new LevelsViewHolder( view );
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.level_cell, viewGroup, false);
+        return new LevelsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
 
-        final Level levelItem = levelItems.get( i );
-        levelsViewHolder.stageNumberTv.setText( levelItem.getLevelNum() + "" );
+        final Level levelItem = levelItems.get(i);
+        levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum() + "");
 
         if (levelItem.getLevelNum() <= mCurrentStage) {
-            levelsViewHolder.stageNumberLayout.setVisibility( View.VISIBLE );
-            levelsViewHolder.lockStage.setVisibility( View.INVISIBLE );
+            levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
+            levelsViewHolder.lockStage.setVisibility(View.INVISIBLE);
         } else {
-            levelsViewHolder.lockStage.setVisibility( View.VISIBLE );
-            levelsViewHolder.stageNumberLayout.setVisibility( View.INVISIBLE );
+            levelsViewHolder.lockStage.setVisibility(View.VISIBLE);
+            levelsViewHolder.stageNumberLayout.setVisibility(View.INVISIBLE);
         }
 
-        TiltEffectAttacher.attach( levelsViewHolder.btn );
+        TiltEffectAttacher.attach(levelsViewHolder.btn);
         if (levelsViewHolder.lockStage.getVisibility() == View.INVISIBLE) {
 
-            levelsViewHolder.btn.setOnClickListener( new View.OnClickListener() {
+            levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String type = StageGameMode.TYPE;
-                    GameActivity.startGameActivity( mContext, type, levelItem.getLevelNum() );
+                    GameActivity.startGameActivity(mContext, type, levelItem.getLevelNum());
                 }
-            } );
+            });
         }
     }
 
@@ -71,11 +71,11 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
 
 
         public LevelsViewHolder(View itemView) {
-            super( itemView );
-            btn = itemView.findViewById( R.id.level_btn );
-            stageNumberLayout = itemView.findViewById( R.id.stage_number_layout );
-            lockStage = itemView.findViewById( R.id.lock_iv );
-            stageNumberTv = itemView.findViewById( R.id.stage_number_tv );
+            super(itemView);
+            btn = itemView.findViewById(R.id.level_btn);
+            stageNumberLayout = itemView.findViewById(R.id.stage_number_layout);
+            lockStage = itemView.findViewById(R.id.lock_iv);
+            stageNumberTv = itemView.findViewById(R.id.stage_number_tv);
         }
     }
 
