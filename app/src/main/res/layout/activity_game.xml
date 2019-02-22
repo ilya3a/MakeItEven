@@ -271,9 +271,7 @@
     android:layout_height="match_parent"
     android:background="#ffff"
     android:id="@+id/hiding_layout"
-    android:visibility="gone">
-
-</RelativeLayout>
+    >
     <ImageView
         android:id="@+id/countdown_imageview"
         android:layout_width="350dp"
@@ -282,5 +280,7 @@
         android:layout_centerInParent="true"
         android:background="@drawable/ic_three"
         android:focusable="true" />
+</RelativeLayout>
+
 
 </RelativeLayout>

@@ -57,7 +57,7 @@ public class EndOfArcadeGameFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         int finalScoreFromGameActivity = bundle.getInt( SCORE_COUNTER, 123 );
-        View rootView = inflater.inflate( R.layout.end_of_arcade_game_fragment, container, false );
+        View rootView = inflater.inflate( R.layout.fragment_end_of_arcade_game, container, false );
 
         finalScoreTv = rootView.findViewById( R.id.final_score_tv );
         finalScoreTv.setText( finalScoreFromGameActivity + "" );
