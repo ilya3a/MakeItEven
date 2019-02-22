@@ -1,9 +1,11 @@
 package com.yoyo.makeiteven;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -61,13 +63,8 @@ public class LevelsActivity extends AppCompatActivity {
 
     public static void startLevelsActivity(Context context) {
         Intent intent = new Intent(context, LevelsActivity.class);
-        context.startActivity(intent);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
+        context.startActivity(intent, compat.toBundle());
 
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        StartScreenActivity.startStartScreenActivity(this);
     }
 }

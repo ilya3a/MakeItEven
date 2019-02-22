@@ -8,6 +8,10 @@
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <string name="HigeScore">HigeScore</string>
+    <string name="correct_answer">Correct Answer</string>
+    <string name="wrong_answer">Wrong Answer</string>
+    <string name="division">Division by 0 or not Neutral Division</string>
+    <string name="game_reset">Game Reset</string>
 
 
 </resources>

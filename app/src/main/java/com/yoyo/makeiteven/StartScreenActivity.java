@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.os.Bundle;
 import android.transition.ChangeTransform;
 import android.transition.Explode;
@@ -32,6 +31,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     ImageButton setting_btn, scoreBoard_btn;
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout main_layout;
+    SettingFragment settingFragment = new SettingFragment();
 
 
     @Override
@@ -99,8 +99,8 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
             @Override
             public void onClick(View v) {
-                String type = ArcadeGameMode.TYPE;
-                GameActivity.startGameActivity(StartScreenActivity.this, type, 0);
+                GameActivity.startGameActivity(StartScreenActivity.this, ArcadeGameMode.TYPE, 0);
+
             }
         });
 
@@ -109,9 +109,8 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartScreenActivity.this, LevelsActivity.class);
-                ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(StartScreenActivity.this);
-                startActivity(intent, compat.toBundle());
+                LevelsActivity.startLevelsActivity(StartScreenActivity.this);
+
             }
         });
 
@@ -120,6 +119,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
             @Override
             public void onClick(View v) {
 
+                rotat_setting();
                 scoreBoard_btn.setEnabled(false);
                 setting_btn.setEnabled(false);
                 stage_mode_btn.setVisibility(View.INVISIBLE);
@@ -127,7 +127,6 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                SettingFragment settingFragment = new SettingFragment();
 
                 transaction.add(R.id.start_activity_container, settingFragment).commit();
 
@@ -205,7 +204,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     @Override
     public void OnResetGame() {
         android.app.AlertDialog.Builder alertDialogBuilder = new android.app.AlertDialog.Builder(StartScreenActivity.this);
-        alertDialogBuilder.setTitle("Game Reset");
+        alertDialogBuilder.setTitle(getResources().getString(R.string.game_reset));
         alertDialogBuilder.setIcon(R.drawable.warning_icon);
         alertDialogBuilder.setMessage(R.string.Progress)
                 .setCancelable(false)
@@ -230,7 +229,6 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         android.app.AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-
     @Override
     public void OnExit() {
         stage_mode_btn.setVisibility(View.VISIBLE);
@@ -238,5 +236,16 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         scoreBoard_btn.setEnabled(true);
         setting_btn.setEnabled(true);
     }
+    @Override
+    public void onBackPressed() {
+        if (!scoreBoard_btn.isEnabled()) {
+            getFragmentManager().beginTransaction().remove(settingFragment).commit();
+            OnExit();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
 
 }

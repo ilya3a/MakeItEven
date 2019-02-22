@@ -6,22 +6,18 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
-import android.util.Rational;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,17 +60,23 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     static final String SCORE_COUNTER = "score_counter";
     private ArrayList<StageInfo> stageInfosArray;
     private String mHint;
-    private ImageView countdounImageView;
+    private ImageView countdownImageView;
     private AnimationDrawable cuntDownAnim;
     private RelativeLayout hidingLayout;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (timerRunning) {
-            mCountDownTimer.cancel();
-        }
-        finish();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (timerRunning) {
+                    mCountDownTimer.cancel();
+                }
+                finish();
+            }
+        },3000);
+
     }
 
     @Override
@@ -85,14 +87,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    countdounImageView.setVisibility(View.GONE);
+                    countdownImageView.setVisibility(View.GONE);
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
                 }
             }, 3000);
         } else if (mGameType.equals(StageGameMode.TYPE)) {
             hidingLayout.setVisibility(View.GONE);
-            countdounImageView.setVisibility(View.GONE);
+            countdownImageView.setVisibility(View.GONE);
         }
 
     }
@@ -147,9 +149,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2.setOnClickListener(helpListener);
 
 
-        countdounImageView = findViewById(R.id.countdown_imageview);
-        countdounImageView.setBackgroundResource(R.drawable.three_two_one);
-        cuntDownAnim = (AnimationDrawable) countdounImageView.getBackground();
+        countdownImageView = findViewById(R.id.countdown_imageview);
+        countdownImageView.setBackgroundResource(R.drawable.three_two_one);
+        cuntDownAnim = (AnimationDrawable) countdownImageView.getBackground();
 
         Bundle bundle = getIntent().getExtras();
         mGameType = bundle.getString(EXTRA_GAME_TYPE);
@@ -323,9 +325,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             }
         } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
             mAbstractGame.setDifficulty(12);
+
             do {
                 theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
             } while (theDesiredNumber > 100 || theDesiredNumber < 0);
+
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
             mHint = mAbstractGame.getHint();
         }
@@ -458,7 +462,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     break;
                 case "div":
                     if (num2 == 0 || num1 % num2 != 0) {
-                        Toasty.warning(this, "divide by 0 or not neutral division ", Toast.LENGTH_SHORT).show();
+                        Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
                         isDivideZero = true;
 
 
@@ -512,7 +516,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             if (i == 1) {
                 //you win
                 if (theDesiredNumber == sum) {
-                    Toasty.success(this, "Correct answer", Toast.LENGTH_SHORT).show();
+                    Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
                         gameInit();
                         scoreCounter = scoreCounter + 100;
@@ -527,7 +531,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                         mActualScoreTv.setText(scoreCounter + "");
 
-                    } else {
+                    } else if(mGameType.equals(StageGameMode.TYPE)) {
                         int currentStage = DataStore.getInstance(this).getCurrentStage();
                         if (mLevelNum == currentStage) {
                             currentStage++;
@@ -540,12 +544,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 } else {
                     //you loose
-                    Toasty.error(this, "Wrong answer", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
                         stopTimer();
                         gameInit();
                         startTimer();
-                    } else {
+                    } else if(mGameType.equals(StageGameMode.TYPE)){
                         LevelsActivity.startLevelsActivity(this);
                         finish();
                     }

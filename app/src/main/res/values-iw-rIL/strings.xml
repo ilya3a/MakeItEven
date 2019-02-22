@@ -9,4 +9,8 @@
     <string name="Yes">כן</string>
     <string name="No">לא</string>
     <string name="HigeScore">שיאים</string>
+    <string name="correct_answer">תשובה נכונה</string>
+    <string name="wrong_answer">תשובה שגויה</string>
+    <string name="division">חלוקה ב0 או חלוקה לא חוקית</string>
+    <string name="game_reset">התחל משחק מחדש</string>
 </resources>
