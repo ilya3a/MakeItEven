@@ -6,8 +6,10 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.ChangeTransform;
 import android.transition.Explode;
 import android.transition.Transition;
@@ -32,6 +34,8 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout main_layout;
     SettingFragment settingFragment = new SettingFragment();
+    float currentMainVolume;
+    public  static MediaPlayer gameMusic;
 
 
     @Override
@@ -49,6 +53,11 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
         }
         setContentView(R.layout.activity_start__screen);
+        currentMainVolume=(DataStore.getInstance(this).getMainSoundSetting());
+        gameMusic=MediaPlayer.create(this,R.raw.super_duper_by_ian_post);
+        gameMusic.setVolume(currentMainVolume/100,(currentMainVolume/100));
+        gameMusic.setLooping(true);
+        gameMusic.start();
 
 
         //logo animation
@@ -188,7 +197,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
     private void rotat_setting() {
         ChangeTransform changeTransform = new ChangeTransform();
-        changeTransform.setDuration(200);
+        changeTransform.setDuration(400);
         changeTransform.setInterpolator(new AccelerateInterpolator());
         TransitionManager.beginDelayedTransition(main_layout, changeTransform);
         toggleRotation(setting_btn);
@@ -201,7 +210,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
     @Override
     public void OnSeekBarMainVolume(int mainVolume) {
-
+        gameMusic.setVolume((float)mainVolume/100,(float)mainVolume/100);
     }
 
     @Override
@@ -251,6 +260,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
             OnExit();
         } else {
             super.onBackPressed();
+            gameMusic.stop();
         }
     }
 

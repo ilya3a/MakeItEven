@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -68,6 +70,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private ImageView countdownImageView;
     private AnimationDrawable cuntDownAnim;
     private RelativeLayout hidingLayout;
+    private float sound_Effects_Volume;
 
     @Override
     public void onBackPressed() {
@@ -88,6 +91,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     protected void onStart() {
         super.onStart();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
+            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -95,6 +99,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     countdownImageView.setVisibility(View.GONE);
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
+                    StartScreenActivity.gameMusic = MediaPlayer.create(GameActivity.this, R.raw.super_duper_by_ian_post);
+                    StartScreenActivity.gameMusic.start();
                 }
             }, 3000);
         } else if (mGameType.equals(StageGameMode.TYPE)) {
@@ -141,6 +147,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hidingLayout = findViewById(R.id.hiding_layout);
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
+        sound_Effects_Volume = DataStore.getInstance(this).getSoundEffectSetting();
+
 
         View.OnClickListener helpListener = new View.OnClickListener() {
             @Override
@@ -194,11 +202,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
             mGameResetBtnIb.setVisibility(View.GONE);
-
-
-        } else if (mGameType.equals(StageGameMode.TYPE)) {
-            hintBtn_2.setVisibility(View.GONE);
-            hintBtn_3.setVisibility(View.GONE);
         }
 
         init_toasty();
@@ -436,7 +439,22 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer btn_off, btn_On;
+                btn_off = MediaPlayer.create(GameActivity.this, R.raw.btn_off_sound);
+                btn_On = MediaPlayer.create(GameActivity.this, R.raw.btn_on_sound);
+                btn_On.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+                btn_off.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+                if (!((ToggleButton) v).isChecked()) {
+                    btn_On.start();
+                } else if (((ToggleButton) v).isChecked()) {
+                    btn_off.start();
+                }
+            }
+        });
         /// checks that nobody checked
         int i = 0;
         for (ToggleButton toggleButton : gameBtns) {
@@ -590,89 +608,75 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 }
 
                 gameInit();
-            }
 
 
-            if (i == 1) {
-                //game finished
-
-                //you win
-                if (theDesiredNumber == sum) {
-//                    Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
-                    if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                        gameInit();
-                        scoreCounter = scoreCounter + 100;
-                        winsCounter = winsCounter + 1;
-                        if (winsCounter >= 3)
+                if (i == 1) {
+                    //you win
+                    if (theDesiredNumber == sum) {
+                        Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
+                        if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                            gameInit();
                             scoreCounter = scoreCounter + 100;
-                        winsCounter = winsCounter + 1;
-                        if (winsCounter >= 3)
-                            scoreCounter = scoreCounter + 100;
-                        if (winsCounter >= 7)
-                            scoreCounter = scoreCounter + 200;
-                        if (winsCounter >= 10) {
-                            scoreCounter = scoreCounter + 300;
-                        }
+                            winsCounter = winsCounter + 1;
+                            if (winsCounter >= 3)
+                                scoreCounter = scoreCounter + 100;
+                            winsCounter = winsCounter + 1;
+                            if (winsCounter >= 3)
+                                scoreCounter = scoreCounter + 100;
+                            if (winsCounter >= 7)
+                                scoreCounter = scoreCounter + 200;
+                            if (winsCounter >= 10) {
+                                scoreCounter = scoreCounter + 300;
+                            }
 
-                        mActualScoreTv.setText(scoreCounter + "");
+                            mActualScoreTv.setText(scoreCounter + "");
 
-                    } else if (mGameType.equals(StageGameMode.TYPE)) {
-                        int currentStage = DataStore.getInstance(this).getCurrentStage();
-                        if (mLevelNum == currentStage) {
-                            currentStage++;
-                        }
+                        } else if (mGameType.equals(StageGameMode.TYPE)) {
+                            int currentStage = DataStore.getInstance(this).getCurrentStage();
+                            if (mLevelNum == currentStage) {
+                                currentStage++;
+                            }
 
-                        DataStore.getInstance(this).saveCurrentStage(currentStage);
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
+                            DataStore.getInstance(this).saveCurrentStage(currentStage);
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
 
-                                winLooseDialog.setContentView(dialogView);
-                                winLooseDialog.show();
+                                    winLooseDialog.setContentView(dialogView);
+                                    winLooseDialog.show();
 //                                LevelsActivity.startLevelsActivity(GameActivity.this);
 //                                finish();
-                            }
-                        }, 500);
+                                }
+                            }, 500);
 
-                        mActualScoreTv.setText(scoreCounter + "");
+                            mActualScoreTv.setText(scoreCounter + "");
 
-                    }
+                        }
 
-                } else {
-                    //you loose
-                    Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
-                    if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                        stopTimer();
-                        gameInit();
-                        startTimer();
-                    } else if (mGameType.equals(StageGameMode.TYPE)) {
+                    } else {
+                        //you loose
+                        Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
+                        if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                            stopTimer();
+                            gameInit();
+                            startTimer();
+                        } else if (mGameType.equals(StageGameMode.TYPE)) {
 
-                        owlIv.setImageResource(R.drawable.loose_owl);
-                        msgTv.setText("You Are Worng");
-                        winLooseDialog.setContentView(dialogView);
-                        nextIb.setVisibility(View.GONE);
-                        space.setVisibility(View.VISIBLE);
-                        winLooseDialog.show();
+                            owlIv.setImageResource(R.drawable.loose_owl);
+                            msgTv.setText("You Are Worng");
+                            winLooseDialog.setContentView(dialogView);
+                            nextIb.setVisibility(View.GONE);
+                            space.setVisibility(View.VISIBLE);
+                            winLooseDialog.show();
 
-                        gameInit();
+                            gameInit();
 //
+                        }
                     }
                 }
+
             }
-
         }
-    }
-
-    private void inflateWinLooseDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.win_loose_dialog, null);
-
-        ImageView owlIv = dialogView.findViewById(R.id.image_owl);
-        TextView msgTv = dialogView.findViewById(R.id.text_msg);
-        Button tryAgainBtn = dialogView.findViewById(R.id.try_again_ib);
-        ImageButton homeIb = dialogView.findViewById(R.id.home_ib);
-
-
     }
 
 
