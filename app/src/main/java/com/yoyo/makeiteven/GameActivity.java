@@ -140,12 +140,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         View.OnClickListener helpListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
-                ((ImageButton) v).setEnabled(false);
+              
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                    ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
+                    ((ImageButton) v).setEnabled(false);
                     gameInit();
                 }else if (mGameType.equals(StageGameMode.TYPE)){
                     Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
+
                 }
 
             }
@@ -187,6 +189,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
             mGameResetBtnIb.setVisibility(View.GONE);
+
+
+        }else if (mGameType.equals(StageGameMode.TYPE)){
+            hintBtn_2.setVisibility(View.GONE);
+            hintBtn_3.setVisibility(View.GONE);
         }
 
         init_toasty();

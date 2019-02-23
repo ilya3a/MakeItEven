@@ -48,7 +48,6 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
             levelsViewHolder.stageNumberLayout.setVisibility(View.INVISIBLE);
         }
 
-//        TiltEffectAttacher.attach(levelsViewHolder.btn);
         final Animation btn_press = AnimationUtils.loadAnimation(mContext, R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(mContext, R.anim.btn_realeas);
         final View.OnTouchListener btn_animation = new View.OnTouchListener() {
