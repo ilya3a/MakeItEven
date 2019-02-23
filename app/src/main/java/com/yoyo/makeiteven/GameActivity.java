@@ -186,6 +186,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
+            mGameResetBtnIb.setVisibility(View.GONE);
         }
 
         init_toasty();

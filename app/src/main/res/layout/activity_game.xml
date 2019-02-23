@@ -251,7 +251,7 @@
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="7dp"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/restart_level"
                 android:background="@color/Transparent"
                 android:contentDescription=""
                 android:scaleType="fitCenter"
@@ -263,10 +263,11 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
                 android:background="@color/Transparent"
-                android:src="@drawable/restart_img"
-                android:visibility="gone"
-                />
+                android:padding="7dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_restart" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -276,7 +277,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffff"
-        >
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/countdown_imageview"

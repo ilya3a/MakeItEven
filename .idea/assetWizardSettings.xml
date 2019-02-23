@@ -35,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="8d8b8b" />
-                            <entry key="outputName" value="ic_seekbar_thumb" />
-                            <entry key="sourceFile" value="C:\Users\aptekar\Downloads\garbich\android project images\seekBar_thumb.svg" />
+                            <entry key="outputName" value="ic_icon" />
+                            <entry key="sourceFile" value="C:\Users\aptekar\Downloads\garbich\android project images\icon.svg" />
                           </map>
                         </option>
                       </PersistentState>
