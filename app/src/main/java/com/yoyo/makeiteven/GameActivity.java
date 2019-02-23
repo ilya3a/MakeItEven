@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -63,6 +65,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private ImageView countdownImageView;
     private AnimationDrawable cuntDownAnim;
     private RelativeLayout hidingLayout;
+    private float sound_Effects_Volume;
 
     @Override
     public void onBackPressed() {
@@ -83,6 +86,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     protected void onStart() {
         super.onStart();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
+            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -90,6 +94,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     countdownImageView.setVisibility(View.GONE);
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
+                    StartScreenActivity.gameMusic= MediaPlayer.create(GameActivity.this,R.raw.super_duper_by_ian_post);
+                    StartScreenActivity.gameMusic.start();
                 }
             }, 3000);
         } else if (mGameType.equals(StageGameMode.TYPE)) {
@@ -136,6 +142,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hidingLayout = findViewById(R.id.hiding_layout);
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
+        sound_Effects_Volume=DataStore.getInstance(this).getSoundEffectSetting();
+
+
 
         View.OnClickListener helpListener = new View.OnClickListener() {
             @Override
@@ -214,8 +223,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             @Override
             public void onCheckedChanged(SingleSelectToggleGroup group, int checkedId) {
 
-                ToggleButton checkedToggleButton = findViewById(checkedId);
 
+                ToggleButton checkedToggleButton = findViewById(checkedId);
                 if (isNumberSelected && isOperatorSelected) {
                     num2 = Integer.parseInt(checkedToggleButton.getText().toString());
                     selectedNumberId_2 = checkedId;
@@ -424,7 +433,23 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(final View v) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer btn_off,btn_On;
+                btn_off=MediaPlayer.create(GameActivity.this,R.raw.btn_off_sound);
+                btn_On=MediaPlayer.create(GameActivity.this,R.raw.btn_on_sound);
+                btn_On.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                btn_off.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                if(!((ToggleButton)v).isChecked()){
+                    btn_On.start();
+                }
+                else if (((ToggleButton)v).isChecked()){
+                    btn_off.start();
+                }
+            }
+        });
         /// checks that nobody checked
         int i = 0;
         for (ToggleButton toggleButton : gameBtns) {

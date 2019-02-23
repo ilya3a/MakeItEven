@@ -45,20 +45,65 @@ public class SettingFragment extends Fragment {
         soundEffectView = rootView.findViewById(R.id.view_sound_efects);
         exitBtn = rootView.findViewById(R.id.close_setting_btn);
 
-        mainVolumeView.updateVolumeValue(DataStore.getInstance(inflater.getContext()).getMainSoundSetting());
-        soundEffectView.updateVolumeValue(DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
-        mainVolumeBar.setProgress(DataStore.getInstance(inflater.getContext()).getMainSoundSetting());
-        soundEffectsBar.setProgress(DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
+        int mainsoundint=DataStore.getInstance(inflater.getContext()).getMainSoundSetting();
+        int soundeffectsint =DataStore.getInstance(inflater.getContext()).getSoundEffectSetting();
+        mainVolumeView.updateVolumeValue(mainsoundint);
+        soundEffectView.updateVolumeValue(soundeffectsint);
+        mainVolumeBar.setProgress(mainsoundint);
+        soundEffectsBar.setProgress(soundeffectsint);
+
+        mainVolumeView.setClickable(true);
+        soundEffectView.setClickable(true);
+
+        View.OnClickListener soundClicklistener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId()==mainVolumeView.getId()){
+                    if (mainVolumeBar.getProgress()!=0){
+                        mainVolumeBar.setProgress(0);
+                        DataStore.getInstance(inflater.getContext()).saveVolumeSetting(0,DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
+                        mainVolumeView.updateVolumeValue(0);
+                        listener.OnSeekBarMainVolume(0);
+                    }
+                    else if (mainVolumeBar.getProgress()==0){
+                        mainVolumeBar.setProgress(50);
+                        mainVolumeView.updateVolumeValue(50);
+                        listener.OnSeekBarMainVolume(50);
+                        DataStore.getInstance(inflater.getContext()).saveVolumeSetting(50,DataStore.getInstance(inflater.getContext()).getSoundEffectSetting());
+
+                    }
+
+                }
+                else if (v.getId()==soundEffectView.getId()){
+                    if (soundEffectsBar.getProgress()!=0){
+                        soundEffectsBar.setProgress(0);
+                        DataStore.getInstance(inflater.getContext()).saveVolumeSetting(DataStore.getInstance(inflater.getContext()).getSoundEffectSetting(),0);
+                        soundEffectView.updateVolumeValue(0);
+                    }
+                     else if (soundEffectsBar.getProgress()==0){
+                        soundEffectsBar.setProgress(50);
+                        soundEffectView.updateVolumeValue(50);
+                        DataStore.getInstance(inflater.getContext()).saveVolumeSetting(DataStore.getInstance(inflater.getContext()).getMainSoundSetting(),50);
+
+                    }
+                }
+            }
+        };
+        mainVolumeView.setOnClickListener(soundClicklistener);
+        soundEffectView.setOnClickListener(soundClicklistener);
 
         SeekBar.OnSeekBarChangeListener seekBarListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (seekBar.getId() == R.id.main_sound_seekbar) {
-                    DataStore.getInstance(inflater.getContext()).saveVolumeSetting(progress, soundEffectsBar.getProgress());
+                    DataStore.getInstance(inflater.getContext()).saveVolumeSetting(progress,soundEffectsBar.getProgress());
                     mainVolumeView.updateVolumeValue(progress);
-                } else {
+                    listener.OnSeekBarMainVolume(progress);
+                }
+                if(seekBar.getId()==R.id.soundEffect_bar) {
                     DataStore.getInstance(inflater.getContext()).saveVolumeSetting(mainVolumeBar.getProgress(), progress);
                     soundEffectView.updateVolumeValue(progress);
+                    listener.OnSeekBarSoundEffects(progress);
                 }
 
             }
