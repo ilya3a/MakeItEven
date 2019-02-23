@@ -45,8 +45,8 @@ public class LevelsActivity extends AppCompatActivity {
 
 
         initRecyclerView();
-        ImageButton temo = (ImageButton) findViewById(R.id.game_back_btn_levels_screen);
-        temo.setOnClickListener(new View.OnClickListener() {
+        ImageButton gameBackLevelsBtn = (ImageButton) findViewById(R.id.game_back_btn_levels_screen);
+        gameBackLevelsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

@@ -65,7 +65,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         TiltEffectAttacher.attach(game_logo);
         //btn animation
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
-        final Animation btn_releas = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
+        final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
 
         //on touch button animation
         final View.OnTouchListener btn_animation = new View.OnTouchListener() {
@@ -76,7 +76,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
                     btn_press.setFillAfter(true);
                 }
                 if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_releas);
+                    v.startAnimation(btn_release);
                 }
                 return false;
             }
