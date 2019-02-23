@@ -1,6 +1,8 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -12,14 +14,17 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -140,12 +145,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         View.OnClickListener helpListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              
+
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
                     ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
                     ((ImageButton) v).setEnabled(false);
                     gameInit();
-                }else if (mGameType.equals(StageGameMode.TYPE)){
+                } else if (mGameType.equals(StageGameMode.TYPE)) {
                     Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
 
                 }
@@ -191,7 +196,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             mGameResetBtnIb.setVisibility(View.GONE);
 
 
-        }else if (mGameType.equals(StageGameMode.TYPE)){
+        } else if (mGameType.equals(StageGameMode.TYPE)) {
             hintBtn_2.setVisibility(View.GONE);
             hintBtn_3.setVisibility(View.GONE);
         }
@@ -462,6 +467,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         if (num2 != Integer.MAX_VALUE) {
             int sum = 0;
             boolean isDivideZero = false;
+            boolean isFraction = false;
             switch (operator) {
                 case "plus":
                     sum = num1 + num2;
@@ -470,10 +476,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     sum = num1 - num2;
                     break;
                 case "div":
-                    if (num2 == 0 || num1 % num2 != 0) {
+                    if (num2 == 0) {
                         Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
                         isDivideZero = true;
-
+                    } else if (num1 % num2 != 0) {
+                        isFraction = true;
 
                     } else
                         sum = num1 / num2;
@@ -517,15 +524,81 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
             }
 
-            if (isDivideZero)
+            final Dialog winLooseDialog = new Dialog(this);
+            winLooseDialog.setCanceledOnTouchOutside(false);
+            final View dialogView = getLayoutInflater().inflate(R.layout.win_loose_dialog, null);
+            winLooseDialog.setContentView(dialogView);
+
+
+            ImageView owlIv = dialogView.findViewById(R.id.image_owl);
+            TextView msgTv = dialogView.findViewById(R.id.text_msg);
+            ImageButton tryAgainIb = dialogView.findViewById(R.id.try_again_ib);
+            ImageButton homeIb = dialogView.findViewById(R.id.home_ib);
+            ImageButton nextIb = dialogView.findViewById(R.id.next_ib);
+            Space space = dialogView.findViewById(R.id.spacer);
+
+            nextIb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mLevelNum++;
+                    gameInit();
+                    winLooseDialog.dismiss();
+                }
+            });
+
+
+            tryAgainIb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    winLooseDialog.dismiss();
+                }
+            });
+
+
+            homeIb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StartScreenActivity.startStartScreenActivity(GameActivity.this);
+                    finish();
+                }
+            });
+
+
+            if (isDivideZero || isFraction) {
                 //false division
+                if (mGameType.equals(StageGameMode.TYPE)) {
+                    owlIv.setImageResource(R.drawable.loose_owl);
+                    msgTv.setText("Invalid division no fractions");
+                    if (isDivideZero)
+                        msgTv.setText("Invalid division by 0");
+                    winLooseDialog.setContentView(dialogView);
+                    nextIb.setVisibility(View.GONE);
+                    space.setVisibility(View.VISIBLE);
+                    winLooseDialog.show();
+                }
+
                 gameInit();
+            }
+            if (isFraction) {
+                if (mGameType.equals(StageGameMode.TYPE)) {
+                    owlIv.setImageResource(R.drawable.loose_owl);
+                    msgTv.setText("Invalid division no fractions");
+                    winLooseDialog.setContentView(dialogView);
+                    nextIb.setVisibility(View.GONE);
+                    space.setVisibility(View.VISIBLE);
+                    winLooseDialog.show();
+                }
+
+                gameInit();
+            }
 
 
             if (i == 1) {
+                //game finished
+
                 //you win
                 if (theDesiredNumber == sum) {
-                    Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
+//                    Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
                         gameInit();
                         scoreCounter = scoreCounter + 100;
@@ -553,8 +626,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                LevelsActivity.startLevelsActivity(GameActivity.this);
-                                finish();
+
+                                winLooseDialog.setContentView(dialogView);
+                                winLooseDialog.show();
+//                                LevelsActivity.startLevelsActivity(GameActivity.this);
+//                                finish();
                             }
                         }, 500);
 
@@ -570,13 +646,33 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         gameInit();
                         startTimer();
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
-                        LevelsActivity.startLevelsActivity(this);
-                        finish();
+
+                        owlIv.setImageResource(R.drawable.loose_owl);
+                        msgTv.setText("You Are Worng");
+                        winLooseDialog.setContentView(dialogView);
+                        nextIb.setVisibility(View.GONE);
+                        space.setVisibility(View.VISIBLE);
+                        winLooseDialog.show();
+
+                        gameInit();
+//
                     }
                 }
             }
 
         }
+    }
+
+    private void inflateWinLooseDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.win_loose_dialog, null);
+
+        ImageView owlIv = dialogView.findViewById(R.id.image_owl);
+        TextView msgTv = dialogView.findViewById(R.id.text_msg);
+        Button tryAgainBtn = dialogView.findViewById(R.id.try_again_ib);
+        ImageButton homeIb = dialogView.findViewById(R.id.home_ib);
+
+
     }
 
 

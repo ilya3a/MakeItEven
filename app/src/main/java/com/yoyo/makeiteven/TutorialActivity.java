@@ -1,11 +1,9 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +22,7 @@ public class TutorialActivity extends Activity {
 
         totorialImageSwicher=findViewById(R.id.totorialImageSwicher);
         totorialTextview=findViewById(R.id.totorial_textview);
-        nextBtn=findViewById(R.id.next_btn);
+        nextBtn=findViewById(R.id.next_btn_ib);
         backBtn=findViewById(R.id.back_btn);
 
         final Integer[] images={R.drawable.wise_owl,R.drawable.totorial1,R.drawable.totorial2,R.drawable.totorial3,R.drawable.totorial4,
