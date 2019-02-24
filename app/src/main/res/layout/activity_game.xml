@@ -13,11 +13,13 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
+
         <LinearLayout
             android:id="@+id/arcade_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+
             android:orientation="vertical"
             android:visibility="invisible">
 
@@ -27,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:padding="5dp"
+                android:layout_marginTop="10dp"
                 android:text=""
                 android:textColor="@color/primaryTextColor"
                 android:textSize="24sp"
@@ -80,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/the_number"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
@@ -273,7 +276,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffff"
-        android:visibility="gone">
+        >
 
         <ImageView
             android:id="@+id/countdown_imageview"

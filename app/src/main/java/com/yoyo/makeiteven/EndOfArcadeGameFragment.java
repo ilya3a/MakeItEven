@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,8 +24,7 @@ public class EndOfArcadeGameFragment extends Fragment {
 
     EditText nickNameEt;
     TextView finalScoreTv;
-    Button playAgainBtn, playStageBtn;
-    ImageButton scoreBoardIb;
+    ImageButton playAgainIb, homeIb,scoreBoardIb;
     private EndOfArcadeGameFragmentListener listener;
 
 
@@ -40,7 +38,7 @@ public class EndOfArcadeGameFragment extends Fragment {
     interface EndOfArcadeGameFragmentListener {
         void onArcadeGameEndAndPlayAgain(String nickName);
 
-        void onArcadeGameEndAndPlayStage(String nickName);
+        void onArcadeGameEndAndGoToHome(String nickName);
 
         void onArcadeGameEndAndGoToScoreboard(String nickName);
     }
@@ -66,8 +64,8 @@ public class EndOfArcadeGameFragment extends Fragment {
         finalScoreTv = rootView.findViewById(R.id.final_score_tv);
         finalScoreTv.setText(finalScoreFromGameActivity + "");
         nickNameEt = rootView.findViewById(R.id.nickname_et);
-        playAgainBtn = rootView.findViewById(R.id.play_again_btn);
-        playStageBtn = rootView.findViewById(R.id.play_stage_mode_btn);
+        playAgainIb = rootView.findViewById(R.id.play_again_btn);
+        homeIb = rootView.findViewById(R.id.play_stage_mode_btn);
         scoreBoardIb = rootView.findViewById(R.id.scoreBoard_ib);
 
         final Animation btn_press = AnimationUtils.loadAnimation(inflater.getContext(), R.anim.btn_pressed);
@@ -85,8 +83,8 @@ public class EndOfArcadeGameFragment extends Fragment {
                 return false;
             }
         };
-        playAgainBtn.setOnTouchListener(btn_animation);
-        playAgainBtn.setOnClickListener(new View.OnClickListener() {
+        playAgainIb.setOnTouchListener(btn_animation);
+        playAgainIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -100,12 +98,12 @@ public class EndOfArcadeGameFragment extends Fragment {
             }
         });
 
-        playStageBtn.setOnTouchListener(btn_animation);
-        playStageBtn.setOnClickListener(new View.OnClickListener() {
+        homeIb.setOnTouchListener(btn_animation);
+        homeIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
-                    listener.onArcadeGameEndAndPlayStage(nickNameEt.getText().toString());
+                    listener.onArcadeGameEndAndGoToHome(nickNameEt.getText().toString());
 
                 } else {
                     Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();

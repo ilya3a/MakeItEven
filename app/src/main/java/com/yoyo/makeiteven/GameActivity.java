@@ -56,6 +56,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     private boolean timerRunning;
+
+
     boolean isOperatorSelected = false, isNumberSelected = false;
     private CountDownTimer mCountDownTimer;
     TextView mCountDownTv, mScoreTv, mActualScoreTv, mTheDesiredNumberTv;
@@ -80,20 +82,33 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private float sound_Effects_Volume;
     private MediaPlayer taDaplayer;
 
+
+    @Override
+    protected void onUserLeaveHint() {
+        onBackPressed();
+        StartScreenActivity.gameMusic.pause();
+        super.onUserLeaveHint();
+    }
+    @Override
+    protected void onResume() {
+        StartScreenActivity.gameMusic.start();
+        super.onResume();
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        StartScreenActivity.gameMusic.stop();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (timerRunning) {
+//        StartScreenActivity.gameMusic.stop();
+        if (mGameType.equals(ArcadeGameMode.TYPE)) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
                     mCountDownTimer.cancel();
-                    StartScreenActivity.gameMusic.stop();
+//                    StartScreenActivity.gameMusic.stop();
+
+                    finish();
                 }
-                finish();
-            }
-        }, 3000);
+            }, 3000);
+        }
 
     }
 
@@ -101,17 +116,21 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     protected void onStart() {
         super.onStart();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
-            StartScreenActivity.gameMusic.stop();
+//            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     countdownImageView.setVisibility(View.GONE);
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
-                    StartScreenActivity.gameMusic = MediaPlayer.create(GameActivity.this, R.raw.super_duper_by_ian_post);
-                    StartScreenActivity.gameMusic.setVolume((float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100, (float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100);
-                    StartScreenActivity.gameMusic.start();
+                    for (ToggleButton tb:gameBtns){
+                        tb.startAnimation(bounce_shake);
+                    }
+//                    StartScreenActivity.gameMusic = MediaPlayer.create(GameActivity.this, R.raw.super_duper_by_ian_post);
+//                    StartScreenActivity.gameMusic.setVolume((float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100, (float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100);
+//                    StartScreenActivity.gameMusic.start();
                 }
             }, 3000);
         } else if (mGameType.equals(StageGameMode.TYPE)) {
@@ -168,13 +187,16 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         bounce_shake.setInterpolator(interpolator);
 
 
-        View.OnClickListener helpListener = new View.OnClickListener() {
+        View.OnClickListener hintListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
                     ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
                     ((ImageButton) v).setEnabled(false);
+                    for (ToggleButton tb : gameBtns) {
+                        tb.startAnimation(bounce_shake);
+                    }
                     gameInit();
                 } else if (mGameType.equals(StageGameMode.TYPE)) {
                     Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
@@ -196,9 +218,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 return false;
             }
         };
-        hintBtnIb.setOnClickListener(helpListener);
-        hintBtn_3.setOnClickListener(helpListener);
-        hintBtn_2.setOnClickListener(helpListener);
+        hintBtnIb.setOnClickListener(hintListener);
+        hintBtn_3.setOnClickListener(hintListener);
+        hintBtn_2.setOnClickListener(hintListener);
         hintBtnIb.setOnTouchListener(btn_animation);
         hintBtn_3.setOnTouchListener(btn_animation);
         hintBtn_2.setOnTouchListener(btn_animation);
@@ -216,6 +238,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
         createGameModel(mGameType);
+
+
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
@@ -225,6 +249,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         } else if (mGameType.equals(StageGameMode.TYPE)) {
             hintBtn_2.setVisibility(View.GONE);
             hintBtn_3.setVisibility(View.GONE);
+            arcadeContainer.setVisibility(View.VISIBLE);
+            mActualScoreTv.setVisibility(View.GONE);
+            mScoreTv.setVisibility(View.INVISIBLE);
+            mCountDownTv.setText("Level: " + String.valueOf(mLevelNum));
         }
 
         init_toasty();
@@ -462,6 +490,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
     }
 
+
+
     @Override
     public void onClick(final View v) {
         new Handler().post(new Runnable() {
@@ -582,7 +612,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             nextIb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mLevelNum++;
+                    mCountDownTv.setText("Level: " + String.valueOf(++mLevelNum));
                     gameInit();
                     winLooseDialog.dismiss();
 
@@ -630,6 +660,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
                     winLooseDialog.show();
+
                     taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                     taDaplayer.start();
                 }
@@ -645,6 +676,16 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 if (theDesiredNumber == sum) {
 
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
+
+                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                        taDaplayer.start();
+
+
+                        RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
+                        CommonConfetti.rainingConfetti(relativeLayout, new int[]{Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.CYAN,
+                                Color.RED, Color.BLUE})
+                                .oneShot();
+
                         Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                         gameInit();
                         scoreCounter = scoreCounter + 100;
@@ -699,9 +740,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     //you loose
 
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                        stopTimer();
+//                        stopTimer();
                         gameInit();
-                        startTimer();
+//                        startTimer();
+
                         Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
 
@@ -739,9 +781,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
     @Override
-    public void onArcadeGameEndAndPlayStage(String nickName) {
+    public void onArcadeGameEndAndGoToHome(String nickName) {
         DataStore.getInstance(GameActivity.this).saveNameAndScore(nickName, scoreCounter);
-        Intent intent = new Intent(GameActivity.this, LevelsActivity.class);
+        Intent intent = new Intent(GameActivity.this, StartScreenActivity.class);
         startActivity(intent);
         finish();
     }

@@ -52,12 +52,20 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
 
 
         }
+
         setContentView(R.layout.activity_start__screen);
-        currentMainVolume=(DataStore.getInstance(this).getMainSoundSetting());
-        gameMusic=MediaPlayer.create(this,R.raw.super_duper_by_ian_post);
-        gameMusic.setVolume(currentMainVolume/100,(currentMainVolume/100));
-        gameMusic.setLooping(true);
-        gameMusic.start();
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                currentMainVolume=(DataStore.getInstance(StartScreenActivity.this).getMainSoundSetting());
+                gameMusic=MediaPlayer.create(StartScreenActivity.this,R.raw.super_duper_by_ian_post);
+                gameMusic.setVolume(currentMainVolume/100,(currentMainVolume/100));
+                gameMusic.setLooping(true);
+                gameMusic.start();
+            }
+        });
+
 
 
         //logo animation
@@ -216,6 +224,19 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     @Override
     public void OnSeekBarSoundEffects(int soundEffectsVolume) {
 
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        gameMusic.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        gameMusic.pause();
     }
 
     @Override
