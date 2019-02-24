@@ -181,7 +181,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
 
-        sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting() / 100);
+        int temp=DataStore.getInstance(this).getSoundEffectSetting();
+        sound_Effects_Volume =(float)temp/100;
         taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
         taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,7 +23,7 @@ import static com.yoyo.makeiteven.GameActivity.SCORE_COUNTER;
 
 public class EndOfArcadeGameFragment extends Fragment {
 
-    EditText nickNameEt;
+    TextInputLayout nickNameEt;
     TextView finalScoreTv;
     ImageButton playAgainIb, homeIb,scoreBoardIb;
     private EndOfArcadeGameFragmentListener listener;
@@ -67,7 +68,6 @@ public class EndOfArcadeGameFragment extends Fragment {
         playAgainIb = rootView.findViewById(R.id.play_again_btn);
         homeIb = rootView.findViewById(R.id.play_stage_mode_btn);
         scoreBoardIb = rootView.findViewById(R.id.scoreBoard_ib);
-
         final Animation btn_press = AnimationUtils.loadAnimation(inflater.getContext(), R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(inflater.getContext(), R.anim.btn_realeas);
         final View.OnTouchListener btn_animation = new View.OnTouchListener() {
@@ -89,11 +89,13 @@ public class EndOfArcadeGameFragment extends Fragment {
             public void onClick(View v) {
 
 
-                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
-                    listener.onArcadeGameEndAndPlayAgain(nickNameEt.getText().toString());
+                if (!TextUtils.isEmpty(nickNameEt.getEditText().getText().toString())) {
+                    listener.onArcadeGameEndAndPlayAgain(nickNameEt.getEditText().getText().toString());
 
                 } else {
-                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    nickNameEt.setErrorEnabled(true);
+                    nickNameEt.setError("this field required");
                 }
             }
         });
@@ -102,11 +104,13 @@ public class EndOfArcadeGameFragment extends Fragment {
         homeIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
-                    listener.onArcadeGameEndAndGoToHome(nickNameEt.getText().toString());
+                if (!TextUtils.isEmpty(nickNameEt.getEditText().getText().toString())) {
+                    listener.onArcadeGameEndAndGoToHome(nickNameEt.getEditText().getText().toString());
 
                 } else {
-                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    nickNameEt.setErrorEnabled(true);
+                    nickNameEt.setError("this field required");
                 }
             }
         });
@@ -115,10 +119,12 @@ public class EndOfArcadeGameFragment extends Fragment {
         scoreBoardIb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(nickNameEt.getText().toString())) {
-                    listener.onArcadeGameEndAndGoToScoreboard(nickNameEt.getText().toString());
+                if (!TextUtils.isEmpty(nickNameEt.getEditText().getText().toString())) {
+                    listener.onArcadeGameEndAndGoToScoreboard(nickNameEt.getEditText().getText().toString());
                 } else {
-                    Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
+                    nickNameEt.setErrorEnabled(true);
+                    nickNameEt.setError("this field required");
                 }
             }
         });

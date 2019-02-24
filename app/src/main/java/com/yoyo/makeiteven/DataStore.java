@@ -78,12 +78,12 @@ public class DataStore {
     }
 
     public int getMainSoundSetting() {
-        return mSharedPref.getInt("mainSound", 50);
+        return mSharedPref.getInt("mainSound", 60);
     }
 
     public int getSoundEffectSetting() {
 
-        return mSharedPref.getInt("soundEffects", 50);
+        return mSharedPref.getInt("soundEffects", 100);
     }
 
     public void saveCurrentStage(int currentStage) {
