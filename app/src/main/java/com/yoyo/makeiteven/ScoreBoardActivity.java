@@ -28,6 +28,7 @@ public class ScoreBoardActivity extends ListActivity {
 
         scoreboardAdapter = new ScoreBoardAdapter(this, R.layout.score_cell, DataStore.getInstance(this).getScoreBoardList());
         lv.setAdapter(scoreboardAdapter);
+        StartScreenActivity.gameMusic.start();
 
     }
 }
