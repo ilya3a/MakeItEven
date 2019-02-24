@@ -234,10 +234,11 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
         gameMusic.pause();
     }
+
 
     @Override
     public void OnResetGame() {

@@ -39,6 +39,8 @@ public class LevelsActivity extends AppCompatActivity {
         mCurrentStage = DataStore.getInstance(this).getCurrentStage();
         setContentView(R.layout.activity_levels);
 
+        StartScreenActivity.gameMusic.start();
+
         levelItems = new ArrayList<>();
         for (int i = 1; i < 101; ++i)
             levelItems.add(new Level(i));
@@ -59,6 +61,17 @@ public class LevelsActivity extends AppCompatActivity {
         super.onResume();
         mCurrentStage = DataStore.getInstance(this).getCurrentStage();
         initRecyclerView();
+    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        StartScreenActivity.gameMusic.start();
+    }
+
+    @Override
+    protected void onUserLeaveHint() {
+        super.onUserLeaveHint();
+        StartScreenActivity.gameMusic.pause();
     }
 
     private void initRecyclerView() {

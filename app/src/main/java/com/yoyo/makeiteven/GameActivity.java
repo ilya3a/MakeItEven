@@ -89,11 +89,13 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         StartScreenActivity.gameMusic.pause();
         super.onUserLeaveHint();
     }
+
     @Override
-    protected void onResume() {
+    protected void onRestart() {
+        super.onRestart();
         StartScreenActivity.gameMusic.start();
-        super.onResume();
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -115,6 +117,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     @Override
     protected void onStart() {
         super.onStart();
+        StartScreenActivity.gameMusic.start();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
 //            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
