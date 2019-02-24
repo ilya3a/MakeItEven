@@ -1,6 +1,6 @@
 package com.yoyo.makeiteven;
 
-import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -30,29 +30,64 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import java.util.Objects;
+
 
 public class StartScreenActivity extends AppCompatActivity implements SettingFragment.SettingsFragmentListener {
 
-    ImageView game_logo;
-    Button stage_mode_btn, arcade_mode_btn;
-    ImageButton setting_btn, scoreBoard_btn;
+    ImageView gameLogo;
+    Button stageModeBtn, arcadeModeBtn;
+    ImageButton settingBtn, scoreBoard_btn;
     Boolean isRotated = Boolean.FALSE;
-    RelativeLayout main_layout;
+    RelativeLayout mainLayout;
     SettingFragment settingFragment = new SettingFragment();
     float currentMainVolume;
     public static MediaPlayer gameMusic;
     private Toolbar toolBar;
+    MenuItem aboutUsActionBar, settingsActionBar;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.action_menu, menu);
+        settingsActionBar = menu.findItem(R.id.action_settings);
+        settingsActionBar.setIcon(R.drawable.ic_info_black);
+        aboutUsActionBar = menu.findItem(R.id.action_about);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_about:
+                //about
+                final Dialog aboutDialog = new Dialog(this);
+                aboutDialog.setCanceledOnTouchOutside(false);
+                final View dialogView = getLayoutInflater().inflate(R.layout.about_dialog, null);
+                aboutDialog.setContentView(dialogView);
+                aboutDialog.setCanceledOnTouchOutside(true);
+                aboutDialog.show();
+
+                break;
+            case R.id.action_settings:
+                //settings
+                rotate_setting();
+                scoreBoard_btn.setEnabled(false);
+                settingBtn.setEnabled(false);
+                stageModeBtn.setVisibility(View.INVISIBLE);
+                arcadeModeBtn.setVisibility(View.INVISIBLE);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+                transaction.add(R.id.start_activity_container, settingFragment).commit();
+                item.setEnabled(false);
+                break;
+            default:
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -71,26 +106,40 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
         }
 
-        setContentView(R.layout.activity_start__screen);
+        setContentView(R.layout.activity_start_screen);
 
-        AudioManager.getInstance(this).startGameMusic();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                currentMainVolume = (DataStore.getInstance(StartScreenActivity.this).getMainSoundSetting());
+                gameMusic = MediaPlayer.create(StartScreenActivity.this, R.raw.super_duper_by_ian_post);
+                gameMusic.setVolume(currentMainVolume / 100, (currentMainVolume / 100));
+                gameMusic.setLooping(true);
+                gameMusic.start();
+            }
+        });
 
 
         //logo animation
-        game_logo = findViewById(R.id.game_logo);
+        gameLogo = findViewById(R.id.game_logo);
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
-        game_logo.startAnimation(bounce);
+        gameLogo.startAnimation(bounce);
         //finding views
-        stage_mode_btn = findViewById(R.id.stage_mode_btn);
-        arcade_mode_btn = findViewById(R.id.arcade_mode_btn);
-        setting_btn = findViewById(R.id.setting_btn);
-        main_layout = findViewById(R.id.start_activity_container);
+        stageModeBtn = findViewById(R.id.stage_mode_btn);
+        arcadeModeBtn = findViewById(R.id.arcade_mode_btn);
+        settingBtn = findViewById(R.id.setting_btn);
+        mainLayout = findViewById(R.id.start_activity_container);
         scoreBoard_btn = findViewById(R.id.scoreBoard_btn);
+        aboutUsActionBar = findViewById(R.id.action_about);
+        settingsActionBar = findViewById(R.id.action_settings);
 
         toolBar = findViewById(R.id.app_bar_start_activity);
         setSupportActionBar(toolBar);
 
-        TiltEffectAttacher.attach(game_logo);
+        //hide the actionBar title
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+
+        TiltEffectAttacher.attach(gameLogo);
         //btn animation
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
@@ -111,8 +160,8 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         };
 
 
-        stage_mode_btn.setOnTouchListener(btn_animation);
-        arcade_mode_btn.setOnTouchListener(btn_animation);
+        stageModeBtn.setOnTouchListener(btn_animation);
+        arcadeModeBtn.setOnTouchListener(btn_animation);
         scoreBoard_btn.setOnTouchListener(btn_animation);
         scoreBoard_btn.setOnTouchListener(btn_animation);
 
@@ -123,7 +172,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             }
         });
         //starts arcade mode
-        arcade_mode_btn.setOnClickListener(new View.OnClickListener() {
+        arcadeModeBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -133,7 +182,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         });
 
 
-        stage_mode_btn.setOnClickListener(new View.OnClickListener() {
+        stageModeBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -143,58 +192,26 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         });
 
 
-        setting_btn.setOnTouchListener(btn_animation);
-        setting_btn.setOnClickListener(new View.OnClickListener() {
+        settingBtn.setOnTouchListener(btn_animation);
+        settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                rotat_setting();
+                rotate_setting();
                 scoreBoard_btn.setEnabled(false);
-                setting_btn.setEnabled(false);
-                stage_mode_btn.setVisibility(View.INVISIBLE);
-                arcade_mode_btn.setVisibility(View.INVISIBLE);
+                settingBtn.setEnabled(false);
+                stageModeBtn.setVisibility(View.INVISIBLE);
+                arcadeModeBtn.setVisibility(View.INVISIBLE);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                 transaction.add(R.id.start_activity_container, settingFragment).commit();
-
-
-//                //Intent i = new Intent(StartScreenActivity.this, SettingFragment.class);
-////                //startActivity(i);
-////                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-////                final Dialog yourDialog = new Dialog( StartScreenActivity.this );
-////                yourDialog.setCanceledOnTouchOutside( false );
-////                LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService( LAYOUT_INFLATER_SERVICE );
-////                View layoutToinflate = inflater.inflate( R.layout.fragment_setting, (ViewGroup) findViewById( R.id.root_element_settings ) );
-////                yourDialog.setContentView( layoutToinflate );
-////
-////                Button reset = layoutToinflate.findViewById( R.id.game_reset_btn );
-////                reset.setOnTouchListener( btn_animation );
-////
-////                reset.setOnClickListener( new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        Reset_game();
-////                    }
-////                } );
-////                ImageButton close_btn = layoutToinflate.findViewById( R.id.close_btn );
-////                close_btn.setOnClickListener( new View.OnClickListener() {
-////                    @Override
-////                    public void onClick(View v) {
-////                        yourDialog.dismiss();
-////                        rotat_setting();
-////                    }
-////                } );
-////                close_btn.setOnTouchListener( btn_animation );
-////                rotat_setting();
-////                yourDialog.show();
-
             }
         });
 
-        Button ttbtn = findViewById(R.id.totorial_btn);
-        ttbtn.setOnClickListener(new View.OnClickListener() {
+        Button tutorialBtn = findViewById(R.id.totorial_btn);
+        tutorialBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StartScreenActivity.this, TutorialActivity.class);
@@ -214,12 +231,12 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     }
 
 
-    private void rotat_setting() {
+    private void rotate_setting() {
         ChangeTransform changeTransform = new ChangeTransform();
         changeTransform.setDuration(400);
         changeTransform.setInterpolator(new AccelerateInterpolator());
-        TransitionManager.beginDelayedTransition(main_layout, changeTransform);
-        toggleRotation(setting_btn);
+        TransitionManager.beginDelayedTransition(mainLayout, changeTransform);
+        toggleRotation(settingBtn);
     }
 
     public static void startStartScreenActivity(Context context) {
@@ -229,25 +246,27 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     @Override
     public void OnSeekBarMainVolume(int mainVolume) {
-        AudioManager.getInstance(this).setGameVolume(mainVolume);
+       // AudioManager.getInstance(this).setGameVolume(mainVolume);
+        gameMusic.setVolume((float)mainVolume/100,(float)mainVolume/100);
+
     }
 
     @Override
     public void OnSeekBarSoundEffects(int soundEffectsVolume) {
-
+       // AudioManager.getInstance(this).setEffectVolume(soundEffectsVolume);
     }
 
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        AudioManager.getInstance(this).startGameMusic();
+        gameMusic.start();
     }
 
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        AudioManager.getInstance(this).pauseGameMusic();
+        gameMusic.pause();
     }
 
 
@@ -282,10 +301,12 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     @Override
     public void OnExit() {
-        stage_mode_btn.setVisibility(View.VISIBLE);
-        arcade_mode_btn.setVisibility(View.VISIBLE);
+        stageModeBtn.setVisibility(View.VISIBLE);
+        arcadeModeBtn.setVisibility(View.VISIBLE);
         scoreBoard_btn.setEnabled(true);
-        setting_btn.setEnabled(true);
+        settingBtn.setEnabled(true);
+        settingsActionBar.setEnabled(true);
+
     }
 
     @Override
@@ -293,9 +314,10 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         if (!scoreBoard_btn.isEnabled()) {
             getFragmentManager().beginTransaction().remove(settingFragment).commit();
             OnExit();
+
         } else {
             super.onBackPressed();
-            AudioManager.getInstance(this).stopGameMusic();
+            gameMusic.stop();
         }
     }
 

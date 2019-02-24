@@ -1,7 +1,6 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,18 +15,13 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
@@ -36,9 +29,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.github.jinatonic.confetti.CommonConfetti;
-import com.github.jinatonic.confetti.ConfettiManager;
-import com.github.jinatonic.confetti.ConfettiSource;
-import com.github.jinatonic.confetti.confetto.Confetto;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
 import java.util.ArrayList;
@@ -57,10 +47,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     private boolean timerRunning;
 
-
     boolean isOperatorSelected = false, isNumberSelected = false;
     private CountDownTimer mCountDownTimer;
-    TextView mCountDownTv, mScoreTv, mActualScoreTv, mTheDesiredNumberTv;
+    TextView mCountDownTv, mScoreTv, mActualScoreTv;
+    MyTextView mTheDesiredNumberTv;
     List<ToggleButton> gameBtns;
     List<ToggleButton> operators;
     String operator = "";
@@ -86,14 +76,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     @Override
     protected void onUserLeaveHint() {
         onBackPressed();
-        AudioManager.getInstance(this).pauseGameMusic();
+        StartScreenActivity.gameMusic.pause();
         super.onUserLeaveHint();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        AudioManager.getInstance(this).startGameMusic();
+        StartScreenActivity.gameMusic.start();
     }
 
     @Override
@@ -117,7 +107,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     @Override
     protected void onStart() {
         super.onStart();
-        AudioManager.getInstance(this).startGameMusic();
+        StartScreenActivity.gameMusic.start();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
 //            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
@@ -161,7 +151,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
         final Animation btn_release = AnimationUtils.loadAnimation(this, R.anim.btn_realeas);
-        final Animation fade_in = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         mScoreTv = findViewById(R.id.score_tv);
         mActualScoreTv = findViewById(R.id.actual_score_tv);
         mTheDesiredNumberTv = findViewById(R.id.the_number);
@@ -181,9 +170,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
 
-
-        DataStore.getInstance(this).getSoundEffectSetting();
-
+        sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting()) / 100;
+        taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
+        taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 
         bounce_shake = AnimationUtils.loadAnimation(this, R.anim.bounce_shake);
         MyBounceInterpolator interpolator = new MyBounceInterpolator(0.12, 20);
@@ -436,11 +425,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private void createGameModel(final String gameType) {
         mAbstractGame = GameFactory.getGame(gameType, 12);
     }
-
-    private void stopTimer() {
-        mCountDownTimer.cancel();
-        timerRunning = false;
-    }
+    
 
     private void startTimer() {
         mCountDownTimer = new CountDownTimer(timeLeftInMillSeconds, 1000) {
@@ -498,14 +483,22 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
     @Override
     public void onClick(final View v) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                MediaPlayer btn_off, btn_On;
+                btn_off = MediaPlayer.create(GameActivity.this, R.raw.btn_off_sound);
+                btn_On = MediaPlayer.create(GameActivity.this, R.raw.btn_on_sound);
+                btn_On.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+                btn_off.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 
-
-        if (!((ToggleButton) v).isChecked()) {
-            AudioManager.getInstance(GameActivity.this).playBtnOn();
-        } else if (((ToggleButton) v).isChecked()) {
-            AudioManager.getInstance(GameActivity.this).playBtnOff();
-        }
-
+                if (!((ToggleButton) v).isChecked()) {
+                    btn_On.start();
+                } else if (((ToggleButton) v).isChecked()) {
+                    btn_off.start();
+                }
+            }
+        });
         /// checks that nobody checked
         int i = 0;
         for (ToggleButton toggleButton : gameBtns) {
@@ -653,15 +646,16 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division no fractions");
+                    msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division no fractions");
                     if (isDivideZero)
-                        msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division by 0");
+                        msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division by 0");
                     winLooseDialog.setContentView(dialogView);
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
                     winLooseDialog.show();
 
-                    AudioManager.getInstance( this ).startWaWaSound();
+                    taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
+                    taDaplayer.start();
                 }
 
                 gameInit();
@@ -676,7 +670,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
 
-                        AudioManager.getInstance(this).startTaDaSound();
+                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                        taDaplayer.start();
 
 
                         RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
@@ -713,12 +708,13 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             @Override
                             public void run() {
 
-                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nCongrats You Did It Right!!!");
+                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nCongrats You Did It Right!!!");
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
 
 
-                                AudioManager.getInstance(GameActivity.this).startTaDaSound();
+                                taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                                taDaplayer.start();
 
 
                                 RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
@@ -749,7 +745,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nYou Are Worng");
+                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nYou Are Worng");
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);

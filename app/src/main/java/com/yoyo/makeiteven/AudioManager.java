@@ -8,7 +8,8 @@ public class AudioManager {
 
     @SuppressLint("StaticFieldLeak")
     private static AudioManager mInstance;
-    private MediaPlayer mMediaPlayer = new MediaPlayer();
+    private MediaPlayer mGameMediaPlayer = new MediaPlayer();
+    private MediaPlayer mEffectsMediaPlayer = new MediaPlayer();
     private Context mContext;
 
     private float mSound_Effects_Volume;
@@ -29,49 +30,59 @@ public class AudioManager {
 
     public void startGameMusic() {
         mCurrentMainVolume = (DataStore.getInstance( mContext ).getMainSoundSetting());
-        mMediaPlayer = MediaPlayer.create( mContext, R.raw.super_duper_by_ian_post );
-        mMediaPlayer.setVolume( mCurrentMainVolume / 100, (mCurrentMainVolume / 100) );
-        mMediaPlayer.setLooping( true );
-        mMediaPlayer.start();
+
+        mGameMediaPlayer = MediaPlayer.create( mContext, R.raw.super_duper_by_ian_post );
+        mGameMediaPlayer.setVolume( mCurrentMainVolume / 100, (mCurrentMainVolume / 100) );
+        mGameMediaPlayer.setLooping( true );
+        mGameMediaPlayer.start();
     }
 
     public void stopGameMusic() {
-        mMediaPlayer.stop();
+        mGameMediaPlayer.stop();
     }
 
     public void pauseGameMusic() {
-        mMediaPlayer.pause();
+        mGameMediaPlayer.pause();
     }
 
-    public void setGameVolume(int mainVolume) {
-        mMediaPlayer.setVolume( (float) mainVolume / 100, (float) mainVolume / 100 );
+    public void setGameVolume(int mainVolume ) {
+        mGameMediaPlayer.setVolume( (float) mainVolume / 100, (float) mainVolume / 100 );
     }
+
+    public void setEffectVolume(int effectVolume) {
+        mEffectsMediaPlayer.setVolume( (float) effectVolume / 100, (float) effectVolume / 100 );
+    }
+
 
     public void startTaDaSound() {
-        mSound_Effects_Volume = (float) (DataStore.getInstance( mContext ).getSoundEffectSetting() / 100);
-        mMediaPlayer = MediaPlayer.create( mContext, R.raw.ta_da );
-        mMediaPlayer.setVolume( mSound_Effects_Volume, mCurrentMainVolume );
-        mMediaPlayer.start();
+        int temp = DataStore.getInstance( mContext ).getSoundEffectSetting();
+        mSound_Effects_Volume = (float)(temp / 100);
+        mEffectsMediaPlayer = MediaPlayer.create( mContext, R.raw.ta_da );
+        mEffectsMediaPlayer.setVolume( mSound_Effects_Volume, mCurrentMainVolume );
+        mEffectsMediaPlayer.start();
     }
 
     public void playBtnOn() {
-        mSound_Effects_Volume = (float) (DataStore.getInstance( mContext ).getSoundEffectSetting() / 100);
-        mMediaPlayer = MediaPlayer.create( mContext, R.raw.btn_on_sound );
-        mMediaPlayer.setVolume( mSound_Effects_Volume, mSound_Effects_Volume );
-        mMediaPlayer.start();
+        int temp = DataStore.getInstance( mContext ).getSoundEffectSetting();
+        mSound_Effects_Volume = (float)(temp / 100);
+        mEffectsMediaPlayer = MediaPlayer.create( mContext, R.raw.btn_on_sound );
+        mEffectsMediaPlayer.setVolume( mSound_Effects_Volume, mSound_Effects_Volume );
+        mEffectsMediaPlayer.start();
     }
 
     public void playBtnOff() {
-        mSound_Effects_Volume = (float) (DataStore.getInstance( mContext ).getSoundEffectSetting() / 100);
-        mMediaPlayer = MediaPlayer.create( mContext, R.raw.btn_off_sound );
-        mMediaPlayer.setVolume( mSound_Effects_Volume, mSound_Effects_Volume );
-        mMediaPlayer.start();
+        int temp = DataStore.getInstance( mContext ).getSoundEffectSetting();
+        mSound_Effects_Volume = (float)(temp / 100);
+        mGameMediaPlayer = MediaPlayer.create( mContext, R.raw.btn_off_sound );
+        mGameMediaPlayer.setVolume( mSound_Effects_Volume, mSound_Effects_Volume );
+        mGameMediaPlayer.start();
     }
 
     public void startWaWaSound() {
-        mSound_Effects_Volume = (float) (DataStore.getInstance( mContext ).getSoundEffectSetting() / 100);
-        mMediaPlayer = MediaPlayer.create( mContext, R.raw.waa_waa_waaaa );
-        mMediaPlayer.setVolume( mSound_Effects_Volume, mCurrentMainVolume );
-        mMediaPlayer.start();
+        int temp = DataStore.getInstance( mContext ).getSoundEffectSetting();
+        mSound_Effects_Volume = (float)(temp / 100);
+        mEffectsMediaPlayer = MediaPlayer.create( mContext, R.raw.waa_waa_waaaa );
+        mEffectsMediaPlayer.setVolume( mSound_Effects_Volume, mCurrentMainVolume );
+        mEffectsMediaPlayer.start();
     }
 }

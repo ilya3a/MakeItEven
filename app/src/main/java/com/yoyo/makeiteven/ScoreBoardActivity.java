@@ -20,9 +20,14 @@ public class ScoreBoardActivity extends ListActivity {
     ListView lv;
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        AudioManager.getInstance( this ).pauseGameMusic();
+    protected void onUserLeaveHint() {
+        StartScreenActivity.gameMusic.pause();
+        super.onUserLeaveHint();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StartScreenActivity.gameMusic.start();
     }
 
     ScoreBoardAdapter scoreboardAdapter;
@@ -37,7 +42,7 @@ public class ScoreBoardActivity extends ListActivity {
         scoreboardAdapter = new ScoreBoardAdapter(this, R.layout.score_cell, DataStore.getInstance(this).getScoreBoardList());
         lv.setAdapter(scoreboardAdapter);
 
-        AudioManager.getInstance( this ).startGameMusic();
+//        AudioManager.getInstance( this ).startGameMusic();
 
     }
 }
