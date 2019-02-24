@@ -20,5 +20,7 @@
         <item name="android:windowTransitionBackgroundFadeDuration">600</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+    <style name="CustomToolBarStyle" parent="Theme.AppCompat.Light.NoActionBar"
+    ></style>
 
 </resources>

@@ -24,10 +24,12 @@ public class ScoreBoardActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score_board);
+
         lv = findViewById(android.R.id.list);
 
         scoreboardAdapter = new ScoreBoardAdapter(this, R.layout.score_cell, DataStore.getInstance(this).getScoreBoardList());
         lv.setAdapter(scoreboardAdapter);
+
         StartScreenActivity.gameMusic.start();
 
     }

@@ -10,11 +10,16 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.transition.ChangeTransform;
 import android.transition.Explode;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -26,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 
-public class StartScreenActivity extends Activity implements SettingFragment.SettingsFragmentListener {
+public class StartScreenActivity extends AppCompatActivity implements SettingFragment.SettingsFragmentListener {
 
     ImageView game_logo;
     Button stage_mode_btn, arcade_mode_btn;
@@ -36,7 +41,20 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
     SettingFragment settingFragment = new SettingFragment();
     float currentMainVolume;
     public  static MediaPlayer gameMusic;
+    private Toolbar toolBar;
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.action_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +96,9 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
         setting_btn = findViewById(R.id.setting_btn);
         main_layout = findViewById(R.id.start_activity_container);
         scoreBoard_btn = findViewById(R.id.scoreBoard_btn);
+
+        toolBar = findViewById(R.id.app_bar_start_activity);
+        setSupportActionBar(toolBar);
 
         TiltEffectAttacher.attach(game_logo);
         //btn animation
@@ -131,7 +152,7 @@ public class StartScreenActivity extends Activity implements SettingFragment.Set
             }
         });
 
-        //
+
         setting_btn.setOnTouchListener(btn_animation);
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -128,7 +128,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     countdownImageView.setVisibility(View.GONE);
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
-                    for (ToggleButton tb:gameBtns){
+                    for (ToggleButton tb : gameBtns) {
                         tb.startAnimation(bounce_shake);
                     }
 //                    StartScreenActivity.gameMusic = MediaPlayer.create(GameActivity.this, R.raw.super_duper_by_ian_post);
@@ -181,8 +181,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
 
+
         int temp=DataStore.getInstance(this).getSoundEffectSetting();
         sound_Effects_Volume =(float)temp/100;
+
         taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
         taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 
@@ -352,6 +354,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         for (ToggleButton b : operators) {
             b.setChecked(false);
         }
+        isNumberSelected = false;
+        isOperatorSelected = false;
 
 
         if (mGameType.equals(StageGameMode.TYPE)) {
@@ -495,7 +499,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
 
-
     @Override
     public void onClick(final View v) {
         new Handler().post(new Runnable() {
@@ -506,6 +509,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 btn_On = MediaPlayer.create(GameActivity.this, R.raw.btn_on_sound);
                 btn_On.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                 btn_off.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+
                 if (!((ToggleButton) v).isChecked()) {
                     btn_On.start();
                 } else if (((ToggleButton) v).isChecked()) {
@@ -653,13 +657,15 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
             if (isDivideZero || isFraction) {
                 //false division
-                if (mGameType.equals(ArcadeGameMode.TYPE))
+                if (mGameType.equals(ArcadeGameMode.TYPE)) {
                     Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
+                    //// להוסיףצליל
+                }
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    msgTv.setText("Invalid division no fractions");
+                    msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division no fractions");
                     if (isDivideZero)
-                        msgTv.setText("Invalid division by 0");
+                        msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division by 0");
                     winLooseDialog.setContentView(dialogView);
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
@@ -719,6 +725,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             @Override
                             public void run() {
 
+                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nCongrats You Did It Right!!!");
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
 
@@ -755,7 +762,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                msgTv.setText("You Are Worng");
+                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nYou Are Worng");
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);
