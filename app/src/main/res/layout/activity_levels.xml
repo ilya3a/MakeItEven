@@ -3,23 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/upper_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <ImageButton
-            android:id="@+id/game_back_btn_levels_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:background="@color/Transparent"
-            android:src="@drawable/ic_back"
-            android:clickable="true"/>
-
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/game_logo"
         android:layout_width="match_parent"
@@ -35,5 +18,6 @@
         android:layout_below="@+id/game_logo"
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_above="@id/upper_layout"/>
 </RelativeLayout>

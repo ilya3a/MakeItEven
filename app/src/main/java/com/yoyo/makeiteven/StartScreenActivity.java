@@ -40,14 +40,14 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     RelativeLayout main_layout;
     SettingFragment settingFragment = new SettingFragment();
     float currentMainVolume;
-    public  static MediaPlayer gameMusic;
+    public static MediaPlayer gameMusic;
     private Toolbar toolBar;
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_menu,menu);
+        menuInflater.inflate(R.menu.action_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -73,17 +73,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
         setContentView(R.layout.activity_start__screen);
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                currentMainVolume=(DataStore.getInstance(StartScreenActivity.this).getMainSoundSetting());
-                gameMusic=MediaPlayer.create(StartScreenActivity.this,R.raw.super_duper_by_ian_post);
-                gameMusic.setVolume(currentMainVolume/100,(currentMainVolume/100));
-                gameMusic.setLooping(true);
-                gameMusic.start();
-            }
-        });
-
+        AudioManager.getInstance(this).startGameMusic();
 
 
         //logo animation
@@ -203,7 +193,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             }
         });
 
-        Button ttbtn=findViewById(R.id.totorial_btn);
+        Button ttbtn = findViewById(R.id.totorial_btn);
         ttbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,7 +229,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     @Override
     public void OnSeekBarMainVolume(int mainVolume) {
-        gameMusic.setVolume((float)mainVolume/100,(float)mainVolume/100);
+        AudioManager.getInstance(this).setGameVolume(mainVolume);
     }
 
     @Override
@@ -251,13 +241,13 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     @Override
     protected void onRestart() {
         super.onRestart();
-        gameMusic.start();
+        AudioManager.getInstance(this).startGameMusic();
     }
 
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        gameMusic.pause();
+        AudioManager.getInstance(this).pauseGameMusic();
     }
 
 
@@ -289,6 +279,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         android.app.AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
+
     @Override
     public void OnExit() {
         stage_mode_btn.setVisibility(View.VISIBLE);
@@ -296,6 +287,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         scoreBoard_btn.setEnabled(true);
         setting_btn.setEnabled(true);
     }
+
     @Override
     public void onBackPressed() {
         if (!scoreBoard_btn.isEnabled()) {
@@ -303,10 +295,9 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             OnExit();
         } else {
             super.onBackPressed();
-            gameMusic.stop();
+            AudioManager.getInstance(this).stopGameMusic();
         }
     }
-
 
 
 }

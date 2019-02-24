@@ -86,14 +86,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     @Override
     protected void onUserLeaveHint() {
         onBackPressed();
-        StartScreenActivity.gameMusic.pause();
+        AudioManager.getInstance(this).pauseGameMusic();
         super.onUserLeaveHint();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        StartScreenActivity.gameMusic.start();
+        AudioManager.getInstance(this).startGameMusic();
     }
 
     @Override
@@ -117,7 +117,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     @Override
     protected void onStart() {
         super.onStart();
-        StartScreenActivity.gameMusic.start();
+        AudioManager.getInstance(this).startGameMusic();
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
 //            StartScreenActivity.gameMusic.stop();
             cuntDownAnim.start();
@@ -182,11 +182,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_3 = findViewById(R.id.hint_btn_3);
 
 
-        int temp=DataStore.getInstance(this).getSoundEffectSetting();
-        sound_Effects_Volume =(float)temp/100;
+        DataStore.getInstance(this).getSoundEffectSetting();
 
-        taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
-        taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 
         bounce_shake = AnimationUtils.loadAnimation(this, R.anim.bounce_shake);
         MyBounceInterpolator interpolator = new MyBounceInterpolator(0.12, 20);
@@ -501,22 +498,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
     @Override
     public void onClick(final View v) {
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                MediaPlayer btn_off, btn_On;
-                btn_off = MediaPlayer.create(GameActivity.this, R.raw.btn_off_sound);
-                btn_On = MediaPlayer.create(GameActivity.this, R.raw.btn_on_sound);
-                btn_On.setVolume(sound_Effects_Volume, sound_Effects_Volume);
-                btn_off.setVolume(sound_Effects_Volume, sound_Effects_Volume);
 
-                if (!((ToggleButton) v).isChecked()) {
-                    btn_On.start();
-                } else if (((ToggleButton) v).isChecked()) {
-                    btn_off.start();
-                }
-            }
-        });
+
+        if (!((ToggleButton) v).isChecked()) {
+            AudioManager.getInstance(GameActivity.this).playBtnOn();
+        } else if (((ToggleButton) v).isChecked()) {
+            AudioManager.getInstance(GameActivity.this).playBtnOff();
+        }
+
         /// checks that nobody checked
         int i = 0;
         for (ToggleButton toggleButton : gameBtns) {
@@ -637,10 +626,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     gameInit();
                     winLooseDialog.dismiss();
 
+//                    mTheDesiredNumberTv.startAnimation(bounce_shake);
                     for (ToggleButton tb : gameBtns) {
                         tb.startAnimation(bounce_shake);
                     }
-//                    mTheDesiredNumberTv.startAnimation(bounce_shake);
                 }
             });
 
@@ -659,20 +648,20 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 //false division
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
                     Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
-                    //// להוסיףצליל
+                    AudioManager.getInstance(this).startWaWaSound();
                 }
+
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division no fractions");
+                    msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division no fractions");
                     if (isDivideZero)
-                        msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nInvalid division by 0");
+                        msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division by 0");
                     winLooseDialog.setContentView(dialogView);
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
                     winLooseDialog.show();
 
-                    taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
-                    taDaplayer.start();
+                    AudioManager.getInstance( this ).startWaWaSound();
                 }
 
                 gameInit();
@@ -687,8 +676,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
 
-                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
-                        taDaplayer.start();
+                        AudioManager.getInstance(this).startTaDaSound();
 
 
                         RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
@@ -725,13 +713,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             @Override
                             public void run() {
 
-                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nCongrats You Did It Right!!!");
+                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nCongrats You Did It Right!!!");
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
 
 
-                                taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
-                                taDaplayer.start();
+                                AudioManager.getInstance(GameActivity.this).startTaDaSound();
 
 
                                 RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
@@ -762,7 +749,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nYou Are Worng");
+                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nYou Are Worng");
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);

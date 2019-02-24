@@ -18,6 +18,13 @@ import java.util.Map;
 public class ScoreBoardActivity extends ListActivity {
 
     ListView lv;
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        AudioManager.getInstance( this ).pauseGameMusic();
+    }
+
     ScoreBoardAdapter scoreboardAdapter;
 
     @Override
@@ -30,7 +37,7 @@ public class ScoreBoardActivity extends ListActivity {
         scoreboardAdapter = new ScoreBoardAdapter(this, R.layout.score_cell, DataStore.getInstance(this).getScoreBoardList());
         lv.setAdapter(scoreboardAdapter);
 
-        StartScreenActivity.gameMusic.start();
+        AudioManager.getInstance( this ).startGameMusic();
 
     }
 }

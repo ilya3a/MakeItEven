@@ -39,7 +39,7 @@ public class LevelsActivity extends AppCompatActivity {
         mCurrentStage = DataStore.getInstance(this).getCurrentStage();
         setContentView(R.layout.activity_levels);
 
-        StartScreenActivity.gameMusic.start();
+        AudioManager.getInstance( this ).startGameMusic();
 
         levelItems = new ArrayList<>();
         for (int i = 1; i < 101; ++i)
@@ -47,13 +47,6 @@ public class LevelsActivity extends AppCompatActivity {
 
 
         initRecyclerView();
-        ImageButton gameBackLevelsBtn = (ImageButton) findViewById(R.id.game_back_btn_levels_screen);
-        gameBackLevelsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
     @Override
@@ -65,13 +58,13 @@ public class LevelsActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        StartScreenActivity.gameMusic.start();
+        AudioManager.getInstance( this ).startGameMusic();
     }
 
     @Override
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
-        StartScreenActivity.gameMusic.pause();
+        AudioManager.getInstance( this ).pauseGameMusic();
     }
 
     private void initRecyclerView() {
