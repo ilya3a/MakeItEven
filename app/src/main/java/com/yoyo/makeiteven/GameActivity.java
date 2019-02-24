@@ -7,7 +7,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,12 +28,17 @@ import android.widget.CompoundButton;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.github.jinatonic.confetti.CommonConfetti;
+import com.github.jinatonic.confetti.ConfettiManager;
+import com.github.jinatonic.confetti.ConfettiSource;
+import com.github.jinatonic.confetti.confetto.Confetto;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
 import java.util.ArrayList;
@@ -55,8 +63,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     List<ToggleButton> operators;
     String operator = "";
     int theDesiredNumber = 0;
-    Animation scale_out;
-    Animation scale_in;
+    Animation scale_out, scale_in, bounce_shake;
     ImageButton mGameResetBtnIb, backBtnIb, hintBtnIb, hintBtn_2, hintBtn_3;
     AbstractGame mAbstractGame;
     String mGameType;
@@ -71,6 +78,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private AnimationDrawable cuntDownAnim;
     private RelativeLayout hidingLayout;
     private float sound_Effects_Volume;
+    private MediaPlayer taDaplayer;
 
     @Override
     public void onBackPressed() {
@@ -102,7 +110,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     hidingLayout.setVisibility(View.GONE);
                     startTimer();
                     StartScreenActivity.gameMusic = MediaPlayer.create(GameActivity.this, R.raw.super_duper_by_ian_post);
-                    StartScreenActivity.gameMusic.setVolume((float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting())/100,(float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting())/100);
+                    StartScreenActivity.gameMusic.setVolume((float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100, (float) (DataStore.getInstance(GameActivity.this).getMainSoundSetting()) / 100);
                     StartScreenActivity.gameMusic.start();
                 }
             }, 3000);
@@ -150,7 +158,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hidingLayout = findViewById(R.id.hiding_layout);
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
-        sound_Effects_Volume = DataStore.getInstance(this).getSoundEffectSetting();
+
+        sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting() / 100);
+        taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
+        taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+
+        bounce_shake = AnimationUtils.loadAnimation(this, R.anim.bounce_shake);
+        MyBounceInterpolator interpolator = new MyBounceInterpolator(0.12, 20);
+        bounce_shake.setInterpolator(interpolator);
 
 
         View.OnClickListener helpListener = new View.OnClickListener() {
@@ -222,6 +237,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             public void onClick(View v) {
                 mGameResetBtnIb.startAnimation(rotateAnimation);
                 gameInit();
+                for (final ToggleButton tb : gameBtns) {
+                    tb.startAnimation(bounce_shake);
+
+                }
             }
         });
         backBtnIb.setOnClickListener(new View.OnClickListener() {
@@ -288,10 +307,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         }
 
         gameInit();
-//        Rational rational = new Rational(4,5);
-//        rational.doubleValue();
-//
-//        mTheDesiredNumberTv.setText(String.valueOf(Rational.parseRational("4/1")));
+
 
     }
 
@@ -503,7 +519,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     break;
                 case "div":
                     if (num2 == 0) {
-                        Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
                         isDivideZero = true;
                     } else if (num1 % num2 != 0) {
                         isFraction = true;
@@ -557,11 +572,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
             ImageView owlIv = dialogView.findViewById(R.id.image_owl);
-            TextView msgTv = dialogView.findViewById(R.id.text_msg);
+            final TextView msgTv = dialogView.findViewById(R.id.text_msg);
             ImageButton tryAgainIb = dialogView.findViewById(R.id.try_again_ib);
             ImageButton homeIb = dialogView.findViewById(R.id.home_ib);
-            ImageButton nextIb = dialogView.findViewById(R.id.next_ib);
-            Space space = dialogView.findViewById(R.id.spacer);
+            final ImageButton nextIb = dialogView.findViewById(R.id.next_ib);
+            final Space space = dialogView.findViewById(R.id.spacer);
+
 
             nextIb.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -569,6 +585,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     mLevelNum++;
                     gameInit();
                     winLooseDialog.dismiss();
+
+                    for (ToggleButton tb : gameBtns) {
+                        tb.startAnimation(bounce_shake);
+                    }
                 }
             });
 
@@ -576,7 +596,13 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             tryAgainIb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    gameInit();
                     winLooseDialog.dismiss();
+
+                    for (ToggleButton tb : gameBtns) {
+                        tb.startAnimation(bounce_shake);
+                    }
+//                    mTheDesiredNumberTv.startAnimation(bounce_shake);
                 }
             });
 
@@ -593,6 +619,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
             if (isDivideZero || isFraction) {
                 //false division
+                if (mGameType.equals(ArcadeGameMode.TYPE))
+                    Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
                     msgTv.setText("Invalid division no fractions");
@@ -602,6 +630,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
                     winLooseDialog.show();
+                    taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
+                    taDaplayer.start();
                 }
 
                 gameInit();
@@ -613,8 +643,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 //you win
                 if (theDesiredNumber == sum) {
-//                    Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
+
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                        Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                         gameInit();
                         scoreCounter = scoreCounter + 100;
                         winsCounter = winsCounter + 1;
@@ -645,10 +676,20 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
-//                                LevelsActivity.startLevelsActivity(GameActivity.this);
-//                                finish();
+
+
+                                taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                                taDaplayer.start();
+
+
+                                RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
+                                CommonConfetti.rainingConfetti(relativeLayout, new int[]{Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.CYAN,
+                                        Color.RED, Color.BLUE})
+                                        .stream(2500);
+
+
                             }
-                        }, 500);
+                        }, 200);
 
                         mActualScoreTv.setText(scoreCounter + "");
 
@@ -656,19 +697,28 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 } else {
                     //you loose
-                    Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
+
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
                         stopTimer();
                         gameInit();
                         startTimer();
+                        Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
 
                         owlIv.setImageResource(R.drawable.loose_owl);
-                        msgTv.setText("You Are Worng");
-                        winLooseDialog.setContentView(dialogView);
-                        nextIb.setVisibility(View.GONE);
-                        space.setVisibility(View.VISIBLE);
-                        winLooseDialog.show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                msgTv.setText("You Are Worng");
+                                taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
+                                taDaplayer.start();
+                                winLooseDialog.setContentView(dialogView);
+                                nextIb.setVisibility(View.GONE);
+                                space.setVisibility(View.VISIBLE);
+                                winLooseDialog.show();
+                            }
+                        }, 200);
+
 
                         gameInit();
 
@@ -703,6 +753,21 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         Intent intent = new Intent(GameActivity.this, ScoreBoardActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    class MyBounceInterpolator implements android.view.animation.Interpolator {
+        private double mAmplitude = 1;
+        private double mFrequency = 10;
+
+        MyBounceInterpolator(double amplitude, double frequency) {
+            mAmplitude = amplitude;
+            mFrequency = frequency;
+        }
+
+        public float getInterpolation(float time) {
+            return (float) (-1 * Math.pow(Math.E, -time / mAmplitude) *
+                    Math.cos(mFrequency * time) + 1);
+        }
     }
 }
 

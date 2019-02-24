@@ -54,6 +54,13 @@ public class LevelsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCurrentStage = DataStore.getInstance(this).getCurrentStage();
+        initRecyclerView();
+    }
+
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_levels_list);
         LevelAdapter adapter = new LevelAdapter(levelItems, this, mCurrentStage);
