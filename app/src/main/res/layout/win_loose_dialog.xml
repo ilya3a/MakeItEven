@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:gravity="center"
-            android:text="Congrats you did it right!!!!" />
+            android:text="@string/Congrats" />
 
 
 

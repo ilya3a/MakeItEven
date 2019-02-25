@@ -39,13 +39,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layoutDirection="locale"
+                android:textDirection="locale">
 
                 <TextView
                     android:id="@+id/score_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Score: "
+                    android:text="@string/score"
                     android:textColor="@color/primaryTextColor"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -276,6 +278,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffff"
+        android:visibility="gone"
         >
 
         <ImageView

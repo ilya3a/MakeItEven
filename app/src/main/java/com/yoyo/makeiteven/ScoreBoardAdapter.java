@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
         mContext = context;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 

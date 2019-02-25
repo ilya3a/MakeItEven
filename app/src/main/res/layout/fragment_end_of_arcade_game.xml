@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/end_of_arcade_game_screen"
     android:layout_width="300dp"
     android:layout_height="400dp"
     android:layout_centerInParent="true"
     android:background="@drawable/fragment_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layoutDirection="locale"
+    android:textDirection="locale">
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,34 +16,37 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:padding="10dp"
-        android:text="Times Up!!"
+        android:text="@string/time_up"
         android:textColor="@color/primaryTextColor"
         android:textSize="50sp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="Score:  "
+            android:text="@string/score"
             android:textColor="#FFC12B"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/score_textview"/>
 
         <TextView
             android:id="@+id/final_score_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="1000"
+            android:text="@string/HigeScore"
             android:textColor="@color/blue"
             android:textSize="30sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/score_textview"/>
+    </RelativeLayout>
 <android.support.design.widget.TextInputLayout
     android:id="@+id/nickname_et"
     android:layout_width="match_parent"
@@ -49,7 +55,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter  nickname: "
+        android:hint="@string/enter_nickname"
         android:inputType="textCapSentences"
         android:textSize="20sp"
        />

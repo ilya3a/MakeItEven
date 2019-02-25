@@ -1,6 +1,6 @@
 package com.yoyo.makeiteven;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -208,10 +208,43 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
                 transaction.add(R.id.start_activity_container, settingFragment).commit();
+
+
+//                //Intent i = new Intent(StartScreenActivity.this, SettingFragment.class);
+////                //startActivity(i);
+////                //overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+////                final Dialog yourDialog = new Dialog( StartScreenActivity.this );
+////                yourDialog.setCanceledOnTouchOutside( false );
+////                LayoutInflater inflater = (LayoutInflater) StartScreenActivity.this.getSystemService( LAYOUT_INFLATER_SERVICE );
+////                View layoutToinflate = inflater.inflate( R.layout.fragment_setting, (ViewGroup) findViewById( R.id.root_element_settings ) );
+////                yourDialog.setContentView( layoutToinflate );
+////
+////                Button reset = layoutToinflate.findViewById( R.id.game_reset_btn );
+////                reset.setOnTouchListener( btn_animation );
+////
+////                reset.setOnClickListener( new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        Reset_game();
+////                    }
+////                } );
+////                ImageButton close_btn = layoutToinflate.findViewById( R.id.close_btn );
+////                close_btn.setOnClickListener( new View.OnClickListener() {
+////                    @Override
+////                    public void onClick(View v) {
+////                        yourDialog.dismiss();
+////                        rotat_setting();
+////                    }
+////                } );
+////                close_btn.setOnTouchListener( btn_animation );
+////                rotat_setting();
+////                yourDialog.show();
+
             }
         });
 
         Button tutorialBtn = findViewById(R.id.totorial_btn);
+        tutorialBtn.setOnTouchListener(btn_animation);
         tutorialBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -320,7 +353,6 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         if (!scoreBoard_btn.isEnabled()) {
             getFragmentManager().beginTransaction().remove(settingFragment).commit();
             OnExit();
-
         } else {
             super.onBackPressed();
             gameMusic.stop();

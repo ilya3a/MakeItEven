@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -34,11 +35,12 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
         return new LevelsViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
 
         final Level levelItem = levelItems.get(i);
-        levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum() + "");
+        levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum()+ "");
 
         if (levelItem.getLevelNum() <= mCurrentStage) {
             levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
