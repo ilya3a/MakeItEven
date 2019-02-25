@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -51,7 +52,7 @@ import es.dmoral.toasty.Toasty;
 public class GameActivity extends Activity implements View.OnClickListener, EndOfArcadeGameFragment.EndOfArcadeGameFragmentListener {
 
     //180000
-    private long timeLeftInMillSeconds = 30000;//5:00 mints
+    private long timeLeftInMillSeconds = 160000;//5:00 mints
     private int mLevelNum;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
@@ -196,7 +197,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
                     ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
-                    ((ImageButton) v).setEnabled(false);
+                    v.setEnabled(false);
                     for (ToggleButton tb : gameBtns) {
                         tb.startAnimation(bounce_shake);
                     }
@@ -255,7 +256,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setVisibility(View.GONE);
             mScoreTv.setVisibility(View.INVISIBLE);
-            mCountDownTv.setText("Level: " + String.valueOf(mLevelNum));
+            mCountDownTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum));
         }
 
         init_toasty();
@@ -496,6 +497,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(final View v) {
 
@@ -609,7 +611,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             nextIb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mCountDownTv.setText("Level: " + String.valueOf(++mLevelNum));
+                    mCountDownTv.setText(getResources().getText(R.string.level_number) + String.valueOf(++mLevelNum));
                     gameInit();
                     winLooseDialog.dismiss();
 
@@ -653,9 +655,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division no fractions");
+                    msgTv.setText(getResources().getText(R.string.level_number)+ String.valueOf(mLevelNum) + "\n"+getResources().getString(R.string.invalid_fraction));
                     if (isDivideZero)
-                        msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nInvalid division by 0");
+                        msgTv.setText(getResources().getText(R.string.level_number)+ String.valueOf(mLevelNum) + "\n"+getResources().getString(R.string.Dividing_by_0));
                     winLooseDialog.setContentView(dialogView);
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
@@ -684,7 +686,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 Color.RED, Color.BLUE})
                                 .oneShot();
 
-                        Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
+                        Toasty.success(this, getResources().getString(R.string.Congrats), Toast.LENGTH_SHORT).show();
                         gameInit();
                         scoreCounter = scoreCounter + 100;
                         winsCounter = winsCounter + 1;
@@ -713,7 +715,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             @Override
                             public void run() {
 
-                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nCongrats You Did It Right!!!");
+                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n" + getResources().getText(R.string.correct_answer));
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
 
@@ -749,7 +751,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                msgTv.setText("Level: " + String.valueOf(mLevelNum) + "\nYou Are Worng");
+                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n"+getResources().getText(R.string.wrong_answer));
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);

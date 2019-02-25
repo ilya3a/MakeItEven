@@ -1,5 +1,6 @@
 package com.yoyo.makeiteven;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 
@@ -55,6 +56,7 @@ public class EndOfArcadeGameFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -95,7 +97,7 @@ public class EndOfArcadeGameFragment extends Fragment {
                 } else {
                     //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                     nickNameEt.setErrorEnabled(true);
-                    nickNameEt.setError("this field required");
+                    nickNameEt.setError(getResources().getString(R.string.this_fild_requierd));
                 }
             }
         });
@@ -110,7 +112,7 @@ public class EndOfArcadeGameFragment extends Fragment {
                 } else {
                     //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                     nickNameEt.setErrorEnabled(true);
-                    nickNameEt.setError("this field required");
+                    nickNameEt.setError(getResources().getString(R.string.this_fild_requierd));
                 }
             }
         });
@@ -124,7 +126,7 @@ public class EndOfArcadeGameFragment extends Fragment {
                 } else {
                     //Toast.makeText(getActivity(), "please enter nickname", Toast.LENGTH_SHORT).show();
                     nickNameEt.setErrorEnabled(true);
-                    nickNameEt.setError("this field required");
+                    nickNameEt.setError(getResources().getString(R.string.this_fild_requierd));
                 }
             }
         });
