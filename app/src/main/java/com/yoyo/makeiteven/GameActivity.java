@@ -31,6 +31,7 @@ import android.widget.ToggleButton;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -387,10 +388,32 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 startSavedGameInfo(gameBtns, stageInfosArray, mLevelNum);
             }
         } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
-            mAbstractGame.setDifficulty(12);
+            int min=0,max=100;
+            if (winsCounter < 3) {
+                min = 0;
+                max = 20;
+                mAbstractGame.setDifficulty(6);
+            } else if (winsCounter < 8) {
+                min = 20;
+                max = 40;
+                mAbstractGame.setDifficulty(8);
+            } else if (winsCounter < 12) {
+                min = 40;
+                max = 60;
+                mAbstractGame.setDifficulty(9);
+            } else if (winsCounter < 30) {
+                min = 60;
+                max = 90;
+                mAbstractGame.setDifficulty(10);
+            } else if (winsCounter < 100) {
+                min = 80;
+                max = 120;
+                mAbstractGame.setDifficulty(12);
+            }
+//            mAbstractGame.setDifficulty(12);
 
             do {
-                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, 0, 100);
+                theDesiredNumber = mAbstractGame.gameGenerator(gameBtns, min, max);
             } while (theDesiredNumber > 100 || theDesiredNumber < 0);
 
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
@@ -640,8 +663,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             if (isDivideZero || isFraction) {
                 //false division
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
-                    Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
-                    AudioManager.getInstance(this).startWaWaSound();
+//                    Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
+                    taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.buzzer_sound);
+                    taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                    taDaplayer.start();
                 }
 
                 if (mGameType.equals(StageGameMode.TYPE)) {
@@ -655,6 +680,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     winLooseDialog.show();
 
                     taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
+                    taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
                     taDaplayer.start();
                 }
 
@@ -670,7 +696,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
 
-                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+
+
+                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.arcade_win);
+                        taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
                         taDaplayer.start();
 
 
@@ -679,7 +708,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 Color.RED, Color.BLUE})
                                 .oneShot();
 
-                        Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
+//                        Toasty.success(this, getResources().getString(R.string.correct_answer), Toast.LENGTH_SHORT).show();
                         gameInit();
                         scoreCounter = scoreCounter + 100;
                         winsCounter = winsCounter + 1;
@@ -714,6 +743,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                                taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
                                 taDaplayer.start();
 
 
@@ -737,8 +767,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 //                        stopTimer();
                         gameInit();
 //                        startTimer();
-
-                        Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
+                        taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.buzzer_sound);
+                        taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                        taDaplayer.start();
+//                        Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
 
                         owlIv.setImageResource(R.drawable.loose_owl);
@@ -747,6 +779,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                             public void run() {
                                 msgTv.setText("Level: "+String.valueOf(mLevelNum)+"\nYou Are Worng");
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
+                                taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);
                                 nextIb.setVisibility(View.GONE);

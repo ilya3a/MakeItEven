@@ -43,6 +43,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     SettingFragment settingFragment = new SettingFragment();
     float currentMainVolume;
     public static MediaPlayer gameMusic;
+    public static MediaPlayer testSound;
     private Toolbar toolBar;
     MenuItem aboutUsActionBar, settingsActionBar;
 
@@ -119,7 +120,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             }
         });
 
-
+        testSound = MediaPlayer.create(this,R.raw.bip_test);
         //logo animation
         gameLogo = findViewById(R.id.game_logo);
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
@@ -254,6 +255,11 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     @Override
     public void OnSeekBarSoundEffects(int soundEffectsVolume) {
        // AudioManager.getInstance(this).setEffectVolume(soundEffectsVolume);
+        testSound.setVolume((float)soundEffectsVolume/100,(float)soundEffectsVolume/100);
+        testSound.start();
+
+
+
     }
 
 
