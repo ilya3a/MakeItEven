@@ -51,7 +51,7 @@ import es.dmoral.toasty.Toasty;
 public class GameActivity extends Activity implements View.OnClickListener, EndOfArcadeGameFragment.EndOfArcadeGameFragmentListener {
 
     //180000
-    private long timeLeftInMillSeconds = 30000;//5:00 mints
+    private long timeLeftInMillSeconds = 150000;//5:00 mints
     private int mLevelNum;
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
@@ -203,6 +203,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     gameInit();
                 } else if (mGameType.equals(StageGameMode.TYPE)) {
                     Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
+                    timeLeftInMillSeconds= timeLeftInMillSeconds-10000;
 
                 }
 
@@ -514,7 +515,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     }
 
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onClick(final View v) {
         new Handler().post(new Runnable() {

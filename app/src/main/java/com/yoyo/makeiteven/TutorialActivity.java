@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
-import java.util.ArrayList;
-
 public class TutorialActivity extends Activity {
     private ImageView totorialImageView;
     private ImageSwitcher totorialImageSwicher;

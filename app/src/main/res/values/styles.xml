@@ -29,6 +29,7 @@
     <style name="CustomPopUpStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <!--<item name="android:background">#C4C4C4</item>-->
         <item name="overlapAnchor">false</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:dropDownVerticalOffset">-4dp</item>
     </style>
 

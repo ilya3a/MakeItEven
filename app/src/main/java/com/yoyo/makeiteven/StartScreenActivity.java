@@ -1,6 +1,7 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -36,7 +37,7 @@ import java.util.Objects;
 public class StartScreenActivity extends AppCompatActivity implements SettingFragment.SettingsFragmentListener {
 
     ImageView gameLogo;
-    Button stageModeBtn, arcadeModeBtn;
+    Button stageModeBtn, arcadeModeBtn, tutorialBtn;
     ImageButton settingBtn, scoreBoard_btn;
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout mainLayout;
@@ -78,6 +79,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
                 settingBtn.setEnabled(false);
                 stageModeBtn.setVisibility(View.INVISIBLE);
                 arcadeModeBtn.setVisibility(View.INVISIBLE);
+                tutorialBtn.setVisibility(View.INVISIBLE);
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -120,7 +122,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             }
         });
 
-        testSound = MediaPlayer.create(this,R.raw.bip_test);
+        testSound = MediaPlayer.create(this, R.raw.bip_test);
         //logo animation
         gameLogo = findViewById(R.id.game_logo);
         Animation bounce = AnimationUtils.loadAnimation(this, R.anim.bounce);
@@ -243,7 +245,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             }
         });
 
-        Button tutorialBtn = findViewById(R.id.totorial_btn);
+        tutorialBtn = findViewById(R.id.totorial_btn);
         tutorialBtn.setOnTouchListener(btn_animation);
         tutorialBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,17 +282,16 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     @Override
     public void OnSeekBarMainVolume(int mainVolume) {
-       // AudioManager.getInstance(this).setGameVolume(mainVolume);
-        gameMusic.setVolume((float)mainVolume/100,(float)mainVolume/100);
+        // AudioManager.getInstance(this).setGameVolume(mainVolume);
+        gameMusic.setVolume((float) mainVolume / 100, (float) mainVolume / 100);
 
     }
 
     @Override
     public void OnSeekBarSoundEffects(int soundEffectsVolume) {
-       // AudioManager.getInstance(this).setEffectVolume(soundEffectsVolume);
-        testSound.setVolume((float)soundEffectsVolume/100,(float)soundEffectsVolume/100);
+        // AudioManager.getInstance(this).setEffectVolume(soundEffectsVolume);
+        testSound.setVolume((float) soundEffectsVolume / 100, (float) soundEffectsVolume / 100);
         testSound.start();
-
 
 
     }
@@ -342,6 +343,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     public void OnExit() {
         stageModeBtn.setVisibility(View.VISIBLE);
         arcadeModeBtn.setVisibility(View.VISIBLE);
+        tutorialBtn.setVisibility(View.VISIBLE);
         scoreBoard_btn.setEnabled(true);
         settingBtn.setEnabled(true);
         settingsActionBar.setEnabled(true);
