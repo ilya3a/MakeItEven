@@ -195,6 +195,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             public void onClick(View v) {
 
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                    timeLeftInMillSeconds = timeLeftInMillSeconds - 10000;
+                    stopTimer();
+                    startTimer();
                     ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
                     v.setEnabled(false);
                     for (ToggleButton tb : gameBtns) {
@@ -203,7 +206,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     gameInit();
                 } else if (mGameType.equals(StageGameMode.TYPE)) {
                     Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
-                    timeLeftInMillSeconds= timeLeftInMillSeconds-10000;
 
                 }
 
@@ -399,7 +401,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 startSavedGameInfo(gameBtns, stageInfosArray, mLevelNum);
             }
         } else if (mGameType.equals(ArcadeGameMode.TYPE)) {
-            int min=0,max=100;
+            int min = 0, max = 100;
             if (winsCounter < 3) {
                 min = 0;
                 max = 20;
@@ -487,7 +489,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         }.start();
         timerRunning = true;
     }
-
+    private void stopTimer() {
+        mCountDownTimer.cancel();
+        timerRunning = false;
+    }
     private void updateTimer() {
         int mins = (int) timeLeftInMillSeconds / 60000;
         int secs = (int) timeLeftInMillSeconds % 60000 / 1000;
@@ -676,22 +681,22 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 if (mGameType.equals(ArcadeGameMode.TYPE)) {
 //                    Toasty.warning(this, getResources().getString(R.string.division), Toast.LENGTH_SHORT).show();
                     taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.buzzer_sound);
-                    taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                    taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                     taDaplayer.start();
                 }
 
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    msgTv.setText(getResources().getText(R.string.level_number)+ String.valueOf(mLevelNum) + "\n"+getResources().getString(R.string.invalid_fraction));
+                    msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n" + getResources().getString(R.string.invalid_fraction));
                     if (isDivideZero)
-                        msgTv.setText(getResources().getText(R.string.level_number)+ String.valueOf(mLevelNum) + "\n"+getResources().getString(R.string.Dividing_by_0));
+                        msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n" + getResources().getString(R.string.Dividing_by_0));
                     winLooseDialog.setContentView(dialogView);
                     nextIb.setVisibility(View.GONE);
                     space.setVisibility(View.VISIBLE);
                     winLooseDialog.show();
 
                     taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
-                    taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                    taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                     taDaplayer.start();
                 }
 
@@ -708,9 +713,8 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     if (mGameType.equals(ArcadeGameMode.TYPE)) {
 
 
-
                         taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.arcade_win);
-                        taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                        taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                         taDaplayer.start();
 
 
@@ -721,18 +725,18 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 //                        Toasty.success(this, getResources().getString(R.string.Congrats), Toast.LENGTH_SHORT).show();
                         gameInit();
-                        scoreCounter = scoreCounter + 100;
-                        winsCounter = winsCounter + 1;
-                        if (winsCounter >= 3)
+                        winsCounter++;
+                        if (winsCounter <3)
                             scoreCounter = scoreCounter + 100;
-                        winsCounter = winsCounter + 1;
-                        if (winsCounter >= 3)
+                        else if (winsCounter < 5)
                             scoreCounter = scoreCounter + 100;
-                        if (winsCounter >= 7)
+
+                        else if (winsCounter < 7)
                             scoreCounter = scoreCounter + 200;
-                        if (winsCounter >= 10) {
+
+                        else
                             scoreCounter = scoreCounter + 300;
-                        }
+
 
                         mActualScoreTv.setText(scoreCounter + "");
 
@@ -754,7 +758,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
-                                taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                                taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                                 taDaplayer.start();
 
 
@@ -779,7 +783,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         gameInit();
 //                        startTimer();
                         taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.buzzer_sound);
-                        taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                        taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                         taDaplayer.start();
 //                        Toasty.error(this, getResources().getString(R.string.wrong_answer), Toast.LENGTH_SHORT).show();
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
@@ -788,9 +792,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n"+getResources().getText(R.string.wrong_answer));
+                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n" + getResources().getText(R.string.wrong_answer));
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
-                                taDaplayer.setVolume(sound_Effects_Volume,sound_Effects_Volume);
+                                taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                                 taDaplayer.start();
                                 winLooseDialog.setContentView(dialogView);
                                 nextIb.setVisibility(View.GONE);
