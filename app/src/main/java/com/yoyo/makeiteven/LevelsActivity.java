@@ -42,9 +42,8 @@ public class LevelsActivity extends AppCompatActivity {
         StartScreenActivity.gameMusic.start();
 
         levelItems = new ArrayList<>();
-        for (int i = 1; i < 101; ++i)
+        for (int i = 0; i < 101; ++i)
             levelItems.add(new Level(i));
-
 
         initRecyclerView();
     }

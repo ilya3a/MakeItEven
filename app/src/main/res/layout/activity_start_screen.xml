@@ -19,12 +19,13 @@
         android:layout_width="360dp"
         android:layout_height="324dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/makeiteven_v2" />
+        android:src="@drawable/makeiteven_v2"
+        android:contentDescription="logo"/>
 
     <Button
         android:id="@+id/stage_mode_btn"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_width="260dp"
+        android:layout_height="70dp"
         android:layout_centerInParent="true"
         android:background="@drawable/stage_btn"
         android:text="@string/Stage_mode"
@@ -34,11 +35,11 @@
 
     <Button
         android:id="@+id/arcade_mode_btn"
-        android:layout_width="250dp"
-        android:layout_height="60dp"
+        android:layout_width="260dp"
+        android:layout_height="70dp"
         android:layout_below="@id/stage_mode_btn"
         android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/arcade_btn"
         android:text="@string/Arcade_mode"
         android:textAllCaps="false"
@@ -54,7 +55,8 @@
         android:layout_margin="10dp"
         android:background="@drawable/setting_btn"
         android:src="@drawable/ic_settings_black_24dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:contentDescription="setting_logo"/>
 
     <ImageButton
         android:id="@+id/scoreBoard_btn"
@@ -64,7 +66,8 @@
         android:layout_marginStart="10dp"
         android:background="@color/Transparent"
         android:scaleType="fitCenter"
-        android:src="@drawable/score_btn_icon" />
+        android:src="@drawable/score_btn_icon"
+        android:contentDescription="scoreBoard icon"/>
 
 
     <Button
@@ -78,7 +81,8 @@
         android:textAllCaps="false"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="@string/tutorial"/>
+        android:text="@string/tutorial"
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"

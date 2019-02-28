@@ -52,8 +52,7 @@
     <string name="this_fild_requierd">This field required</string>
     <string name="invalid_fraction">Invalid division no fractions allowd</string>
     <string name="Dividing_by_0">Dividing by 0 is a math error</string>
-    <string-array
-        name="tutorial_string_array">
+    <string-array name="tutorial_string_array">
         <item>Its easy to learn math with us,you have a simple goal,reach the big number in black using all four numbers given,press next to continue</item>
         <item>now we will choose a number,lets say 6</item>
         <item>lets choose an operator,lets try plus</item>
@@ -67,8 +66,20 @@
         <item>Grate! we reached our goal,press next to continue</item>
         <item>After reaching our goal in stage mode you can press the home button ,restart the level or press the next button for next stage,Press next please</item>
         <item>This is the arcade mode,here you hace 02:30 minutes to solve as much as you can,you got 3 Lifebuoys that will change you question and will cost you 10 seconds</item>
-
     </string-array>
+
+    <string-array name="tutorial_string_array_new">
+        <item>This is the Tutorial level</item>
+        <item>You need to reach this number in order to complete the level</item>
+        <item>you need to use all 4 given numbers to do so</item>
+        <item>you can use all of the operators any number of times</item>
+        <item>Click here to start over the level</item>
+        <item>You can get a hint by clicking the buoy,at the arcade mode each buoy will change question and cost 10 seconds</item>
+</string-array>
+
     <string name="finish">Finish</string>
+    <string name="tutorial_level">Tutorial level</string>
+    <string name="Tap_me_to_continue">Tap me to continue</string>
+    <string name="stage"></string>
 
 </resources>
