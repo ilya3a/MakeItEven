@@ -881,12 +881,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 winLooseDialog.show();
 
                                 //google admob
-                                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                                if (mInterstitialAd.isLoaded()) {
-                                    mInterstitialAd.show();
-                                } else {
-                                    Log.d("TAG", "The interstitial wasn't loaded yet.");
-                                }
+//                                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//                                if (mInterstitialAd.isLoaded()) {
+//                                    mInterstitialAd.show();
+//                                } else {
+//                                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+//                                }
 
                             }
                         }, 200);
