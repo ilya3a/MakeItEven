@@ -343,7 +343,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     public void OnExit() {
         stageModeBtn.setVisibility(View.VISIBLE);
         arcadeModeBtn.setVisibility(View.VISIBLE);
-        tutorialBtn.setVisibility(View.VISIBLE);
+//        tutorialBtn.setVisibility(View.VISIBLE);
         scoreBoard_btn.setEnabled(true);
         settingBtn.setEnabled(true);
         settingsActionBar.setEnabled(true);
