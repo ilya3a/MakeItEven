@@ -156,9 +156,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
     private void startTutorial() {
         FancyShowCaseQueue mQueue;
-        final String[] strings_for_totorial = getResources().getStringArray(R.array.tutorial_string_array_new);
+        final String[] stringsForTutorial = getResources().getStringArray(R.array.tutorial_string_array_new);
         final FancyShowCaseView fancyShowCaseView1 = new FancyShowCaseView.Builder(this)
-                .title(strings_for_totorial[0]+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n\n\n\n"+stringsForTutorial[0]+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mCountDownTv)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
@@ -166,33 +166,33 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 .build();
 
         final FancyShowCaseView fancyShowCaseView2 = new FancyShowCaseView.Builder(this)
-                .title(strings_for_totorial[1]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n\n\n\n\n\n"+stringsForTutorial[1]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mTheDesiredNumberTv)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView3 = new FancyShowCaseView.Builder(this)
-                .title(strings_for_totorial[2]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title(stringsForTutorial[2]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(group_choices_of_numbers)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
                 .focusCircleRadiusFactor(0.8)
                 .build();
         final FancyShowCaseView fancyShowCaseView4 = new FancyShowCaseView.Builder(this)
-                .title(strings_for_totorial[3]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title(stringsForTutorial[3]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(group_choices_of_operators)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)
                 .build();
         final FancyShowCaseView fancyShowCaseView5 = new FancyShowCaseView.Builder(this)
-                .title("\n"+"\n"+strings_for_totorial[4]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n"+"\n"+stringsForTutorial[4]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mGameResetBtnIb)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)
                 .build();
         final FancyShowCaseView fancyShowCaseView6 = new FancyShowCaseView.Builder(this)
-                .title("\n"+"\n"+strings_for_totorial[5]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n"+"\n"+stringsForTutorial[5]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(hintBtnIb)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)

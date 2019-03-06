@@ -74,7 +74,8 @@
         <item>you need to use all 4 given numbers to do so</item>
         <item>you can use all of the operators any number of times</item>
         <item>Click here to start over the level</item>
-        <item>You can get a hint by clicking the buoy,at the arcade mode each buoy will change question and cost 10 seconds</item>
+        <item>You can get a hint by clicking the buoy.\n
+            ***on the arcade mode each buoy will change question and cost you 10 seconds***</item>
 </string-array>
 
     <string name="finish">Finish</string>
