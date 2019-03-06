@@ -32,7 +32,7 @@
 
     <string name="score">ניקוד:</string>
 
-    <string name="tutorial">איך לשחק</string>
+    <string name="tutorial">הסבר</string>
 
     <string name="back">הקודם</string>
 
@@ -68,6 +68,25 @@
         <item>אחרי שהגענו למטרה של השלב ניתן ללחוץ על כפתור הבית,התחלה מחדש של השלב הנוכחי או ללחוץ על הבא</item>
         <item>זהו המצב התחרותי,כאן יש לרשותכם 02:30 דקות לפתור כמה שיותר תרגילים,ולרשותכם שלושה גלגלי הצלה שישנו לכם תרגיל בעלות סמלית של 10 שניות</item>
     </string-array>
+    <string-array name="tutorial_string_array_new">
+        <item>זהו שלב הסברה</item>
+        <item>אתם צריכים להגיע למספר הזה כדי לנצח את השלב</item>
+        <item>חובה להשתמש בכל ארבעת המספרים על מנת לעשות זאת</item>
+        <item>אפשר להשתמש בכל פעולה ללא הגבלה</item>
+        <item>לחיצה כאן תתחיל את השלב מחדש</item>
+        <item>ניתן לקבל רמז על ידי לחיצה כאן,במצב תחרותי כל מצוף ישנה שאלה בעלות של 10 שניות</item>
+
+        <item>This is the Tutorial level</item>
+        <item>You need to reach this number in order to complete the level</item>
+        <item>you need to use all 4 given numbers to do so</item>
+        <item>you can use all of the operators any number of times</item>
+        <item>Click here to start over the level</item>
+        <item>You can get a hint by clicking the buoy,at the arcade mode each buoy will change question and cost 10 seconds</item>
+
+    </string-array>
     <string name="finish">סיום</string>
+    <string name="tutorial_level">שלב הסברה</string>
+    <string name="Tap_me_to_continue">לחץ עלי להמשך</string>
+    <string name="stage">שלב</string>
 
 </resources>

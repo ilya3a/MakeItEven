@@ -93,7 +93,7 @@ public class DataStore {
 
     public int getCurrentStage() {
 
-        return mSharedPref.getInt(CURRENT_STAGE, 1);
+        return mSharedPref.getInt(CURRENT_STAGE, 0);
     }
 
     public void saveStageInfo(StageInfo currentStageToSave) {

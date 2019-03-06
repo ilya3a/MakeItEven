@@ -38,11 +38,16 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
-
         final Level levelItem = levelItems.get(i);
         levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum()+ "");
-
-        if (levelItem.getLevelNum() <= mCurrentStage) {
+        if (levelItem.getLevelNum()==0)
+        {
+            levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
+            levelsViewHolder.lockStage.setVisibility(View.INVISIBLE);
+            levelsViewHolder.stageNumberTv.setText(R.string.tutorial);
+            levelsViewHolder.stageNumberTv.setTextSize(21);
+        }
+        else if (levelItem.getLevelNum() <= mCurrentStage) {
             levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
             levelsViewHolder.lockStage.setVisibility(View.INVISIBLE);
         } else {
@@ -70,6 +75,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
             levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     String type = StageGameMode.TYPE;
                     GameActivity.startGameActivity(mContext, type, levelItem.getLevelNum());
                 }

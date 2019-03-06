@@ -250,8 +250,8 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         tutorialBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartScreenActivity.this, TutorialActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(StartScreenActivity.this, TutorialActivity.class);
+                //startActivity(intent);
             }
         });
     }
