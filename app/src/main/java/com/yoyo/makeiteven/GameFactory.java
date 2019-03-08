@@ -9,6 +9,8 @@ public class GameFactory {
                 };
             case StageGameMode.TYPE:
                 return new StageGameMode(difficulty);
+            case TutorialGameMode.TYPE:
+                return new  TutorialGameMode(difficulty);
             default:
                 return new StageGameMode(difficulty);
         }

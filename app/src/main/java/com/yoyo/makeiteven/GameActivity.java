@@ -149,9 +149,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         } else if (mGameType.equals(StageGameMode.TYPE)) {
             hidingLayout.setVisibility(View.GONE);
             countdownImageView.setVisibility(View.GONE);
-            if (mLevelNum==0)
-                startTutorial();
         }
+       else if (mGameType.equals(TutorialGameMode.TYPE))
+            startTutorial();
     }
 
     private void startTutorial() {
@@ -249,6 +249,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
 
+
         sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting()) / 100;
         taDaplayer = MediaPlayer.create(this, R.raw.ta_da);
         taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
@@ -318,13 +319,13 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             mGameResetBtnIb.setVisibility(View.GONE);
 
 
-        } else if (mGameType.equals(StageGameMode.TYPE)) {
+        } else if (mGameType.equals(StageGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
             hintBtn_2.setVisibility(View.GONE);
             hintBtn_3.setVisibility(View.GONE);
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setVisibility(View.GONE);
             mScoreTv.setVisibility(View.INVISIBLE);
-            if(mLevelNum==0)
+            if(mGameType.equals(TutorialGameMode.TYPE))
                 mCountDownTv.setText(getResources().getString(R.string.tutorial_level));
             else
                 mCountDownTv.setText(getResources().getText(R.string.level_number)+" "+ String.valueOf(mLevelNum));
@@ -432,7 +433,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             int currStage = DataStore.getInstance(this).getCurrentStage();
             stageInfosArray = DataStore.getInstance(this).getStageInfo();
 
-            if (stageInfosArray.size() < mLevelNum+1 || currStage < mLevelNum+1) {
+            if (stageInfosArray.size() < mLevelNum || currStage < mLevelNum) {
                 if (currStage < 10) {
                     min = 0;
                     max = 20;
@@ -501,30 +502,35 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
             mHint = mAbstractGame.getHint();
         }
+        else if (mGameType.equals(TutorialGameMode.TYPE)){
+            ArrayList<StageInfo> tutorialArray=new ArrayList<>();
+            tutorialArray.add(new StageInfo(1,1,1,1,4,"(1+1)+1)+1)"));
+            startSavedGameInfo(gameBtns, tutorialArray, 1);
+        }
     }
 
     private void startSavedGameInfo(List<ToggleButton> gameBtns, ArrayList<StageInfo> stageInfosArray, int levelNum) {
         Collections.shuffle(gameBtns);
 
-        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
-        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
-        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum).getNum1()));
+        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
 
-        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
-        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
-        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum).getNum2()));
+        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
 
-        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
-        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
-        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum).getNum3()));
+        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
 
-        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
-        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
-        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum).getNum4()));
+        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
 
-        theDesiredNumber = stageInfosArray.get(levelNum).getTarget();
+        theDesiredNumber = stageInfosArray.get(levelNum-1).getTarget();
         mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-        mHint = stageInfosArray.get(levelNum).getHint();
+        mHint = stageInfosArray.get(levelNum-1).getHint();
     }
 
     private void createGameModel(final String gameType) {
