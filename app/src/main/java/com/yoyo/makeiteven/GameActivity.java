@@ -765,7 +765,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     taDaplayer.start();
                 }
 
-                if (mGameType.equals(StageGameMode.TYPE)) {
+                if (mGameType.equals(StageGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
                     if (mLevelNum == 0) {
                         msgTv.setText(getResources().getText(R.string.tutorial_level) + "\n\n" + getResources().getString(R.string.invalid_fraction));
@@ -865,11 +865,40 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         mActualScoreTv.setText(scoreCounter + "");
 
                     }
+                    else if (mGameType.equals(TutorialGameMode.TYPE)){
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mLevelNum == 0)
+                                    msgTv.setText(getResources().getString(R.string.tutorial_level) + "\n\n" + getResources().getText(R.string.correct_answer));
+                                else
+                                    msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getText(R.string.correct_answer));
+
+                                winLooseDialog.setContentView(dialogView);
+                                nextIb.setVisibility(View.GONE);
+                                space.setVisibility(View.VISIBLE);
+                                winLooseDialog.show();
+
+
+                                taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.ta_da);
+                                taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
+                                taDaplayer.start();
+
+
+                                RelativeLayout relativeLayout = findViewById(R.id.game_root_container);
+                                CommonConfetti.rainingConfetti(relativeLayout, new int[]{Color.MAGENTA, Color.YELLOW, Color.GREEN, Color.CYAN,
+                                        Color.RED, Color.BLUE})
+                                        .stream(2500);
+
+
+                            }
+                        }, 200);
+                    }
 
                 } else {
                     //you loose
 
-                    if (mGameType.equals(ArcadeGameMode.TYPE)) {
+                    if (mGameType.equals(ArcadeGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
                         gameInit();
                         taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.buzzer_sound);
                         taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
@@ -889,6 +918,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
                                 taDaplayer.start();
+
                                 winLooseDialog.setContentView(dialogView);
                                 nextIb.setVisibility(View.GONE);
                                 space.setVisibility(View.VISIBLE);

@@ -269,12 +269,12 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_help" />
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="@string/hints_left"
                 android:id="@+id/hints_left"
                 android:textColor="#000"
-                android:gravity="bottom"
+                android:gravity="center|left"
                 />
 
 

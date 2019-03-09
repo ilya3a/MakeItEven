@@ -1,6 +1,5 @@
 package com.yoyo.makeiteven;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -38,7 +37,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     ImageView gameLogo;
     Button stageModeBtn, arcadeModeBtn, tutorialBtn;
-    ImageButton settingBtn, scoreBoard_btn;
+    ImageButton settingBtn, scoreBoardBtn,shoppingBtn;
     Boolean isRotated = Boolean.FALSE;
     RelativeLayout mainLayout;
     SettingFragment settingFragment = new SettingFragment();
@@ -75,7 +74,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             case R.id.action_settings:
                 //settings
                 rotate_setting();
-                scoreBoard_btn.setEnabled(false);
+                scoreBoardBtn.setEnabled(false);
                 settingBtn.setEnabled(false);
                 stageModeBtn.setVisibility(View.INVISIBLE);
                 arcadeModeBtn.setVisibility(View.INVISIBLE);
@@ -132,9 +131,10 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         arcadeModeBtn = findViewById(R.id.arcade_mode_btn);
         settingBtn = findViewById(R.id.setting_btn);
         mainLayout = findViewById(R.id.start_activity_container);
-        scoreBoard_btn = findViewById(R.id.scoreBoard_btn);
+        scoreBoardBtn = findViewById(R.id.scoreBoard_btn);
         aboutUsActionBar = findViewById(R.id.action_about);
         settingsActionBar = findViewById(R.id.action_settings);
+        shoppingBtn = findViewById(R.id.shopping_cart_btn);
 
         toolBar = findViewById(R.id.app_bar_start_activity);
         setSupportActionBar(toolBar);
@@ -165,10 +165,11 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
         stageModeBtn.setOnTouchListener(btn_animation);
         arcadeModeBtn.setOnTouchListener(btn_animation);
-        scoreBoard_btn.setOnTouchListener(btn_animation);
-        scoreBoard_btn.setOnTouchListener(btn_animation);
+        scoreBoardBtn.setOnTouchListener(btn_animation);
+        scoreBoardBtn.setOnTouchListener(btn_animation);
+        shoppingBtn.setOnTouchListener(btn_animation);
 
-        scoreBoard_btn.setOnClickListener(new View.OnClickListener() {
+        scoreBoardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StartScreenActivity.this, ScoreBoardActivity.class));
@@ -201,7 +202,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             public void onClick(View v) {
 
                 rotate_setting();
-                scoreBoard_btn.setEnabled(false);
+                scoreBoardBtn.setEnabled(false);
                 settingBtn.setEnabled(false);
                 stageModeBtn.setVisibility(View.INVISIBLE);
                 arcadeModeBtn.setVisibility(View.INVISIBLE);
@@ -343,7 +344,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         stageModeBtn.setVisibility(View.VISIBLE);
         arcadeModeBtn.setVisibility(View.VISIBLE);
         tutorialBtn.setVisibility(View.VISIBLE);
-        scoreBoard_btn.setEnabled(true);
+        scoreBoardBtn.setEnabled(true);
         settingBtn.setEnabled(true);
         settingsActionBar.setEnabled(true);
 
@@ -351,7 +352,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
 
     @Override
     public void onBackPressed() {
-        if (!scoreBoard_btn.isEnabled()) {
+        if (!scoreBoardBtn.isEnabled()) {
             getFragmentManager().beginTransaction().remove(settingFragment).commit();
             OnExit();
         } else {
