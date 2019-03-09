@@ -82,5 +82,6 @@
     <string name="tutorial_level">Tutorial level</string>
     <string name="Tap_me_to_continue">Tap me to continue</string>
     <string name="stage"></string>
+    <string name="hints_left">Hints:</string>
 
 </resources>

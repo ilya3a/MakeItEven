@@ -88,5 +88,6 @@
     <string name="tutorial_level">שלב הסברה</string>
     <string name="Tap_me_to_continue">לחץ עלי להמשך</string>
     <string name="stage">שלב</string>
+    <string name="hints_left">רמזים:</string>
 
 </resources>

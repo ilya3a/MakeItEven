@@ -20,6 +20,7 @@ public class DataStore {
     static final String SHARED_KEY_STAGE_INFO = "stageInfo";
     static final String CURRENT_STAGE = "currentStage";
     static final String PREFS = "sharedPref";
+    static final String HINTS_LEFT = "hints_left";
 
     private SharedPreferences mSharedPref;
     private SharedPreferences.Editor mEditor;
@@ -131,5 +132,12 @@ public class DataStore {
         mEditor.putString(SHARED_KEY_STAGE_INFO, jsonCleanStageInfo);
         mEditor.commit();
 
+    }
+
+    public int getNumHintsLeft() {
+        return mSharedPref.getInt(HINTS_LEFT, 3);
+    }
+    public void saveNumHintsLeft(int numOfHints){
+        mEditor.putInt(HINTS_LEFT,numOfHints).commit();
     }
 }

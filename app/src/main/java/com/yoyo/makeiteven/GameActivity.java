@@ -1,7 +1,6 @@
 package com.yoyo.makeiteven;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,19 +15,13 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
@@ -37,9 +29,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.github.jinatonic.confetti.CommonConfetti;
-import com.github.jinatonic.confetti.ConfettiManager;
-import com.github.jinatonic.confetti.ConfettiSource;
-import com.github.jinatonic.confetti.confetto.Confetto;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
@@ -47,12 +36,10 @@ import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Queue;
 
 import es.dmoral.toasty.Toasty;
 import me.toptas.fancyshowcase.FancyShowCaseQueue;
 import me.toptas.fancyshowcase.FancyShowCaseView;
-import me.toptas.fancyshowcase.listener.DismissListener;
 
 
 public class GameActivity extends Activity implements View.OnClickListener, EndOfArcadeGameFragment.EndOfArcadeGameFragmentListener {
@@ -83,18 +70,19 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     static final String EXTRA_LEVEL_NUMBER = "extra_level_number";
     static final String SCORE_COUNTER = "score_counter";
     private ArrayList<StageInfo> stageInfosArray;
-    private String mHint;
+    private String mHintString;
     private ImageView countdownImageView;
     private AnimationDrawable cuntDownAnim;
     private RelativeLayout hidingLayout;
     private float sound_Effects_Volume;
     private MediaPlayer taDaplayer;
     private InterstitialAd mInterstitialAd;
-    ToggleButton btn1,btn2,btn3,btn4,plusBtn,minusBtn,mulBtn,divButton;
+    ToggleButton btn1, btn2, btn3, btn4, plusBtn, minusBtn, mulBtn, divButton;
     RelativeLayout all_game_btns_view;
-    com.nex3z.togglebuttongroup.SingleSelectToggleGroup group_choices_of_numbers,group_choices_of_operators;
+    com.nex3z.togglebuttongroup.SingleSelectToggleGroup group_choices_of_numbers, group_choices_of_operators;
 
-
+    private int mNumHintsLeft;
+    private TextView mHintsLeftTv;
 
 
     @Override
@@ -149,8 +137,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         } else if (mGameType.equals(StageGameMode.TYPE)) {
             hidingLayout.setVisibility(View.GONE);
             countdownImageView.setVisibility(View.GONE);
-        }
-       else if (mGameType.equals(TutorialGameMode.TYPE))
+        } else if (mGameType.equals(TutorialGameMode.TYPE))
             startTutorial();
     }
 
@@ -158,7 +145,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         FancyShowCaseQueue mQueue;
         final String[] stringsForTutorial = getResources().getStringArray(R.array.tutorial_string_array_new);
         final FancyShowCaseView fancyShowCaseView1 = new FancyShowCaseView.Builder(this)
-                .title("\n\n\n\n"+stringsForTutorial[0]+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n\n\n\n" + stringsForTutorial[0] + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mCountDownTv)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
@@ -166,33 +153,33 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 .build();
 
         final FancyShowCaseView fancyShowCaseView2 = new FancyShowCaseView.Builder(this)
-                .title("\n\n\n\n\n\n"+stringsForTutorial[1]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n\n\n\n\n\n" + stringsForTutorial[1] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mTheDesiredNumberTv)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView3 = new FancyShowCaseView.Builder(this)
-                .title(stringsForTutorial[2]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title(stringsForTutorial[2] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(group_choices_of_numbers)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
                 .focusCircleRadiusFactor(0.8)
                 .build();
         final FancyShowCaseView fancyShowCaseView4 = new FancyShowCaseView.Builder(this)
-                .title(stringsForTutorial[3]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title(stringsForTutorial[3] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(group_choices_of_operators)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)
                 .build();
         final FancyShowCaseView fancyShowCaseView5 = new FancyShowCaseView.Builder(this)
-                .title("\n"+"\n"+stringsForTutorial[4]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n" + "\n" + stringsForTutorial[4] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mGameResetBtnIb)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)
                 .build();
         final FancyShowCaseView fancyShowCaseView6 = new FancyShowCaseView.Builder(this)
-                .title("\n"+"\n"+stringsForTutorial[5]+"\n"+"\n"+getResources().getString(R.string.Tap_me_to_continue))
+                .title("\n" + "\n" + stringsForTutorial[5] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(hintBtnIb)
                 .focusBorderSize(5)
                 .focusBorderColor(Color.RED)
@@ -223,9 +210,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
-        all_game_btns_view=findViewById(R.id.all_game_btns_view);
-        group_choices_of_numbers=findViewById(R.id.group_choices_of_numbers);
-        group_choices_of_operators=findViewById(R.id.group_choices_of_operators);
+        all_game_btns_view = findViewById(R.id.all_game_btns_view);
+        group_choices_of_numbers = findViewById(R.id.group_choices_of_numbers);
+        group_choices_of_operators = findViewById(R.id.group_choices_of_operators);
         scale_out = AnimationUtils.loadAnimation(this, R.anim.scale_out);
         scale_in = AnimationUtils.loadAnimation(this, R.anim.scale_in);
         final Animation btn_press = AnimationUtils.loadAnimation(this, R.anim.btn_pressed);
@@ -248,6 +235,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hidingLayout = findViewById(R.id.hiding_layout);
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
+        mHintsLeftTv = findViewById(R.id.hints_left);
 
 
         sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting()) / 100;
@@ -268,13 +256,22 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     stopTimer();
                     startTimer();
                     ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
-                    v.setEnabled(false);
+
                     for (ToggleButton tb : gameBtns) {
                         tb.startAnimation(bounce_shake);
                     }
                     gameInit();
-                } else if (mGameType.equals(StageGameMode.TYPE)) {
-                    Toasty.info(GameActivity.this, mHint, Toast.LENGTH_SHORT, true).show();
+                } else if (mGameType.equals(StageGameMode.TYPE) || mGameType.equals(TutorialGameMode.TYPE)) {
+                    Toasty.info(GameActivity.this, mHintString, Toast.LENGTH_SHORT, true).show();
+                    mNumHintsLeft--;
+                    if (mGameType.equals(StageGameMode.TYPE)) {
+                        DataStore.getInstance(GameActivity.this).saveNumHintsLeft(mNumHintsLeft);
+                    }
+                    mHintsLeftTv.setText(getResources().getText(R.string.hints_left) + " " + mNumHintsLeft);
+                    if (mNumHintsLeft == 0) {
+                        ((ImageButton) v).setImageResource(R.drawable.ic_help_off);
+                        v.setEnabled(false);
+                    }
                 }
             }
         };
@@ -317,18 +314,26 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
             mGameResetBtnIb.setVisibility(View.GONE);
+            mHintsLeftTv.setVisibility(View.GONE);
 
 
-        } else if (mGameType.equals(StageGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
+        } else if (mGameType.equals(StageGameMode.TYPE) || mGameType.equals(TutorialGameMode.TYPE)) {
             hintBtn_2.setVisibility(View.GONE);
             hintBtn_3.setVisibility(View.GONE);
             arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setVisibility(View.GONE);
             mScoreTv.setVisibility(View.INVISIBLE);
-            if(mGameType.equals(TutorialGameMode.TYPE))
+            mNumHintsLeft = DataStore.getInstance(this).getNumHintsLeft();
+            mCountDownTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum));
+
+            if (mGameType.equals(TutorialGameMode.TYPE)) {
                 mCountDownTv.setText(getResources().getString(R.string.tutorial_level));
-            else
-                mCountDownTv.setText(getResources().getText(R.string.level_number)+" "+ String.valueOf(mLevelNum));
+                mNumHintsLeft = 3;
+                mHintsLeftTv.setText(getResources().getText(R.string.hints_left) + " " + mNumHintsLeft);
+            } else {
+            }
+
+            mHintsLeftTv.setText(getResources().getText(R.string.hints_left) + " " + mNumHintsLeft);
         }
 
         init_toasty();
@@ -466,7 +471,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 StageInfo stageInfo = new StageInfo(Integer.parseInt(gameBtns.get(0).getText().toString()), Integer.parseInt(gameBtns.get(1).getText().toString()),
                         Integer.parseInt(gameBtns.get(2).getText().toString()), Integer.parseInt(gameBtns.get(3).getText().toString()), theDesiredNumber, mAbstractGame.getHint());
                 DataStore.getInstance(this).saveStageInfo(stageInfo);
-                mHint = mAbstractGame.getHint();
+                mHintString = mAbstractGame.getHint();
             } else {
                 startSavedGameInfo(gameBtns, stageInfosArray, mLevelNum);
             }
@@ -500,11 +505,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             } while (theDesiredNumber > 100 || theDesiredNumber < 0);
 
             mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-            mHint = mAbstractGame.getHint();
-        }
-        else if (mGameType.equals(TutorialGameMode.TYPE)){
-            ArrayList<StageInfo> tutorialArray=new ArrayList<>();
-            tutorialArray.add(new StageInfo(1,1,1,1,4,"(1+1)+1)+1)"));
+            mHintString = mAbstractGame.getHint();
+        } else if (mGameType.equals(TutorialGameMode.TYPE)) {
+            ArrayList<StageInfo> tutorialArray = new ArrayList<>();
+            tutorialArray.add(new StageInfo(1, 1, 1, 1, 4, "(1+1)+1)+1)"));
             startSavedGameInfo(gameBtns, tutorialArray, 1);
         }
     }
@@ -512,25 +516,25 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     private void startSavedGameInfo(List<ToggleButton> gameBtns, ArrayList<StageInfo> stageInfosArray, int levelNum) {
         Collections.shuffle(gameBtns);
 
-        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
-        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
-        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum1()));
+        gameBtns.get(0).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
+        gameBtns.get(0).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
+        gameBtns.get(0).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum1()));
 
-        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
-        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
-        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum2()));
+        gameBtns.get(1).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
+        gameBtns.get(1).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
+        gameBtns.get(1).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum2()));
 
-        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
-        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
-        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum3()));
+        gameBtns.get(2).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
+        gameBtns.get(2).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
+        gameBtns.get(2).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum3()));
 
-        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
-        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
-        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum-1).getNum4()));
+        gameBtns.get(3).setTextOff(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
+        gameBtns.get(3).setTextOn(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
+        gameBtns.get(3).setText(String.valueOf(stageInfosArray.get(levelNum - 1).getNum4()));
 
-        theDesiredNumber = stageInfosArray.get(levelNum-1).getTarget();
+        theDesiredNumber = stageInfosArray.get(levelNum - 1).getTarget();
         mTheDesiredNumberTv.setText(String.valueOf(theDesiredNumber));
-        mHint = stageInfosArray.get(levelNum-1).getHint();
+        mHintString = stageInfosArray.get(levelNum - 1).getHint();
     }
 
     private void createGameModel(final String gameType) {
@@ -564,10 +568,12 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         }.start();
         timerRunning = true;
     }
+
     private void stopTimer() {
         mCountDownTimer.cancel();
         timerRunning = false;
     }
+
     private void updateTimer() {
         int mins = (int) timeLeftInMillSeconds / 60000;
         int secs = (int) timeLeftInMillSeconds % 60000 / 1000;
@@ -761,12 +767,11 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 if (mGameType.equals(StageGameMode.TYPE)) {
                     owlIv.setImageResource(R.drawable.loose_owl);
-                    if(mLevelNum==0){
-                        msgTv.setText(getResources().getText(R.string.tutorial_level)+ "\n\n" + getResources().getString(R.string.invalid_fraction));
+                    if (mLevelNum == 0) {
+                        msgTv.setText(getResources().getText(R.string.tutorial_level) + "\n\n" + getResources().getString(R.string.invalid_fraction));
                         if (isDivideZero)
-                            msgTv.setText(getResources().getText(R.string.tutorial_level)+ "\n\n" + getResources().getString(R.string.Dividing_by_0));
-                    }
-                    else {
+                            msgTv.setText(getResources().getText(R.string.tutorial_level) + "\n\n" + getResources().getString(R.string.Dividing_by_0));
+                    } else {
                         msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n \n" + getResources().getString(R.string.invalid_fraction));
                         if (isDivideZero)
                             msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getString(R.string.Dividing_by_0));
@@ -806,7 +811,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                         gameInit();
                         winsCounter++;
-                        if (winsCounter <3)
+                        if (winsCounter < 3)
                             scoreCounter = scoreCounter + 100;
                         else if (winsCounter < 5)
                             scoreCounter = scoreCounter + 100;
@@ -824,6 +829,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         int currentStage = DataStore.getInstance(this).getCurrentStage();
                         if (mLevelNum == currentStage) {
                             currentStage++;
+                            DataStore.getInstance(this).saveNumHintsLeft(++mNumHintsLeft);
+                            mHintsLeftTv.setText(getResources().getText(R.string.hints_left) + " " + mNumHintsLeft);
+
                         }
 
                         DataStore.getInstance(this).saveCurrentStage(currentStage);
@@ -831,10 +839,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if(mLevelNum==0)
-                                    msgTv.setText(getResources().getString(R.string.tutorial_level)+"\n\n" + getResources().getText(R.string.correct_answer));
+                                if (mLevelNum == 0)
+                                    msgTv.setText(getResources().getString(R.string.tutorial_level) + "\n\n" + getResources().getText(R.string.correct_answer));
                                 else
-                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getText(R.string.correct_answer));
+                                    msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getText(R.string.correct_answer));
 
                                 winLooseDialog.setContentView(dialogView);
                                 winLooseDialog.show();
@@ -873,10 +881,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if(mLevelNum==0)
-                                    msgTv.setText(getResources().getString(R.string.tutorial_level)+ "\n\n" + getResources().getText(R.string.wrong_answer));
+                                if (mLevelNum == 0)
+                                    msgTv.setText(getResources().getString(R.string.tutorial_level) + "\n\n" + getResources().getText(R.string.wrong_answer));
                                 else
-                                msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getText(R.string.wrong_answer));
+                                    msgTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum) + "\n\n" + getResources().getText(R.string.wrong_answer));
 
                                 taDaplayer = MediaPlayer.create(GameActivity.this, R.raw.waa_waa_waaaa);
                                 taDaplayer.setVolume(sound_Effects_Volume, sound_Effects_Volume);
