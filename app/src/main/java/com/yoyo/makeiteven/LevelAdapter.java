@@ -2,6 +2,7 @@ package com.yoyo.makeiteven;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,11 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.github.jinatonic.confetti.CommonConfetti;
 
 import java.util.List;
 
@@ -39,17 +44,17 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
         final Level levelItem = levelItems.get(i);
-        levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum()+ "");
-        if (levelItem.getLevelNum()==0)
-        {
+        levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum() + "");
+        if (levelItem.getLevelNum() == 0) {
             levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
             levelsViewHolder.lockStage.setVisibility(View.INVISIBLE);
             levelsViewHolder.stageNumberTv.setText(R.string.tutorial);
             levelsViewHolder.stageNumberTv.setTextSize(21);
-        }
-        else if (levelItem.getLevelNum() <= mCurrentStage) {
+        } else if (levelItem.getLevelNum() <= mCurrentStage) {
             levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
             levelsViewHolder.lockStage.setVisibility(View.INVISIBLE);
+            // anim
+
         } else {
             levelsViewHolder.lockStage.setVisibility(View.VISIBLE);
             levelsViewHolder.stageNumberLayout.setVisibility(View.INVISIBLE);
@@ -89,6 +94,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     }
 
     public class LevelsViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout rootLayout;
         Button btn;
         View stageNumberLayout;
         View lockStage;
@@ -101,6 +107,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
             stageNumberLayout = itemView.findViewById(R.id.stage_number_layout);
             lockStage = itemView.findViewById(R.id.lock_iv);
             stageNumberTv = itemView.findViewById(R.id.stage_number_tv);
+            rootLayout = itemView.findViewById(R.id.root_layout_level_cell);
         }
     }
 

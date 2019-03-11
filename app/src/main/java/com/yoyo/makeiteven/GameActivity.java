@@ -439,23 +439,23 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             stageInfosArray = DataStore.getInstance(this).getStageInfo();
 
             if (stageInfosArray.size() < mLevelNum || currStage < mLevelNum) {
-                if (currStage < 10) {
+                if (mLevelNum < 10) {
                     min = 0;
                     max = 20;
                     mAbstractGame.setDifficulty(6);
-                } else if (currStage < 20) {
+                } else if (mLevelNum < 20) {
                     min = 20;
                     max = 40;
                     mAbstractGame.setDifficulty(8);
-                } else if (currStage < 30) {
+                } else if (mLevelNum < 30) {
                     min = 40;
                     max = 60;
                     mAbstractGame.setDifficulty(9);
-                } else if (currStage < 40) {
+                } else if (mLevelNum < 40) {
                     min = 60;
                     max = 90;
                     mAbstractGame.setDifficulty(10);
-                } else if (currStage < 100) {
+                } else if (mLevelNum < 100) {
                     min = 80;
                     max = 120;
                     mAbstractGame.setDifficulty(12);
