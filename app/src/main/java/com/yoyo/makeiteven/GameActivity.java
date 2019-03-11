@@ -236,6 +236,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         hintBtn_2 = findViewById(R.id.hint_btn_2);
         hintBtn_3 = findViewById(R.id.hint_btn_3);
         mHintsLeftTv = findViewById(R.id.hints_left);
+//        DataStore.getInstance(this).saveNumHintsLeft(3);
 
 
         sound_Effects_Volume = (float) (DataStore.getInstance(this).getSoundEffectSetting()) / 100;
@@ -324,6 +325,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
             mActualScoreTv.setVisibility(View.GONE);
             mScoreTv.setVisibility(View.INVISIBLE);
             mNumHintsLeft = DataStore.getInstance(this).getNumHintsLeft();
+            if(mNumHintsLeft==0){
+                hintBtnIb.setEnabled(false);
+                hintBtnIb.setImageResource(R.drawable.ic_help_off);
+            }
             mCountDownTv.setText(getResources().getText(R.string.level_number) + String.valueOf(mLevelNum));
 
             if (mGameType.equals(TutorialGameMode.TYPE)) {
