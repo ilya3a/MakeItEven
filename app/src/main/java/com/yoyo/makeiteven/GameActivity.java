@@ -15,6 +15,8 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.transition.Explode;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -30,6 +32,8 @@ import android.widget.ToggleButton;
 
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nex3z.togglebuttongroup.SingleSelectToggleGroup;
 
@@ -50,7 +54,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
     int selectedOperatorId, selectedNumberId_1, selectedNumberId_2;
     int num1 = Integer.MAX_VALUE, num2 = Integer.MAX_VALUE;
     private boolean timerRunning;
-
+    int addCounter =1;
 
     boolean isOperatorSelected = false, isNumberSelected = false;
     private CountDownTimer mCountDownTimer;
@@ -149,14 +153,14 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 .focusOn(mCountDownTv)
                 .focusBorderColor(Color.RED)
                 .focusBorderSize(5)
-                .focusCircleRadiusFactor(0.9)
+                .focusCircleRadiusFactor(0.9).titleGravity(Gravity.CENTER_HORIZONTAL)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView2 = new FancyShowCaseView.Builder(this)
                 .title("\n\n\n\n\n\n" + stringsForTutorial[1] + "\n" + "\n" + getResources().getString(R.string.Tap_me_to_continue))
                 .focusOn(mTheDesiredNumberTv)
                 .focusBorderColor(Color.RED)
-                .focusBorderSize(5)
+                .focusBorderSize(5).titleGravity(Gravity.CENTER_HORIZONTAL)
                 .build();
 
         final FancyShowCaseView fancyShowCaseView3 = new FancyShowCaseView.Builder(this)
@@ -209,6 +213,10 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         //google admob
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         all_game_btns_view = findViewById(R.id.all_game_btns_view);
         group_choices_of_numbers = findViewById(R.id.group_choices_of_numbers);
@@ -771,6 +779,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                 }
 
                 if (mGameType.equals(StageGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
+                    googleAddCreator();
                     owlIv.setImageResource(R.drawable.loose_owl);
                     if (mLevelNum == 0) {
                         msgTv.setText(getResources().getText(R.string.tutorial_level) + "\n\n" + getResources().getString(R.string.invalid_fraction));
@@ -831,6 +840,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         mActualScoreTv.setText(scoreCounter + "");
 
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
+                        googleAddCreator();
                         int currentStage = DataStore.getInstance(this).getCurrentStage();
                         if (mLevelNum == currentStage) {
                             currentStage++;
@@ -910,7 +920,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                         taDaplayer.start();
 
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
-
+                        googleAddCreator();
                         owlIv.setImageResource(R.drawable.loose_owl);
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -928,14 +938,6 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                                 nextIb.setVisibility(View.GONE);
                                 space.setVisibility(View.VISIBLE);
                                 winLooseDialog.show();
-
-                                //google admob
-//                                mInterstitialAd.loadAd(new AdRequest.Builder().build());
-//                                if (mInterstitialAd.isLoaded()) {
-//                                    mInterstitialAd.show();
-//                                } else {
-//                                    Log.d("TAG", "The interstitial wasn't loaded yet.");
-//                                }
 
                             }
                         }, 200);
@@ -989,5 +991,18 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
                     Math.cos(mFrequency * time) + 1);
         }
     }
+
+        public void googleAddCreator() {
+            if (addCounter % 5 == 0) {
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Log.d("TAG", "The interstitial wasn't loaded yet.");
+                }
+            }
+            else
+                addCounter++;
+        }
 }
 

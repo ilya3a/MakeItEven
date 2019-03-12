@@ -10,14 +10,18 @@
 
 
     <include layout="@layout/app_toolbar"
-        android:id="@+id/app_bar_start_activity">
+        android:id="@+id/app_bar_start_activity"
+        android:layout_below="@+id/adView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentEnd="true">
 
     </include>
 
     <ImageView
         android:id="@+id/game_logo"
         android:layout_width="360dp"
-        android:layout_height="324dp"
+        android:layout_height="300dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/makeiteven_v2"
         android:contentDescription="logo"/>
@@ -58,29 +62,7 @@
         android:visibility="gone"
         android:contentDescription="setting_logo"/>
 
-    <ImageButton
-        android:id="@+id/scoreBoard_btn"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="10dp"
-        android:background="@color/Transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/score_btn_icon"
-        android:contentDescription="scoreBoard icon"/>
 
-    <ImageButton
-        android:id="@+id/shopping_cart_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/Transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_shopping_cart"
-        android:contentDescription="scoreBoard icon"/>
 
     <Button
         android:id="@+id/totorial_btn"
@@ -100,7 +82,38 @@
         android:layout_height="wrap_content"
         android:id="@+id/start_activity_container"
         android:layout_centerInParent="true">
+        <ImageButton
+            android:id="@+id/scoreBoard_btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:background="@color/Transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/score_btn_icon"
+            android:contentDescription="scoreBoard icon"/>
 
+        <ImageButton
+            android:id="@+id/shopping_cart_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/Transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_shopping_cart"
+            android:contentDescription="scoreBoard icon"/>
     </RelativeLayout>
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

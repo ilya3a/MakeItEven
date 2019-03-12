@@ -30,6 +30,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import java.util.Objects;
 
 
@@ -45,6 +49,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
     public static MediaPlayer gameMusic;
     public static MediaPlayer testSound;
     private Toolbar toolBar;
+    private AdView mAdView;
     MenuItem aboutUsActionBar, settingsActionBar;
 
 
@@ -109,6 +114,13 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         }
 
         setContentView(R.layout.activity_start_screen);
+        //google addview
+        AdView adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         new Handler().post(new Runnable() {
             @Override
