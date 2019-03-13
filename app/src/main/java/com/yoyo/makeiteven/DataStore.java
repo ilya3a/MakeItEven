@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Comment;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.sql.DatabaseMetaData;
 import java.sql.Ref;
@@ -79,84 +80,50 @@ public class DataStore {
         return mGson.fromJson(scoreBoardJsonList, type);
     }
 
-    public void saveNameAndScore(String nickName, int scoreCounter) {
+    public void saveNameAndScore(final String nickName, final int scoreCounter) {
         //firebaseinstans
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference myRef = database.getReference("Scores");
-        final ScoreBoard scoreBoard = new ScoreBoard(nickName, scoreCounter);
-        ChildEventListener childEventListener = new ChildEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildAdded:" + dataSnapshot.getKey());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                ScoreBoard scoreBoard=new ScoreBoard(nickName,scoreCounter);
+                ArrayList<ScoreBoard> dataFromDatabase =(ArrayList<ScoreBoard>)dataSnapshot.getValue();
+                dataFromDatabase.add(scoreBoard);
+                myRef.setValue(dataFromDatabase);
 
-                // A new comment has been added, add it to the displayed list
-                ScoreBoard comment = dataSnapshot.getValue(ScoreBoard.class);
-
-                // ...
+                Log.d(TAG, "Value is: " + dataFromDatabase);
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildChanged:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so displayed the changed comment.
-                ScoreBoard newComment = dataSnapshot.getValue(ScoreBoard.class);
-                String commentKey = dataSnapshot.getKey();
-
-                // ...
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Log.d(TAG, "onChildRemoved:" + dataSnapshot.getKey());
-
-                // A comment has changed, use the key to determine if we are displaying this
-                // comment and if so remove it.
-                String commentKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-                Log.d(TAG, "onChildMoved:" + dataSnapshot.getKey());
-
-                // A comment has changed position, use the key to determine if we are
-                // displaying this comment and if so move it.
-                ScoreBoard movedComment = dataSnapshot.getValue(ScoreBoard.class);
-                String commentKey = dataSnapshot.getKey();
-
-                // ...
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        myRef.addChildEventListener(childEventListener);
+        });
 //        // get instance of shared prefs with relevant key
-//        String scoreBoardJsonList = mSharedPref.getString(DataStore.SHARED_KEY_SCORE_BOARD, "[]");
-//        Type type = new TypeToken<ArrayList<ScoreBoard>>() {
-//        }.getType();
+        //String scoreBoardJsonList = mSharedPref.getString(DataStore.SHARED_KEY_SCORE_BOARD, "[]");
+       //Type type = new TypeToken<List<ScoreBoard>>() {
+       // }.getType();
 //
 //        // convert the json String to Java ArrayList object
-//        ArrayList<ScoreBoard> scoreBoards = mGson.fromJson(scoreBoardJsonList, type);
-//        // manipulate the java arrayList
-//        scoreBoards.add(scoreBoard);
+       // List<ScoreBoard> scoreBoards = mGson.fromJson(scoreBoardJsonList, type);
+        // manipulate the java arrayList
+       // scoreBoards.add(scoreBoard);
 //
-//        Collections.sort(scoreBoards, scoreBoard);
+      //  Collections.sort(scoreBoards, scoreBoard);
 //
 //        // convert the array list back to json string
-//        String jsonUpdatedScoreBoard = mGson.toJson(scoreBoards);
+      //  String jsonUpdatedScoreBoard = mGson.toJson(scoreBoards);
 //
 //        // save the json string back to the shared prefs
-//        mEditor.putString(DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard);
+        //mEditor.putString(DataStore.SHARED_KEY_SCORE_BOARD, jsonUpdatedScoreBoard);
 //        //save to database
-//        myRef.setValue(scoreBoards);
+       // myRef.setValue(scoreBoards);
 //        //
-//        mEditor.apply();
+       // mEditor.apply();
     }
 
     public void saveVolumeSetting(int mainSound, int soundEffects) {
