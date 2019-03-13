@@ -40,10 +40,7 @@ public class ScoreBoardAdapter extends ArrayAdapter<ScoreBoard> {
 
             tvName.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
             tvScore.setTextColor(mContext.getResources().getColor(R.color.primaryColor));
-//            if (Build.VERSION.SDK_INT >= 23) {
-//                tvName.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
-//                tvScore.setTextAppearance(R.style.TextAppearance_AppCompat_Large);
-//            }
+
         } else {
             tvName.setTextColor(mContext.getResources().getColor(R.color.primaryTextColor));
             tvScore.setTextColor(mContext.getResources().getColor(R.color.primaryTextColor));

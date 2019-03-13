@@ -33,6 +33,8 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -121,6 +123,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
 
         new Handler().post(new Runnable() {
             @Override
