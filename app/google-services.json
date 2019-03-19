@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "51852670070",
+    "firebase_url": "https://makeiteven-b773a.firebaseio.com",
+    "project_id": "makeiteven-b773a",
+    "storage_bucket": "makeiteven-b773a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51852670070:android:0ac0acf949afa205",
+        "android_client_info": {
+          "package_name": "com.yoyo.makeiteven"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51852670070-n35qhflr8lbicamn4lhu5u7tjm6ks68g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtpRuvL2BYw98eEkxmlUuvbPVGlDU1HXM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

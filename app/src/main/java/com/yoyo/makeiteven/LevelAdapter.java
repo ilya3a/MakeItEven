@@ -33,6 +33,44 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
         this.mCurrentStage = currentStage;
     }
 
+    public class LevelsViewHolder extends RecyclerView.ViewHolder {
+        RelativeLayout rootLayout;
+        Button btn;
+        View stageNumberLayout;
+        View lockStage;
+        TextView stageNumberTv;
+        View.OnTouchListener btn_animation;
+
+
+
+        public LevelsViewHolder(View itemView) {
+            super(itemView);
+            btn = itemView.findViewById(R.id.level_btn);
+            stageNumberLayout = itemView.findViewById(R.id.stage_number_layout);
+            lockStage = itemView.findViewById(R.id.lock_iv);
+            stageNumberTv = itemView.findViewById(R.id.stage_number_tv);
+            rootLayout = itemView.findViewById(R.id.root_layout_level_cell);
+
+            final Animation btn_press = AnimationUtils.loadAnimation(mContext, R.anim.btn_pressed);
+            final Animation btn_release = AnimationUtils.loadAnimation(mContext, R.anim.btn_realeas);
+            btn_animation = new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        v.startAnimation(btn_press);
+                        btn_press.setFillAfter(true);
+                    }
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        v.startAnimation(btn_release);
+                    }
+                    return false;
+                }
+            };
+            btn.setOnTouchListener(btn_animation);
+        }
+    }
+
+
     @Override
     public LevelsViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
@@ -43,7 +81,9 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull LevelsViewHolder levelsViewHolder, final int i) {
+
         final Level levelItem = levelItems.get(i);
+
         levelsViewHolder.stageNumberTv.setText(levelItem.getLevelNum() + "");
         if (levelItem.getLevelNum() == 0) {
             levelsViewHolder.stageNumberLayout.setVisibility(View.VISIBLE);
@@ -60,23 +100,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
             levelsViewHolder.stageNumberLayout.setVisibility(View.INVISIBLE);
         }
 
-        final Animation btn_press = AnimationUtils.loadAnimation(mContext, R.anim.btn_pressed);
-        final Animation btn_release = AnimationUtils.loadAnimation(mContext, R.anim.btn_realeas);
-        final View.OnTouchListener btn_animation = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startAnimation(btn_press);
-                    btn_press.setFillAfter(true);
-                }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.startAnimation(btn_release);
-                }
-                return false;
-            }
-        };
         if (levelsViewHolder.lockStage.getVisibility() == View.INVISIBLE) {
-            levelsViewHolder.btn.setOnTouchListener(btn_animation);
             levelsViewHolder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -93,23 +117,7 @@ public class LevelAdapter extends RecyclerView.Adapter<LevelAdapter.LevelsViewHo
         return levelItems.size();
     }
 
-    public class LevelsViewHolder extends RecyclerView.ViewHolder {
-        RelativeLayout rootLayout;
-        Button btn;
-        View stageNumberLayout;
-        View lockStage;
-        TextView stageNumberTv;
 
-
-        public LevelsViewHolder(View itemView) {
-            super(itemView);
-            btn = itemView.findViewById(R.id.level_btn);
-            stageNumberLayout = itemView.findViewById(R.id.stage_number_layout);
-            lockStage = itemView.findViewById(R.id.lock_iv);
-            stageNumberTv = itemView.findViewById(R.id.stage_number_tv);
-            rootLayout = itemView.findViewById(R.id.root_layout_level_cell);
-        }
-    }
 
     public void setLevelItems(List<Level> levelItems) {
         this.levelItems = levelItems;

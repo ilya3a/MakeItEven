@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_dialog"
     android:layout_width="300dp"
     android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    >
+    android:layout_centerInParent="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/root_win_loose"
@@ -14,12 +14,23 @@
         android:orientation="vertical"
         android:padding="5dp">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_anim_win"
+            app:lottie_fileName="trophy.json"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            app:lottie_loop="false"
+            android:scaleType="fitCenter"
+            app:lottie_autoPlay="true"/>
         <ImageView
             android:id="@+id/image_owl"
             android:layout_width="150dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            android:src="@drawable/wise_owl" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/loose_owl"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/text_msg"

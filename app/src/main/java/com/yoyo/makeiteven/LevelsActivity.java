@@ -69,6 +69,7 @@ public class LevelsActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.recycler_levels_list);
+        recyclerView.setHasFixedSize(true);// optimization
         LevelAdapter adapter = new LevelAdapter(levelItems, this, mCurrentStage);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(LevelsActivity.this, 4));

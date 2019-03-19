@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.jinatonic.confetti.CommonConfetti;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -320,7 +321,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
         if (mGameType.equals(ArcadeGameMode.TYPE)) {
-            arcadeContainer.setVisibility(View.VISIBLE);
+//            arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setText("0");
             mGameResetBtnIb.setVisibility(View.GONE);
             mHintsLeftTv.setVisibility(View.GONE);
@@ -329,9 +330,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
         } else if (mGameType.equals(StageGameMode.TYPE) || mGameType.equals(TutorialGameMode.TYPE)) {
             hintBtn_2.setVisibility(View.GONE);
             hintBtn_3.setVisibility(View.GONE);
-            arcadeContainer.setVisibility(View.VISIBLE);
+//            arcadeContainer.setVisibility(View.VISIBLE);
             mActualScoreTv.setVisibility(View.GONE);
-            mScoreTv.setVisibility(View.INVISIBLE);
+            mScoreTv.setVisibility(View.GONE);
             mNumHintsLeft = DataStore.getInstance(this).getNumHintsLeft();
             if(mNumHintsLeft==0){
                 hintBtnIb.setEnabled(false);
@@ -725,6 +726,7 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
 
             ImageView owlIv = dialogView.findViewById(R.id.image_owl);
+            LottieAnimationView lottieAnimationView = dialogView.findViewById(R.id.lottie_anim_win);
             final TextView msgTv = dialogView.findViewById(R.id.text_msg);
             ImageButton tryAgainIb = dialogView.findViewById(R.id.try_again_ib);
             ImageButton homeIb = dialogView.findViewById(R.id.home_ib);
@@ -780,7 +782,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                 if (mGameType.equals(StageGameMode.TYPE)||mGameType.equals(TutorialGameMode.TYPE)) {
                     googleAddCreator();
-                    owlIv.setImageResource(R.drawable.loose_owl);
+                    owlIv.setVisibility(View.VISIBLE);
+                    lottieAnimationView.setVisibility(View.GONE);
+
                     if (mLevelNum == 0) {
                         msgTv.setText(getResources().getText(R.string.tutorial_level) + "\n\n" + getResources().getString(R.string.invalid_fraction));
                         if (isDivideZero)
@@ -921,7 +925,9 @@ public class GameActivity extends Activity implements View.OnClickListener, EndO
 
                     } else if (mGameType.equals(StageGameMode.TYPE)) {
                         googleAddCreator();
-                        owlIv.setImageResource(R.drawable.loose_owl);
+                        owlIv.setVisibility(View.VISIBLE);
+                        lottieAnimationView.setVisibility(View.GONE);
+//                        owlIv.setImageResource(R.drawable.loose_owl);
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

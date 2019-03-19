@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeTransform;
@@ -29,12 +30,20 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 
 
 public class StartScreenActivity extends AppCompatActivity implements SettingFragment.SettingsFragmentListener {
@@ -78,7 +87,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
                 break;
             case R.id.action_settings:
                 //settings
-                rotate_setting();
+//                rotate_setting();
                 scoreBoardBtn.setEnabled(false);
                 settingBtn.setEnabled(false);
                 stageModeBtn.setVisibility(View.INVISIBLE);
@@ -88,7 +97,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                transaction.add(R.id.start_activity_container, settingFragment).commit();
+                transaction.add(R.id.start_activity_layout, settingFragment).commit();
                 item.setEnabled(false);
                 break;
             default:
@@ -114,6 +123,24 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         }
 
         setContentView(R.layout.activity_start_screen);
+
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference reference = database.getReference("Version");
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Long temp=(Long) dataSnapshot.getValue();
+//                if (!temp.equals(0))
+//                    Toast.makeText(StartScreenActivity.this, "New version availeble", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
+
         //google addview
         AdView adView = new AdView(this);
         adView.setAdSize(AdSize.BANNER);
@@ -142,7 +169,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         stageModeBtn = findViewById(R.id.stage_mode_btn);
         arcadeModeBtn = findViewById(R.id.arcade_mode_btn);
         settingBtn = findViewById(R.id.setting_btn);
-        mainLayout = findViewById(R.id.start_activity_container);
+//        mainLayout = findViewById(R.id.start_activity_container);
         scoreBoardBtn = findViewById(R.id.scoreBoard_btn);
         aboutUsActionBar = findViewById(R.id.action_about);
         settingsActionBar = findViewById(R.id.action_settings);
@@ -213,7 +240,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
             @Override
             public void onClick(View v) {
 
-                rotate_setting();
+//                rotate_setting();
                 scoreBoardBtn.setEnabled(false);
                 settingBtn.setEnabled(false);
                 stageModeBtn.setVisibility(View.INVISIBLE);
@@ -222,7 +249,7 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-                transaction.add(R.id.start_activity_container, settingFragment).commit();
+                transaction.add(R.id.start_activity_layout, settingFragment).commit();
 
 
 //                //Intent i = new Intent(StartScreenActivity.this, SettingFragment.class);
@@ -268,24 +295,24 @@ public class StartScreenActivity extends AppCompatActivity implements SettingFra
         });
     }
 
-    private void toggleRotation(View v) {
-        if (isRotated) {
-            v.setRotation(0.0f);
-            isRotated = false;
-        } else {
-            v.setRotation(90.0f);
-            isRotated = true;
-        }
-    }
+//    private void toggleRotation(View v) {
+//        if (isRotated) {
+//            v.setRotation(0.0f);
+//            isRotated = false;
+//        } else {
+//            v.setRotation(90.0f);
+//            isRotated = true;
+//        }
+//    }
 
 
-    private void rotate_setting() {
-        ChangeTransform changeTransform = new ChangeTransform();
-        changeTransform.setDuration(400);
-        changeTransform.setInterpolator(new AccelerateInterpolator());
-        TransitionManager.beginDelayedTransition(mainLayout, changeTransform);
-        toggleRotation(settingBtn);
-    }
+//    private void rotate_setting() {
+//        ChangeTransform changeTransform = new ChangeTransform();
+//        changeTransform.setDuration(400);
+//        changeTransform.setInterpolator(new AccelerateInterpolator());
+//        TransitionManager.beginDelayedTransition(mainLayout, changeTransform);
+//        toggleRotation(settingBtn);
+//    }
 
     public static void startStartScreenActivity(Context context) {
         Intent intent = new Intent(context, StartScreenActivity.class);
